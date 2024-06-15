@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import TopAlbum
 
 # Create your views here.
-def index(request):
-    return HttpResponse("Welcome to the tune talk!")
+def home(request):
+    top_albums = TopAlbum.objects.all()[:3]
+    context = {'top_albums': top_albums}
+    
+    return render(request, 'homepage/home.html', context)
