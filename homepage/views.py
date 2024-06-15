@@ -5,5 +5,5 @@ from .models import TopAlbum
 def home(request):
     top_albums = TopAlbum.objects.all()[:3]
     context = {'top_albums': top_albums}
-    
-    return render(request, 'homepage/home.html', context)
+
+    return render(request, 'base.html', context)
