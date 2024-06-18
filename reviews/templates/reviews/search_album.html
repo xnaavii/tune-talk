@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ album.name }}</h5>
                         <p class="card-text">Release date: {{album.release_date}}</p>
-                        <a class="card-text"  href="{{album.href}}">Listen on Spotify</a>
+                        <a class="card-text btn btn-outline-secondary text-decoration-none"  href="{{ album.external_urls.spotify }}" target="_blank">Listen on Spotify</a>
                     </div>
                 </div>
             </div>
