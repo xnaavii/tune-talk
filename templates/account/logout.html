@@ -1,25 +1,32 @@
 {% extends "base.html" %}
-{% load allauth i18n %}
+{% load i18n %}
+
 {% block head_title %}
-    {% trans "Sign Out" %}
+    {% trans "Logout" %}
 {% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Out" %}
-    {% endelement %}
-    {% element p %}
-        {% trans 'Are you sure you want to sign out?' %}
-    {% endelement %}
-    {% url 'account_logout' as action_url %}
-    {% element form method="post" action=action_url no_visible_fields=True %}
-        {% slot body %}
-            {% csrf_token %}
-            {{ redirect_field }}
-        {% endslot %}
-        {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
-            {% endelement %}
-        {% endslot %}
-    {% endelement %}
-{% endblock content %}
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card border-light">
+                <div class="card-body">
+                    <h3 class="card-title">{% trans "Logout" %}</h3>
+
+                    <p class="card-text">{% trans "Are you sure you want to logout from Tune Talk? " %}<a class="link" href="{% url 'account_login' %}">{% trans "Sign in" %}</a>{% trans " if you change your mind." %}</p>
+
+                    <form class="logout" id="logout_form" method="post" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+
+                        {{ redirect_field }}
+
+                        <button class="btn btn-outline-danger btn-block mt-3" type="submit">
+                            {% trans "Logout" %} &raquo;
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
