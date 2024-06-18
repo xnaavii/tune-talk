@@ -2,16 +2,22 @@
 
 {% block content %}
 
-<h2>Search results for {{ search_term }}</h2>
-<ul>
-    {% for album in albums  %}
-    <li>
-        {{ album.name }}
-    </li>
-    <li>
-        {{ album.artist }}
-    </li>
-    {% endfor %}
-</ul>
+<h2 class="text-center">Search results for {{ search_term }}</h2>
+<div class="container mt-4">
+    <div class="row">    
+    {% for album in results.albums.items  %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ album.images.0.url }}" class="card-img-top" alt="Album art image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ album.name }}</h5>
+                        <p class="card-text">Release date: {{album.release_date}}</p>
+                        <a class="card-text"  href="{{album.href}}">Listen on Spotify</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock content %}
