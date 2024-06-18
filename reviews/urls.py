@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name="review")
+    path('search/', views.search_album, name="search_album")
 ]
