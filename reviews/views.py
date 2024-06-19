@@ -30,3 +30,14 @@ def search_album(request):
         context = {"results": results, "search_term": search_term}
 
         return render(request, "reviews/search_album.html", context)
+
+def album_review(request, album_id):
+
+    sp = get_spotify_client()
+    album = sp.album(album_id)
+
+    context = {
+        'album': album,
+    }
+
+    return render(request, 'reviews/album_review.html', context)
