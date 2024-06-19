@@ -20,12 +20,12 @@
             {% for album in results.albums.items  %}
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
-                    <img src="{{ album.images.0.url }}" class="card-img-top" alt="Album art image">
+                    <form action="#" method="POST">
+                        <a href="#"><img src="{{ album.images.0.url }}" class="card-img-top" alt="Album art image"></a>
+                    </form>
                     <div class="card-body">
                         <h4 class="card-title">{{ album.name }}</h4>
                         <h5 class="card_title">{{ album.artists.0.name }}</h5>
-                        <a class="card-text btn btn-light text-decoration-none"  href="#" target="_blank">Review</a>
-                        <a class="card-text btn btn-light text-decoration-none"  href="{{ album.external_urls.spotify }}" target="_blank">Listen on Spotify</a>
                     </div>
                 </div>
             </div>
