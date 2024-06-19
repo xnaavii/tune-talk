@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+<div class="container text-center">
+    <h2>Review for: {{ album.name }}</h2>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ album.images.0.url }}" class="card-img-top" alt="Album art image">
+                <div class="card-body">
+                    <h4 class="card-title">{{ album.name }}</h4>
+                    <h5 class="card_title">{{ album.artists.0.name }}</h5>
+                    <p class="card-text">{{ album.release_date }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
