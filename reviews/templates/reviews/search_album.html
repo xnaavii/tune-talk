@@ -2,13 +2,26 @@
 
 {% block content %}
 
-<h2 class="text-center">Search results for {{ search_term }}</h2>
-<div class="container mt-4">
-    <div class="row">    
-    {% for album in results.albums.items  %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form action="{% url 'search_album' %}" method="GET">
+                <div class="input-group input-group">
+                    <input id="search-term" class="form-control form-control-lg" type="search" name="search_term" placeholder="Search for albums" aria-label="Search" list="albums">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p class="text-center mt-2">Search results for: {{search_term}}</p>
+    <div class="container text-center">
+        <div class="row">    
+            {% for album in results.albums.items  %}
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
-                    <img src="{{ album.images.0.url }}" class="card-img-top" alt="Album art image">
+                    <img src="{{ album.images.1.url }}" class="card-img-top" alt="Album art image">
                     <div class="card-body">
                         <h5 class="card-title">{{ album.name }}</h5>
                         <p class="card-text">Release date: {{album.release_date}}</p>
@@ -17,7 +30,9 @@
                 </div>
             </div>
         {% endfor %}
+        </div>
     </div>
+
 </div>
 
 {% endblock content %}
