@@ -13,6 +13,6 @@
       "**/CVS": true
    },
    "files.autoSave": "afterDelay",
-   "workbench.colorTheme": "Default Dark Modern",
+   "workbench.colorTheme": "Winter is Coming (Dark Blue)",
    "terminal.integrated.gpuAcceleration": "canvas",
 }

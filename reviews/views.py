@@ -1,6 +1,5 @@
 import os
 from django.shortcuts import render
-from django.http import HttpResponse
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
