@@ -22,7 +22,12 @@
             </div>
 
             <h2>Reviews</h2>
-            {% for review in reviews %}
+            <p class="text-muted">Average Rating: 
+                <small class="{% if album.average_rating == 1 %}text-danger{% elif album.average_rating == 5 %}text-success{% endif %}">
+                    <strong>{{ album.average_rating }}</strong>
+                </small>
+            </p>
+            {% for review in album.reviews.all %}
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{ review.title }}</h5>

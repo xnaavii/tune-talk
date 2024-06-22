@@ -8,11 +8,18 @@ class Album(models.Model):
     artist = models.CharField(max_length=200)
     release_date = models.CharField(max_length=200)
 
+    def average_rating(self):
+        reviews = self.reviews.all()
+        if reviews.exists():
+            return sum(review.rating for review in reviews) / reviews.count()
+        else:
+            return 0
+
     def __str__(self):
         return f"{self.title} | {self.artist}"
 
 class Review(models.Model):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, related_name='reviews', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     content = models.TextField()
