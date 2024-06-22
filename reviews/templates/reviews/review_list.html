@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form action="{% url 'search_album' %}" method="GET">
+                <div class="input-group input-group">
+                    <input id="search-term" class="form-control form-control-lg" type="search" name="search_term" placeholder="Search for albums" aria-label="Search" list="albums">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% if user.is_authenticated %}
+    <h1 class="mt-4">Your Reviews</h1>
+    {% else %}
+    <h1 class="mt-4">Popular reviews</h1>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-12">
+            {% for review in reviews %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ review.title }}</h5>
+                    <p class="card-text">{{ review.content }}</p>
+                    <p class="card-text"><span class="text-muted">{{ review.rating }}/5</span></p>
+                    {% if user.is_authenticated %}
+                    <p class="card-text"><small class="text-muted">By {{ review.user.username }} on {{ review.created_at }}</small></p>
+                    {% endif %}
+                    <a href="{% url 'album_review' album_id=review.album.album_id %}" class="btn btn-secondary">View Album</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>No reviews yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

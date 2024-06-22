@@ -7,6 +7,7 @@ class Album(models.Model):
     artwork = models.URLField(max_length=200)
     artist = models.CharField(max_length=200)
     release_date = models.CharField(max_length=200)
+    album_id = models.CharField(max_length=50, unique=True, default='temporary_default')
 
     def average_rating(self):
         reviews = self.reviews.all()
@@ -14,7 +15,6 @@ class Album(models.Model):
             return sum(review.rating for review in reviews) / reviews.count()
         else:
             return 0
-
     def __str__(self):
         return f"{self.title} | {self.artist}"
 
