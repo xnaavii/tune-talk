@@ -74,6 +74,7 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
 
+CSRF_TRUSTED_ORIGINS = ["https://*herokuapp.com", "http://localhost:8000"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

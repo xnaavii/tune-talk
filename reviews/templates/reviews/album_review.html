@@ -3,13 +3,25 @@
 {% block content%}
 
 <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <form action="{% url 'search_album' %}" method="GET">
+                <div class="input-group input-group">
+                    <input id="search-term" class="form-control form-control-lg" type="search" name="search_term" placeholder="Search for albums" aria-label="Search" list="albums">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-6">
-<!-- Album Details -->
-    <h2>{{ album.title }}</h2>
-    <img src="{{ album.artwork }}" alt="{{ album.title }}" class="img-fluid rounded mb-3">
-    <p><strong>Artist:</strong> {{ album.artist }}</p>
-    <p><strong>Release Date:</strong> {{ album.release_date }}</p>
+        <div class="col-md-6 mt-4">
+        <!-- Album Details -->
+        <h1>{{ album.title }}</h1>
+        <img src="{{ album.artwork }}" alt="{{ album.title }}" class="img-fluid rounded mb-3">
+        <p><strong>Artist:</strong> {{ album.artist }}</p>
+        <p><strong>Release Date:</strong> {{ album.release_date }}</p>
     
     <h2>Songs</h2>
     
@@ -21,13 +33,15 @@
         {% endfor %}
     </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mt-4">
+            {% if not album.average_rating == 0 %}
             <h2>Reviews</h2>
             <p class="text-muted">Average Rating: 
                 <small class="{% if album.average_rating == 1 %}text-danger{% elif album.average_rating == 5 %}text-success{% endif %}">
                     <strong>{{ album.average_rating }}</strong>
                 </small>
-            </p>
+            </p>           
+            {% endif %}
             {% for review in album.reviews.all %}
                 <div class="card mb-3">
                     <div class="card-body">
@@ -39,10 +53,8 @@
                         {% endif %}
                     </div>
                 </div>
-            {% empty %}
-                <p>No reviews yet.</p>
             {% endfor %}
-                        
+            
         <!-- Review Form -->
         {% if user.is_authenticated %}
         <div class="col">

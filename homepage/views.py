@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from .models import TopAlbum
+from reviews.models import Review, Album
 
 # Create your views here.
 def home(request):
-    top_albums = TopAlbum.objects.all()
+    top_albums = Album.objects.all()[:10]
     context = {'top_albums': top_albums}
 
     return render(request, 'homepage/home.html', context)
