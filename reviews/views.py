@@ -1,8 +1,14 @@
 import os
-from django.shortcuts import render
 import spotipy
+from django.shortcuts import render
+from django.views import generic
 from spotipy.oauth2 import SpotifyClientCredentials
+from .models import Album
 
+
+class ReviewList(generic.ListView):
+    queryset = Album.objects.all()
+    
 
 def get_spotify_client():
     """
@@ -34,6 +40,10 @@ def album_review(request, album_id):
 
     sp = get_spotify_client()
     album = sp.album(album_id)
+
+    query = Album.objects.get_or_create(
+        
+    )
 
     context = {
         'album': album,
