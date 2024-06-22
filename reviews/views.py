@@ -39,10 +39,13 @@ def search_album(request):
 def album_review(request, album_id):
 
     sp = get_spotify_client()
-    album = sp.album(album_id)
+    album_data = sp.album(album_id)
 
-    query = Album.objects.get_or_create(
-        
+    album, created = Album.objects.get_or_create(
+        title = album_data['name'],
+        artist = album_data['artists'][0]['name'],
+        release_date = album_data['release_date'],
+        defaults={'artwork': album_data['images'][0]['url']}
     )
 
     context = {
