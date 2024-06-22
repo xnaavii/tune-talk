@@ -1,13 +1,13 @@
 import os
 import spotipy
-from django.shortcuts import render
-from django.views import generic
+from django.shortcuts import render, redirect
+# from django.views import generic
 from spotipy.oauth2 import SpotifyClientCredentials
-from .models import Album
+from .models import Album, Review
+from .forms import ReviewForm
 
-
-class ReviewList(generic.ListView):
-    queryset = Album.objects.all()
+# class ReviewList(generic.ListView):
+#     queryset = Album.objects.all()
     
 
 def get_spotify_client():
@@ -48,8 +48,28 @@ def album_review(request, album_id):
         defaults={'artwork': album_data['images'][0]['url']}
     )
 
+    tracks = album_data['tracks']['items']
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            Review.objects.create(
+                album=album,
+                user=request.user,
+                title=form.cleaned_data['title'],
+                content=form.cleaned_data['content'],
+                rating=form.cleaned_data['rating']
+            )
+            return redirect('album_review', album_id=album_id)
+    else:
+        form = ReviewForm()
+
     context = {
         'album': album,
+        'album_data': album_data,
+        'tracks': tracks,
+        'form': form,
+        'reviews': Review.objects.filter(album=album)
     }
 
     return render(request, 'reviews/album_review.html', context)
