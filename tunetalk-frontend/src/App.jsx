@@ -1,5 +1,6 @@
 import Logo from './components/Logo';
 import Button from './components/Button';
+import Input from './components/Input';
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
 
       {/* Main content (centered) */}
       <div className='relative z-22 flex items-center justify-center h-full'>
-        <div className='flex flex-col items-center'>
+        <div className='flex flex-col items-center gap-3'>
           <Logo />
+          <Input placeholder={'Search for an artist, album or a song'} />
           <div className='mt-2 flex gap-2 justify-center'>
             <Button label={'Popular'} icon={'star-outline'} />
             <Button label={'New'} icon={'sparkles-outline'} />
