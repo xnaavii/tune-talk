@@ -1,3 +1,7 @@
 export default function Logo() {
-  return <h1 className='text-6xl font-extrabold text-stone-50'>Tune Talk</h1>;
+  return (
+    <h1 className='tracking-tighter text-8xl font-extrabold text-stone-50'>
+      Tunetalk
+    </h1>
+  );
 }
