@@ -1,27 +1,12 @@
-import Logo from './components/Logo';
-import Button from './components/Button';
-import Input from './components/Input';
+import BackgroundLayer from './components/BackgroundLayer';
+import LandingContent from './components/LandingContent';
 
 function App() {
   return (
     <div className='h-dvh relative'>
-      {/* Background image */}
-      <div className="absolute inset-0 bg-[url('./assets/record-blue.jpg')] bg-cover bg-center z-0" />
-
-      {/* Semi-transparent color overlay */}
-      <div className='absolute inset-0 bg-[#0F2E48] opacity-70 z-10' />
-
-      {/* Main content (centered) */}
-      <div className='relative z-22 flex items-center justify-center h-full'>
-        <div className='flex flex-col items-center gap-3'>
-          <Logo />
-          <Input placeholder={'Search for an artist, album or a song'} />
-          <div className='mt-2 flex gap-2 justify-center'>
-            <Button label={'Popular'} icon={'star-outline'} />
-            <Button label={'New'} icon={'sparkles-outline'} />
-            <Button label={'Your Reviews'} icon={'person-outline'} />
-          </div>
-        </div>
+      <BackgroundLayer />
+      <div className='relative z-20 flex items-center justify-center h-full'>
+        <LandingContent />
       </div>
     </div>
   );
