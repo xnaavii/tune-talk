@@ -12,10 +12,12 @@ function App() {
 
       {/* Main content (centered) */}
       <div className='relative z-22 flex items-center justify-center h-full'>
-        <div className='flex flex-col'>
+        <div className='flex flex-col items-center'>
           <Logo />
-          <div className='mt-2'>
-            <Button label={'Popular'} />
+          <div className='mt-2 flex gap-2 justify-center'>
+            <Button label={'Popular'} icon={'star-outline'} />
+            <Button label={'New'} icon={'sparkles-outline'} />
+            <Button label={'Your Reviews'} icon={'person-outline'} />
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
-export default function Button({ label }) {
+export default function Button({ label, icon }) {
   return (
-    <button className='relative z-19 py-2 px-4 text-stone-100 border-stone-50 rounded-[16px] shadow-sm backdrop-blur-md bg-[#C2E1FA]/20'>
-      <span>{label}</span>
+    <button className='py-2 px-4 flex gap-1 justify-between items-center text-stone-100 border-stone-50 rounded-[16px] shadow-sm backdrop-blur-md bg-[#C2E1FA]/20 hover:cursor-pointer hover:bg-[#C2E1FA]/40'>
+      <ion-icon name={icon}></ion-icon>
+      <span className='text-sm md:text-md'>{label}</span>
     </button>
   );
 }
