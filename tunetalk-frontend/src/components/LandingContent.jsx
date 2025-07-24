@@ -5,7 +5,7 @@ import Button from './Button';
 
 export default function LandingContent() {
   return (
-    <div className='flex flex-col items-center gap-3'>
+    <div className='flex flex-col items-center gap-3 sm:w-sm'>
       <Logo />
       <Input placeholder='Search for an artist, album or a song' />
       <ButtonsMenu>

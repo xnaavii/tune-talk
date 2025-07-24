@@ -9,13 +9,12 @@ export default function Input({ type = 'text', ...props }) {
   }
 
   return (
-    <form className='relative w-110' onSubmit={handleSubmit}>
+    <form className='relative w-full' onSubmit={handleSubmit}>
       <input
         type={type}
         {...props}
-        className='w-full py-3 pr-10 pl-4 text-stone-100 border-stone-50 rounded-3xl shadow-sm backdrop-blur-md bg-[#C2E1FA]/20 outline-none focus:ring-2 focus:ring-stone-100 focus:ring-inset'
+        className='w-full py-3 pr-10 pl-4 text-stone-100 border-stone-50 rounded-3xl shadow-sm backdrop-blur-md bg-[#C2E1FA]/20 outline-none focus:ring-2 focus:ring-stone-100 focus:ring-inset placeholder:text-stone-300'
       />
-
       <ion-icon
         name='search-outline'
         class='absolute right-3 top-1/2 -translate-y-1/2 text-xl text-stone-100 pointer-events-none'
