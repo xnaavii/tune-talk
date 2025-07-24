@@ -1,6 +1,6 @@
 export default function Input({ type = 'text', ...props }) {
   return (
-    <div className='relative w-full md:w-120'>
+    <div className='relative w-110'>
       <input
         type={type}
         {...props}
