@@ -9,7 +9,7 @@ export default function Input({ type = 'text', ...props }) {
   }
 
   return (
-    <form className='relative grow-1' onSubmit={handleSubmit}>
+    <form className='relative grow-1 w-100' onSubmit={handleSubmit}>
       <input
         type={type}
         {...props}
