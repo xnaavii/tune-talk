@@ -1,5 +1,7 @@
 import Navbar from './Navbar';
 import ResultsContainer from './ResultsContainer';
+import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const dummyData = [
   {
@@ -19,10 +21,30 @@ const dummyData = [
 ];
 
 export default function ResultsPage() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('query');
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    if (!query) return;
+
+    console.log('Fetching results for:', query);
+
+    const lowerQuery = query.toLowerCase();
+
+    const filtered = dummyData.filter(
+      (album) =>
+        album.artist.toLowerCase().includes(lowerQuery) ||
+        album.title.toLowerCase().includes(lowerQuery)
+    );
+
+    setResults(filtered);
+  }, [query]);
+
   return (
     <div className='h-dvh max-w-[1100px] mx-auto p-4 my-6 flex flex-col gap-6 overflow-hidden'>
       <Navbar />
-      <ResultsContainer query='Tate Mcrae' results={dummyData} />
+      <ResultsContainer query={query} results={results} />
     </div>
   );
 }

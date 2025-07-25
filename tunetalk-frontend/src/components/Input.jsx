@@ -1,9 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function Input({ type = 'text', ...props }) {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLandingPage = location.pathname === '/';
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -14,10 +16,14 @@ export default function Input({ type = 'text', ...props }) {
 
   function handleOnChange(event) {
     setQuery(event.target.value);
+
+    if (!isLandingPage) {
+      navigate(`/results?query=${encodeURIComponent(event.target.value)}`);
+    }
   }
 
   return (
-    <form className='relative w-full' onSubmit={handleSubmit}>
+    <form className='relative grow-1' onSubmit={handleSubmit}>
       <input
         type={type}
         {...props}
