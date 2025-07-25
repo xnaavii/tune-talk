@@ -1,19 +1,30 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Input({ type = 'text', ...props }) {
+  const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
   function handleSubmit(event) {
     event.preventDefault();
-    navigate('/results');
+
+    if (!query.trim()) return;
+    navigate(`/results?query=${encodeURIComponent(query)}`);
+  }
+
+  function handleOnChange(event) {
+    setQuery(event.target.value);
   }
 
   return (
-    <form className='relative grow-1 w-100' onSubmit={handleSubmit}>
+    <form className='relative w-full' onSubmit={handleSubmit}>
       <input
         type={type}
         {...props}
+        value={query}
+        onChange={handleOnChange}
         className='w-full py-3 pr-10 pl-4 text-stone-100 border-stone-50 rounded-3xl shadow-sm backdrop-blur-md bg-[#C2E1FA]/20 outline-none focus:ring-2 focus:ring-stone-100 focus:ring-inset placeholder:text-stone-300'
+        placeholder='Search for an artist, album or a song'
       />
       <ion-icon
         name='search-outline'
