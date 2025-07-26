@@ -1,11 +1,19 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export default function Input({ type = 'text', ...props }) {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
+
+  useEffect(() => {
+    const queryParam = searchParams.get('query');
+    if (location.pathname === '/results' && queryParam) {
+      setQuery(queryParam);
+    }
+  }, [location, searchParams]);
 
   function handleSubmit(event) {
     event.preventDefault();

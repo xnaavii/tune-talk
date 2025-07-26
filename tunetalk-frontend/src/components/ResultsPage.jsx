@@ -2,6 +2,7 @@ import Navbar from './Navbar';
 import ResultsContainer from './ResultsContainer';
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Spinner from './Spinner';
 
 const dummyData = [
   {
@@ -24,27 +25,38 @@ export default function ResultsPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query');
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!query) return;
+    if (!query || !query.trim()) {
+      setResults([]);
+      setLoading(false);
+      return;
+    }
 
-    console.log('Fetching results for:', query);
+    setLoading(true);
+    setResults([]);
 
-    const lowerQuery = query.toLowerCase();
+    const timeout = setTimeout(() => {
+      const lowerQuery = query.toLowerCase();
 
-    const filtered = dummyData.filter(
-      (album) =>
-        album.artist.toLowerCase().includes(lowerQuery) ||
-        album.title.toLowerCase().includes(lowerQuery)
-    );
+      const filtered = dummyData.filter(
+        (album) =>
+          album.artist.toLowerCase().includes(lowerQuery) ||
+          album.title.toLowerCase().includes(lowerQuery)
+      );
 
-    setResults(filtered);
+      setResults(filtered);
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
   }, [query]);
 
   return (
     <div className='h-dvh max-w-[1100px] mx-auto p-4 my-6 flex flex-col gap-6 overflow-hidden'>
       <Navbar />
-      <ResultsContainer query={query} results={results} />
+      <ResultsContainer query={query} results={results} isLoading={loading} />
     </div>
   );
 }
