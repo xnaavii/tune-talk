@@ -1,6 +1,23 @@
 import Button from './Button';
+import { useState } from 'react';
 
 export default function AlbumCard({ title, artist, year, image }) {
+  const [isRating, setIsRating] = useState(false);
+  const [currentRating, setCurrentRating] = useState(null);
+  const [hoverRating, setHoverRating] = useState(null);
+
+  function handleAddRating() {
+    setIsRating(true);
+  }
+
+  function handleSetRating(rating) {
+    setCurrentRating(rating);
+  }
+
+  function handleConfirmRating() {
+    setIsRating(false);
+  }
+
   return (
     <figure className='p-4 flex gap-4 bg-[#0F2E48]/40 rounded-xl hover:bg-[#0F2E48]/60'>
       <img
@@ -14,11 +31,51 @@ export default function AlbumCard({ title, artist, year, image }) {
           <p className='font-semibold'>{title}</p>
           <p className='text-sm'>{artist}</p>
           <p className='text-xs text-stone-400'>{year}</p>
+        </div>
 
-          <div className='flex gap-2 mt-4 self-end'>
-            <Button label='Add Rating' icon={'star-outline'} />
-            <Button label='See more' />
-          </div>
+        <div className='flex gap-2 mt-4 self-end items-center'>
+          {isRating ? (
+            <>
+              {[...Array(5)].map((_, index) => {
+                const starIndex = index + 1;
+                return (
+                  <button
+                    key={index}
+                    onMouseEnter={() => setHoverRating(starIndex)}
+                    onMouseLeave={() => setHoverRating(null)}
+                    onClick={() => handleSetRating(starIndex)}
+                  >
+                    <ion-icon
+                      name={
+                        (hoverRating || currentRating) >= starIndex
+                          ? 'star'
+                          : 'star-outline'
+                      }
+                      class='text-2xl text-stone-100 transition-colors duration-150'
+                    ></ion-icon>
+                  </button>
+                );
+              })}
+              <button
+                onClick={handleConfirmRating}
+                className='text-green-400 hover:text-green-600 transition-colors duration-150'
+              >
+                <ion-icon
+                  name='checkmark-circle-outline'
+                  class='text-2xl'
+                ></ion-icon>
+              </button>
+            </>
+          ) : (
+            <>
+              <Button
+                label='Add Rating'
+                icon='star-outline'
+                onClick={handleAddRating}
+              />
+              <Button label='See more' />
+            </>
+          )}
         </div>
       </div>
     </figure>
