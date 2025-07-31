@@ -6,6 +6,12 @@ export default function AlbumCard({ title, artist, year, image }) {
   const [currentRating, setCurrentRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(null);
 
+  let hasRated;
+
+  if (currentRating != null) {
+    hasRated = currentRating;
+  }
+
   function handleAddRating() {
     setIsRating(true);
   }
@@ -69,9 +75,10 @@ export default function AlbumCard({ title, artist, year, image }) {
           ) : (
             <>
               <Button
-                label='Add Rating'
-                icon='star-outline'
+                label={hasRated ? `Rated: ${currentRating}` : 'Add Rating'}
+                icon={hasRated ? 'star' : 'star-outline'}
                 onClick={handleAddRating}
+                hasRated={hasRated}
               />
               <Button label='See more' />
             </>
