@@ -53,9 +53,6 @@ export default function ResultsPage() {
   }, [query]);
 
   return (
-    <div className='h-dvh max-w-[1100px] mx-auto p-4 my-6 flex flex-col gap-6 overflow-hidden'>
-      <Navbar />
-      <ResultsContainer query={query} results={results} isLoading={loading} />
-    </div>
+    <ResultsContainer query={query} results={results} isLoading={loading} />
   );
 }

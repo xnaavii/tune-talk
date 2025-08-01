@@ -5,9 +5,13 @@ import Button from './Button';
 
 export default function Navbar() {
   return (
-    <nav className='flex flex-col lg:flex-row py-2 px-4 gap-4 items-center lg:justify-center text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-md bg-[#C2E1FA]/20'>
+    <nav
+      className={
+        'flex flex-col lg:flex-row py-2 px-4 gap-4 items-center justify-center text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-md bg-[#C2E1FA]/20'
+      }
+    >
       <Logo />
-      <div className='flex flex-col gap-3'>
+      <div className='flex flex-col gap-3 lg:flex-row flex-1 lg:items-center'>
         <Input placeholder='Search for an artist, album or a song' />
         <ButtonsMenu>
           <Button label='Popular' icon='star-outline' />
