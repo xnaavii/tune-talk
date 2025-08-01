@@ -24,6 +24,11 @@ export default function AlbumCard({ title, artist, year, image }) {
     setIsRating(false);
   }
 
+  function handleCancelRating() {
+    setCurrentRating(null);
+    setIsRating(false);
+  }
+
   return (
     <figure className='p-4 flex gap-4 bg-[#0F2E48]/40 rounded-xl hover:bg-[#0F2E48]/60'>
       <img
@@ -42,6 +47,17 @@ export default function AlbumCard({ title, artist, year, image }) {
         <div className='flex gap-2 mt-4 self-end items-center'>
           {isRating ? (
             <>
+              {/* Cancel Button  */}
+              <button
+                onClick={handleCancelRating}
+                className='text-red-400 hover:text-red-600 transition-colors duration-150'
+              >
+                <ion-icon
+                  name='close-circle-outline'
+                  class='text-2xl'
+                ></ion-icon>
+              </button>
+
               {[...Array(5)].map((_, index) => {
                 const starIndex = index + 1;
                 return (
@@ -62,6 +78,8 @@ export default function AlbumCard({ title, artist, year, image }) {
                   </button>
                 );
               })}
+
+              {/* Confirm Button */}
               <button
                 onClick={handleConfirmRating}
                 className='text-green-400 hover:text-green-600 transition-colors duration-150'
@@ -75,7 +93,7 @@ export default function AlbumCard({ title, artist, year, image }) {
           ) : (
             <>
               <Button
-                label={hasRated ? `Rated: ${currentRating}` : 'Add Rating'}
+                label={hasRated ? 'Edit Rating' : 'Add Rating'}
                 icon={hasRated ? 'star' : 'star-outline'}
                 onClick={handleAddRating}
                 hasRated={hasRated}
