@@ -1,15 +1,11 @@
-import BackgroundLayer from './components/BackgroundLayer';
-import LandingContent from './components/LandingContent';
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
 
-function App() {
+export default function App() {
   return (
-    <div className='h-dvh relative'>
-      <BackgroundLayer />
-      <div className='relative z-20 flex items-center justify-center h-full'>
-        <LandingContent />
-      </div>
-    </div>
+    <BrowserRouter>
+
+      <AppRoutes />
+    </BrowserRouter>
   );
 }
-
-export default App;

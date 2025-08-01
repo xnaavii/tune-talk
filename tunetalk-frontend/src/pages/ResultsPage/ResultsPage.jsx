@@ -1,8 +1,7 @@
-import Navbar from './Navbar';
-import ResultsContainer from './ResultsContainer';
+import Navbar from '../../components/Navbar';
+import ResultsContainer from '../../components/ResultsContainer';
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Spinner from './Spinner';
 
 const dummyData = [
   {
