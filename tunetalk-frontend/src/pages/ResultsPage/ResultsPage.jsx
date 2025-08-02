@@ -1,4 +1,3 @@
-import Navbar from '../../components/Navbar';
 import ResultsContainer from '../../components/ResultsContainer';
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
