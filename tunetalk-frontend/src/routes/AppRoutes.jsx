@@ -11,7 +11,7 @@ export default function AppRoutes() {
 
       <Route element={<MainLayout />}>
         <Route path='/results' element={<ResultsPage />} />
-        <Route path='/results/album' element={<AlbumPage />} />
+        <Route path='/results/:album_id' element={<AlbumPage />} />
       </Route>
     </Routes>
   );

@@ -1,7 +1,8 @@
 import Button from './Button';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-export default function AlbumCard({ title, artist, year, image }) {
+export default function AlbumCard({ album }) {
   const [isRating, setIsRating] = useState(false);
   const [currentRating, setCurrentRating] = useState(null);
   const [hoverRating, setHoverRating] = useState(null);
@@ -32,16 +33,16 @@ export default function AlbumCard({ title, artist, year, image }) {
   return (
     <figure className='p-4 flex gap-4 bg-[#0F2E48]/40 rounded-xl hover:bg-[#0F2E48]/60'>
       <img
-        src={image}
-        alt={`Album cover for ${artist} - ${title}`}
+        src={album.image}
+        alt={`Album cover for ${album.artist} - ${album.title}`}
         className='rounded-md object-cover w-30 h-30'
       />
 
       <div className='flex flex-col justify-between flex-1'>
         <div>
-          <p className='font-semibold'>{title}</p>
-          <p className='text-sm'>{artist}</p>
-          <p className='text-xs text-stone-400'>{year}</p>
+          <p className='font-semibold'>{album.title}</p>
+          <p className='text-sm'>{album.artist}</p>
+          <p className='text-xs text-stone-400'>{album.year}</p>
         </div>
 
         <div className='flex gap-2 mt-4 self-end items-center'>
@@ -98,7 +99,9 @@ export default function AlbumCard({ title, artist, year, image }) {
                 onClick={handleAddRating}
                 hasRated={hasRated}
               />
-              <Button label='See more' />
+              <Button
+                label={<Link to={`/results/${album.id}`}>Go to Album</Link>}
+              />
             </>
           )}
         </div>

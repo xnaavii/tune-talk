@@ -13,10 +13,7 @@ export default function AlbumList({ query, results, isLoading }) {
               {results.map((result, i) => (
                 <AlbumCard
                   key={i}
-                  title={result.title}
-                  artist={result.artist}
-                  year={result.year}
-                  image={result.image}
+                  album={result}
                 />
               ))}
             </div>

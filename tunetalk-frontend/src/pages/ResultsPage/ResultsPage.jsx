@@ -4,6 +4,7 @@ import AlbumList from '../../components/AlbumList';
 
 const dummyData = [
   {
+    id: 1,
     title: 'Greedy',
     artist: 'Tate Mcrae',
     year: '2023',
@@ -11,6 +12,7 @@ const dummyData = [
       'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/23/07/92/23079247-25be-3098-ef53-78e7d0fe7406/196871341653.jpg/1200x1200bf-60.jpg',
   },
   {
+    id: 2,
     title: 'Think Later',
     artist: 'Tate Mcrae',
     year: '2023',
@@ -51,8 +53,5 @@ export default function ResultsPage() {
     return () => clearTimeout(timeout);
   }, [query]);
 
-  return (
-    
-      <AlbumList query={query} results={results} isLoading={loading} />
-  );
+  return <AlbumList query={query} results={results} isLoading={loading} />;
 }

@@ -1,4 +1,4 @@
-export default function Button({ label, icon, hasRated = false, ...props }) {
+export default function Button({ label, icon, ...props }) {
   return (
     <button
       {...props}
