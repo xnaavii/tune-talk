@@ -1,6 +1,6 @@
-import ResultsContainer from '../../components/ResultsContainer';
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import AlbumList from '../../components/AlbumList';
 
 const dummyData = [
   {
@@ -52,6 +52,7 @@ export default function ResultsPage() {
   }, [query]);
 
   return (
-    <ResultsContainer query={query} results={results} isLoading={loading} />
+    
+      <AlbumList query={query} results={results} isLoading={loading} />
   );
 }
