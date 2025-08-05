@@ -9,12 +9,9 @@ export default function AlbumList({ query, results, isLoading }) {
           <h2 className='text-md p-4'>Showing results for '{query}'</h2>
           {isLoading && <Spinner />}
           {results.length > 0 ? (
-            <div className='p-4 grid sm:grid-cols-1 lg:grid-cols-2 gap-2'>
+            <div className='p-1 grid sm:grid-cols-1 md:grid-cols-2 gap-2'>
               {results.map((result, i) => (
-                <AlbumCard
-                  key={i}
-                  album={result}
-                />
+                <AlbumCard key={i} album={result} />
               ))}
             </div>
           ) : (

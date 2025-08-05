@@ -99,9 +99,7 @@ export default function AlbumCard({ album }) {
                 onClick={handleAddRating}
                 hasRated={hasRated}
               />
-              <Button
-                label={<Link to={`/results/${album.id}`}>Go to Album</Link>}
-              />
+              <Button label={<Link to={`/results/${album.id}`}>Open</Link>} />
             </>
           )}
         </div>
