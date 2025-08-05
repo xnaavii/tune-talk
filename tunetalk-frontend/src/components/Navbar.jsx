@@ -16,7 +16,7 @@ export default function Navbar() {
         <ButtonsMenu>
           <Button label='Popular' icon='star-outline' />
           <Button label='New' icon='sparkles-outline' />
-          <Button label='Your Reviews' icon='person-outline' />
+          <Button label='Reviews' icon='person-outline' />
         </ButtonsMenu>
       </div>
     </nav>

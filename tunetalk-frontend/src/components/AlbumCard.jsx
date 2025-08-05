@@ -1,106 +1,40 @@
-import Button from './Button';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import Button from './Button';
+import Star from './Star';
 
 export default function AlbumCard({ album }) {
-  const [isRating, setIsRating] = useState(false);
-  const [currentRating, setCurrentRating] = useState(null);
-  const [hoverRating, setHoverRating] = useState(null);
+  const [isRating, setIsRating] = useState(null);
 
-  let hasRated;
-
-  if (currentRating != null) {
-    hasRated = currentRating;
-  }
-
-  function handleAddRating() {
+  function handleOnAddRating() {
     setIsRating(true);
   }
 
-  function handleSetRating(rating) {
-    setCurrentRating(rating);
-  }
-
-  function handleConfirmRating() {
-    setIsRating(false);
-  }
-
-  function handleCancelRating() {
-    setCurrentRating(null);
-    setIsRating(false);
-  }
-
   return (
-    <figure className='p-4 flex gap-4 bg-[#0F2E48]/40 rounded-xl hover:bg-[#0F2E48]/60'>
-      <img
-        src={album.image}
-        alt={`Album cover for ${album.artist} - ${album.title}`}
-        className='rounded-md object-cover w-30 h-30'
-      />
+    <figure className='p-2 flex gap-4 bg-[#0F2E48]/40 rounded-xl active:bg-[#0F2E48]/60'>
+      <Link to={`/results/${album.id}`} className='flex-1/4'>
+        <img
+          src={album.image}
+          alt={`Album cover for ${album.artist} - ${album.title}`}
+          className='rounded-md object-cover w-full'
+        />
+      </Link>
 
-      <div className='flex flex-col justify-between flex-1'>
-        <div>
-          <p className='font-semibold'>{album.title}</p>
-          <p className='text-sm'>{album.artist}</p>
-          <p className='text-xs text-stone-400'>{album.year}</p>
-        </div>
+      <div className='flex flex-col justify-between flex-1/2'>
+        <figcaption className='flex-1/2'>
+          <p className='text-lg font-semibold'>{album.title}</p>
+          <p className='text-md'>{album.artist}</p>
+          <p className='text-sm text-stone-400'>{album.year}</p>
+        </figcaption>
 
-        <div className='flex gap-2 mt-4 self-end items-center'>
-          {isRating ? (
-            <>
-              {/* Cancel Button  */}
-              <button
-                onClick={handleCancelRating}
-                className='text-red-400 hover:text-red-600 transition-colors duration-150'
-              >
-                <ion-icon
-                  name='close-circle-outline'
-                  class='text-2xl'
-                ></ion-icon>
-              </button>
-
-              {[...Array(5)].map((_, index) => {
-                const starIndex = index + 1;
-                return (
-                  <button
-                    key={index}
-                    onMouseEnter={() => setHoverRating(starIndex)}
-                    onMouseLeave={() => setHoverRating(null)}
-                    onClick={() => handleSetRating(starIndex)}
-                  >
-                    <ion-icon
-                      name={
-                        (hoverRating || currentRating) >= starIndex
-                          ? 'star'
-                          : 'star-outline'
-                      }
-                      class='text-2xl text-stone-100 transition-colors duration-150'
-                    ></ion-icon>
-                  </button>
-                );
-              })}
-
-              {/* Confirm Button */}
-              <button
-                onClick={handleConfirmRating}
-                className='text-green-400 hover:text-green-600 transition-colors duration-150'
-              >
-                <ion-icon
-                  name='checkmark-circle-outline'
-                  class='text-2xl'
-                ></ion-icon>
-              </button>
-            </>
-          ) : (
-            <>
-              <Button
-                label={hasRated ? 'Edit Rating' : 'Add Rating'}
-                icon={hasRated ? 'star' : 'star-outline'}
-                onClick={handleAddRating}
-                hasRated={hasRated}
-              />
-              <Button label={<Link to={`/results/${album.id}`}>Open</Link>} />
-            </>
+        <div className='self-end'>
+          {isRating && <Star />}
+          {!isRating && (
+            <Button
+              icon={'star-outline'}
+              label={'Add rating'}
+              onClick={handleOnAddRating}
+            />
           )}
         </div>
       </div>
