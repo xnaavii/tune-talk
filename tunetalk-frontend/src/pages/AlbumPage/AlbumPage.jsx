@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { dummyAlbums } from '../../data/dummyAlbums';
 import Button from '../../components/Button';
 
 export default function AlbumPage() {
   const { album_id } = useParams();
+  const navigate = useNavigate();
   const album = dummyAlbums.find((album) => album.id === +album_id);
 
   if (!album)
@@ -11,7 +12,7 @@ export default function AlbumPage() {
 
   return (
     <div className='p-3'>
-      <Button icon='chevron-back' />
+      <Button icon='chevron-back' onClick={() => navigate(-1)} />
       <div className='flex gap-6 mb-6 mt-2'>
         <figure className='flex flex-col md:flex-row gap-6 p-4 '>
           <img
