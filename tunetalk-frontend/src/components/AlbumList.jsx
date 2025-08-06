@@ -6,10 +6,9 @@ export default function AlbumList({ query, results, isLoading }) {
     <section className='flex-1 overflow-y-auto'>
       {query && (
         <>
-          <h2 className='text-md p-4'>Showing results for '{query}'</h2>
           {isLoading && <Spinner />}
           {results.length > 0 ? (
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
               {results.map((result, i) => (
                 <AlbumCard key={i} album={result} />
               ))}
