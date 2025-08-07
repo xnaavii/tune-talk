@@ -1,24 +1,14 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import Button from './Button';
 import StarRating from './StarRating';
 
 export default function AlbumCard({ album }) {
-  const [isRating, setIsRating] = useState(false);
-
-  function handleOnAddRating() {
-    setIsRating(!isRating);
-  }
-
   return (
-    <figure className='relative flex gap-4 rounded-2xl overflow-hidden h-36'>
-      {/* Blurred background when rating */}
-      {isRating && (
-        <div
-          className='absolute inset-0 z-0 bg-cover bg-center blur-lg scale-110 transition-all duration-300'
-          style={{ backgroundImage: `url(${album.image})` }}
-        />
-      )}
+    <figure className='relative flex gap-2 rounded-2xl overflow-hidden h-36'>
+      {/* Blurred background with image */}
+      <div
+        className='absolute inset-0 z-0 bg-cover bg-center blur-lg scale-110 transition-all duration-300'
+        style={{ backgroundImage: `url(${album.image})` }}
+      />
 
       <div className='relative z-10 flex gap-3 w-full bg-[#0F2E48]/40 rounded-2xl p-3 items-center h-full'>
         {/* Image wrapper with fixed width */}
@@ -27,9 +17,9 @@ export default function AlbumCard({ album }) {
             <img
               src={album.image}
               alt={`Album cover for ${album.artist} - ${album.title}`}
-              className={`rounded-md object-cover h-full transition-all duration-300 ease-in-out ${
-                isRating ? 'scale-90 opacity-70' : 'scale-100 opacity-100'
-              }`}
+              className={
+                'rounded-md object-cover h-full transition-all duration-300 ease-in-out'
+              }
             />
           </Link>
         </div>
@@ -43,15 +33,7 @@ export default function AlbumCard({ album }) {
           </figcaption>
 
           <div className='self-end'>
-            {isRating ? (
-              <StarRating onAddRating={handleOnAddRating} />
-            ) : (
-              <Button
-                icon={'star-outline'}
-                label={'Add rating'}
-                onClick={handleOnAddRating}
-              />
-            )}
+            <StarRating />
           </div>
         </div>
       </div>

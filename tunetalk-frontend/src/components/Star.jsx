@@ -1,5 +1,14 @@
-export default function Star({ empty = true }) {
+export default function Star({ filled, onClick, onMouseOver, onMouseLeave }) {
   return (
-    <ion-icon name={empty ? 'star-outline' : 'star'} className='text-3xl' />
+    <button
+      onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
+    >
+      <ion-icon
+        name={filled ? 'star' : 'star-outline'}
+        className='text-2xl text-stone-50 transition-all duration-150'
+      />
+    </button>
   );
 }
