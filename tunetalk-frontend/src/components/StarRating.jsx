@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Star from './Star';
+import { AlbumContext } from '../store/AlbumContext';
 
-export default function StarRating({ count = 5 }) {
-  const [currentRating, setCurrentRating] = useState(null);
+export default function StarRating({ count = 5, rating = null, albumId }) {
+  const { ratings, rateAlbum } = useContext(AlbumContext);
+  const [currentRating, setCurrentRating] = useState(
+    rating || ratings[albumId] || 0
+  );
   const [hoveredStar, setHoveredStar] = useState(null);
 
   function handleOnClickStar(index) {
     setCurrentRating(index);
+    rateAlbum(albumId, index); // update context
   }
 
   function handleOnHoverStar(index) {
@@ -20,13 +25,14 @@ export default function StarRating({ count = 5 }) {
         const isFilled = hoveredStar
           ? index <= hoveredStar
           : index <= currentRating;
+
         return (
           <Star
             key={i}
             filled={isFilled}
             onClick={() => handleOnClickStar(index)}
             onMouseOver={() => handleOnHoverStar(index)}
-            onMouseLeave={() => handleOnHoverStar(null)}
+            onMouseLeave={() => setHoveredStar(null)}
           />
         );
       })}

@@ -1,18 +1,34 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { dummyAlbums } from '../../data/dummyAlbums';
+import { useContext, useEffect } from 'react';
 import Button from '../../components/Button';
+import StarRating from '../../components/StarRating';
+import { AlbumContext } from '../../store/AlbumContext';
 
 export default function AlbumPage() {
   const { album_id } = useParams();
+  const { ratings, setSelectedAlbum } = useContext(AlbumContext);
+
   const navigate = useNavigate();
+
+  function navigateBack() {
+    navigate(-1);
+  }
+
   const album = dummyAlbums.find((album) => album.id === +album_id);
+  const albumRating = ratings[album.id] || 0;
+
+  useEffect(() => {
+    setSelectedAlbum(album);
+    return () => setSelectedAlbum(null);
+  }, [album, setSelectedAlbum]);
 
   if (!album)
     return <p className='text-center text-stone-300 mt-8'>Album not found</p>;
 
   return (
     <div className='p-3'>
-      <Button icon='chevron-back' onClick={() => navigate(-1)} />
+      <Button icon='chevron-back' onClick={() => navigateBack()} />
       <div className='flex gap-6 mb-6 mt-2'>
         <figure className='flex flex-col md:flex-row gap-6 p-4 '>
           <img
@@ -27,6 +43,10 @@ export default function AlbumPage() {
               {album.artist}
             </h3>
             <p className='text-sm text-stone-400'>{album.year}</p>
+
+            <div className='mt-2'>
+              <StarRating rating={albumRating} />
+            </div>
           </figcaption>
         </figure>
       </div>

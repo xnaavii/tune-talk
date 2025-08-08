@@ -33,7 +33,7 @@ export default function AlbumCard({ album }) {
           </figcaption>
 
           <div className='self-end'>
-            <StarRating />
+            <StarRating albumId={album.id} />
           </div>
         </div>
       </div>

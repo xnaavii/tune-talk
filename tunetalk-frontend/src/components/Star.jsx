@@ -7,7 +7,7 @@ export default function Star({ filled, onClick, onMouseOver, onMouseLeave }) {
     >
       <ion-icon
         name={filled ? 'star' : 'star-outline'}
-        className='text-2xl text-stone-50 transition-all duration-150'
+        className='text-3xl text-stone-50 transition-all duration-150'
       />
     </button>
   );
