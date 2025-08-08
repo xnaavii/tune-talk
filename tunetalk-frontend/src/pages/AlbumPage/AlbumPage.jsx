@@ -34,7 +34,7 @@ export default function AlbumPage() {
           <img
             src={album.image}
             alt={`Cover of ${album.title}`}
-            className='object-cover rounded-md shadow-sm w-full flex-1/3'
+            className='object-cover rounded-md shadow-lg w-full flex-1/4'
           />
 
           <figcaption className='flex flex-col justify-center text-stone-200 flex-1/2'>

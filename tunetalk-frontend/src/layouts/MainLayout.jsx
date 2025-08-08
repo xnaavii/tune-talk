@@ -7,17 +7,17 @@ export default function MainLayout() {
   const { selectedAlbum } = useContext(AlbumContext);
 
   return (
-    <div className='min-h-screen bg-[#0F2E48] text-white relative'>
+    <div className='min-h-screen bg-[#0F2E48] text-white relative transition-all'>
       {selectedAlbum?.image && (
         <div
-          className='absolute inset-0 bg-cover bg-center filter opacity-60'
+          className='absolute inset-0 bg-cover bg-center filter opacity-40'
           style={{ backgroundImage: `url(${selectedAlbum.image})` }}
         />
       )}
 
       <div className='h-dvh max-w-[1100px] mx-auto p-4 flex flex-col gap-3 overflow-hidden relative z-10'>
         <Navbar />
-        <main className='flex-1 w-full flex flex-col md:flex-row p-4 gap-4 text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-xl bg-[#C2E1FA]/20 overflow-scroll'>
+        <main className='flex-1 w-full flex flex-col md:flex-row p-4 gap-4 text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-2xl bg-[#C2E1FA]/20 overflow-scroll'>
           <Outlet />
         </main>
       </div>
