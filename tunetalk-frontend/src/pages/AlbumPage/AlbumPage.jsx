@@ -45,7 +45,7 @@ export default function AlbumPage() {
             <p className='text-sm text-stone-400'>{album.year}</p>
 
             <div className='mt-2'>
-              <StarRating rating={albumRating} />
+              <StarRating rating={albumRating} albumId={album.id} />
             </div>
           </figcaption>
         </figure>

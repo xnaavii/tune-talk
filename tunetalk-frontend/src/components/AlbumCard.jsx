@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
 import StarRating from './StarRating';
+import { useContext } from 'react';
+import { AlbumContext } from '../store/AlbumContext';
 
 export default function AlbumCard({ album }) {
+  const { ratings } = useContext(AlbumContext);
+
+  const rating = ratings[album.id] || 0;
+
   return (
     <figure className='relative flex gap-2 rounded-2xl overflow-hidden h-36'>
       {/* Blurred background with image */}
@@ -33,7 +39,7 @@ export default function AlbumCard({ album }) {
           </figcaption>
 
           <div className='self-end'>
-            <StarRating albumId={album.id} />
+            <StarRating albumId={album.id} rating={rating} />
           </div>
         </div>
       </div>

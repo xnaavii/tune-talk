@@ -7,13 +7,14 @@ export default function AlbumList({ query, results, isLoading }) {
       {query && (
         <>
           {isLoading && <Spinner />}
-          {results.length > 0 ? (
+          {!isLoading && results.length > 0 && (
             <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
               {results.map((result, i) => (
                 <AlbumCard key={i} album={result} />
               ))}
             </div>
-          ) : (
+          )}
+          {!isLoading && results.length === 0 && (
             <p className='text-md p-4'>No results found.</p>
           )}
         </>
