@@ -27,29 +27,35 @@ export default function AlbumPage() {
     return <p className='text-center text-stone-300 mt-8'>Album not found</p>;
 
   return (
-    <div className='p-3'>
-      <Button icon='chevron-back' onClick={() => navigateBack()} />
-      <div className='flex gap-6 mb-6 mt-2'>
-        <figure className='flex flex-col md:flex-row gap-6 p-4 '>
-          <img
-            src={album.image}
-            alt={`Cover of ${album.title}`}
-            className='object-cover rounded-md shadow-lg w-full flex-1/4'
-          />
-
-          <figcaption className='flex flex-col justify-center text-stone-200 flex-1/2'>
-            <h2 className='text-2xl font-bold mb-1'>{album.title}</h2>
-            <h3 className='text-lg font-medium text-stone-300 mb-2'>
-              {album.artist}
-            </h3>
-            <p className='text-sm text-stone-400'>{album.year}</p>
-
-            <div className='mt-2'>
-              <StarRating rating={albumRating} albumId={album.id} />
-            </div>
-          </figcaption>
-        </figure>
+    <div className='p-3 w-full grid grid-rows-[auto_1fr_1fr]'>
+      <div>
+        <Button icon='chevron-back' onClick={() => navigateBack()} />
       </div>
+      {/* Album Details */}
+      <figure className='grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 p-4 w-full'>
+        <img
+          src={album.image}
+          alt={`Cover of ${album.title}`}
+          className='object-cover rounded-md shadow -lg w-full'
+        />
+
+        <figcaption className='flex flex-col justify-center text-stone-200'>
+          <h2 className='text-2xl font-bold mb-1'>{album.title}</h2>
+          <h3 className='text-lg font-medium text-stone-300 mb-2'>
+            {album.artist}
+          </h3>
+          <p className='text-sm text-stone-400'>{album.year}</p>
+
+          <div className='mt-2'>
+            <StarRating rating={albumRating} albumId={album.id} />
+          </div>
+        </figcaption>
+      </figure>
+
+      {/* Review Section */}
+      <section>
+      <p>Review User</p>
+      </section>
     </div>
   );
 }
