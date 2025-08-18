@@ -5,16 +5,26 @@ export const AlbumContext = createContext({
   setSelectedAlbum: () => {},
   ratings: {},
   rateAlbum: () => {},
+  reviews: {},
+  setReviews: () => {},
 });
 
 export function AlbumProvider({ children }) {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [ratings, setRatings] = useState({});
+  const [reviews, setReviews] = useState({});
 
   function rateAlbum(albumId, rating) {
     setRatings((prev) => ({
       ...prev,
       [albumId]: rating, // Store rating for that albumId
+    }));
+  }
+
+  function reviewAlbum(albumId, review) {
+    setReviews((prev) => ({
+      ...prev,
+      [albumId]: [...(prev[albumId] || []), review],
     }));
   }
 
@@ -25,6 +35,8 @@ export function AlbumProvider({ children }) {
         setSelectedAlbum,
         ratings,
         rateAlbum,
+        reviews,
+        reviewAlbum,
       }}
     >
       {children}

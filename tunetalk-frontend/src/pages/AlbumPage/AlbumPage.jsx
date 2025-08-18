@@ -8,7 +8,7 @@ import AlbumDetails from '../../components/AlbumDetails';
 
 export default function AlbumPage() {
   const { album_id } = useParams();
-  const { setSelectedAlbum } = useContext(AlbumContext);
+  const { setSelectedAlbum, reviews, selectedAlbum } = useContext(AlbumContext);
 
   const navigate = useNavigate();
 
@@ -22,6 +22,8 @@ export default function AlbumPage() {
     setSelectedAlbum(album);
     return () => setSelectedAlbum(null);
   }, [album, setSelectedAlbum]);
+
+  const albumReviews = reviews[selectedAlbum?.id] || [];
 
   if (!album)
     return <p className='text-center text-stone-300 mt-8'>Album not found</p>;
@@ -40,9 +42,7 @@ export default function AlbumPage() {
       <section className='grid grid-cols-1'>
         <h2 className='text-2xl mb-1 shrink-0'>Reviews</h2>
 
-        <Reviews>
-          <p className='text-md text-stone-200 self-center'>No reviews for this album yet.</p>
-        </Reviews>
+        <Reviews albumId={album.id} reviews={albumReviews} />
       </section>
     </div>
   );
