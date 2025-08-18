@@ -15,9 +15,9 @@ export default function MainLayout() {
         />
       )}
 
-      <div className='h-dvh max-w-[1100px] mx-auto p-4 flex flex-col gap-3 overflow-hidden relative z-10'>
+      <div className='h-dvh max-w-full mx-auto p-3 grid grid-rows-[auto_1fr] gap-3 overflow-hidden relative z-10'>
         <Navbar />
-        <main className='flex-1 w-full flex flex-col md:flex-row p-4 gap-4 text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-2xl bg-[#C2E1FA]/20 overflow-scroll'>
+        <main className='flex-1 w-full md:flex-row p-4 gap-4 text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-2xl bg-[#C2E1FA]/20 overflow-auto'>
           <Outlet />
         </main>
       </div>
