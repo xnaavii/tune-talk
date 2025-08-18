@@ -38,7 +38,7 @@ export default function AlbumCard({ album }) {
             <p className='text-sm text-stone-400'>{album.year}</p>
           </figcaption>
 
-          <div className='self-end'>
+          <div className='self-start'>
             <StarRating albumId={album.id} rating={rating} />
           </div>
         </div>

@@ -34,13 +34,15 @@ export default function AlbumPage() {
       </div>
 
       {/* Album Details */}
-      <AlbumDetails album={album}/>
+      <AlbumDetails album={album} />
 
       {/* Review Section */}
       <section className='grid grid-cols-1'>
         <h2 className='text-2xl mb-1 shrink-0'>Reviews</h2>
 
-        <Reviews>No reviews yet for this album</Reviews>
+        <Reviews>
+          <p className='text-md text-stone-200 self-center'>No reviews for this album yet.</p>
+        </Reviews>
       </section>
     </div>
   );

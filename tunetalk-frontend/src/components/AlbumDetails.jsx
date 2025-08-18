@@ -7,7 +7,7 @@ export default function AlbumDetails({ album }) {
   const albumRating = ratings[album.id] || 0;
 
   return (
-    <figure className='grid grid-cols-1 sm:grid-cols-[2fr_2fr] md:grid-cols-[1fr_3fr] gap-6 p-4 w-full shrink-0'>
+    <figure className='grid grid-cols-1 sm:grid-cols-[2fr_2fr] md:grid-cols-[1fr_3fr] gap-4 p-4 w-full shrink-0'>
       <img
         src={album.image}
         alt={`Cover of ${album.title}`}

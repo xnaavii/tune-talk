@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import AlbumList from '../../components/AlbumList';
+import Spinner from '../../components/Spinner';
 import { dummyAlbums } from '../../data/dummyAlbums';
-
 
 export default function ResultsPage() {
   const [searchParams] = useSearchParams();
@@ -31,10 +31,15 @@ export default function ResultsPage() {
 
       setResults(filtered);
       setLoading(false);
-    }, 1000);
+    }, 200);
 
     return () => clearTimeout(timeout);
   }, [query]);
 
-  return <AlbumList query={query} results={results} isLoading={loading} />;
+  return (
+    <>
+      {loading && <Spinner />}
+      <AlbumList query={query} results={results} isLoading={loading} />
+    </>
+  );
 }

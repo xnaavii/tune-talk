@@ -1,10 +1,10 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-export default function Input({ type = 'text', ...props }) {
+export default function SearchBar() {
   const [query, setQuery] = useState('');
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
 
@@ -33,8 +33,6 @@ export default function Input({ type = 'text', ...props }) {
   return (
     <form className='relative grow-1' onSubmit={handleSubmit}>
       <input
-        type={type}
-        {...props}
         value={query}
         onChange={handleOnChange}
         className='w-full py-3 pr-10 pl-4 text-stone-100 border-stone-50 rounded-3xl shadow-sm backdrop-blur-md bg-[#C2E1FA]/20 outline-none focus:ring-2 focus:ring-stone-100 focus:ring-inset placeholder:text-stone-300'

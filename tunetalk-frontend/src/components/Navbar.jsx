@@ -1,7 +1,7 @@
 import Logo from './Logo';
-import Input from './Input';
 import ButtonsMenu from './ButtonsMenu';
 import Button from './Button';
+import SearchBar from './SearchBar';
 
 export default function Navbar() {
   return (
@@ -12,7 +12,7 @@ export default function Navbar() {
     >
       <Logo />
       <div className='flex flex-col gap-3 lg:flex-row flex-1 lg:items-center'>
-        <Input placeholder='Search for an artist, album or a song' />
+        <SearchBar/>
         <ButtonsMenu>
           <Button label='Popular' icon='star-outline' />
           <Button label='New' icon='sparkles-outline' />

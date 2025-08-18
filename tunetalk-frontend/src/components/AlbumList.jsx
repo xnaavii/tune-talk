@@ -1,14 +1,12 @@
 import AlbumCard from './AlbumCard';
-import Spinner from './Spinner';
 
 export default function AlbumList({ query, results, isLoading }) {
   return (
-    <section className='flex-1 overflow-y-auto'>
+    <section className='flex-1 overflow-auto'>
       {query && (
         <>
-          {isLoading && <Spinner />}
           {!isLoading && results.length > 0 && (
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
               {results.map((result, i) => (
                 <AlbumCard key={i} album={result} />
               ))}

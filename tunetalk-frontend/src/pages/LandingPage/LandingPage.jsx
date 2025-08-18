@@ -1,8 +1,8 @@
 import Logo from '../../components/Logo';
-import Input from '../../components/Input';
 import ButtonsMenu from '../../components/ButtonsMenu';
 import Button from '../../components/Button';
 import BackgroundLayer from '../../components/BackgroundLayer';
+import SearchBar from '../../components/SearchBar';
 
 export default function LandingPage() {
   return (
@@ -13,7 +13,7 @@ export default function LandingPage() {
         <div className='flex flex-col items-center gap-3'>
           <Logo />
           <div className='flex flex-col gap-3'>
-            <Input placeholder='Search for an artist, album or a song' />
+            <SearchBar placeholder='Search for an artist, album or a song' />
             <ButtonsMenu>
               <Button label='Popular' icon='star-outline' />
               <Button label='New' icon='sparkles-outline' />
