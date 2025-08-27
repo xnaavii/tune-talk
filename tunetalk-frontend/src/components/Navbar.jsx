@@ -1,9 +1,42 @@
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import ButtonsMenu from './ButtonsMenu';
 import Button from './Button';
 import SearchBar from './SearchBar';
 
 export default function Navbar() {
+  const [searchParams] = useSearchParams();
+  const [query, setQuery] = useState('');
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const isLandingPage = location.pathname === '/';
+
+  useEffect(() => {
+    const queryParam = searchParams.get('query');
+    if (location.pathname === '/results' && queryParam) {
+      setQuery(queryParam);
+    }
+  }, [location, searchParams]);
+
+  function handleOnSubmit(event) {
+    event.preventDefault();
+    
+    if (!query.trim()) return;
+    navigate(`/results?query=${encodeURIComponent(query)}`);
+  }
+
+  function handleOnChange(event) {
+    setQuery(event.target.value);
+
+    // Handle instant search without submit only when not on landing page
+    if (!isLandingPage) {
+      navigate(`/results?query=${encodeURIComponent(event.target.value)}`);
+    }
+  }
+
   return (
     <nav
       className={
@@ -12,7 +45,12 @@ export default function Navbar() {
     >
       <Logo />
       <div className='flex flex-col gap-3 lg:flex-row flex-1 lg:items-center'>
-        <SearchBar/>
+        <SearchBar
+          onSubmit={handleOnSubmit}
+          isLandingPage={isLandingPage}
+          onChange={handleOnChange}
+          query={query}
+        />
         <ButtonsMenu>
           <Button label='Popular' icon='star-outline' />
           <Button label='New' icon='sparkles-outline' />

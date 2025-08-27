@@ -5,10 +5,10 @@ import Spinner from '../../components/Spinner';
 import { dummyAlbums } from '../../data/dummyAlbums';
 
 export default function ResultsPage() {
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get('query');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('query');
 
   useEffect(() => {
     if (!query || !query.trim()) {
