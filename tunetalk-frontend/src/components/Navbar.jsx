@@ -8,10 +8,10 @@ import SearchBar from './SearchBar';
 export default function Navbar() {
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
-  
+
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const isLandingPage = location.pathname === '/';
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Navbar() {
 
   function handleOnSubmit(event) {
     event.preventDefault();
-    
+
     if (!query.trim()) return;
     navigate(`/results?query=${encodeURIComponent(query)}`);
   }
@@ -47,7 +47,6 @@ export default function Navbar() {
       <div className='flex flex-col gap-3 lg:flex-row flex-1 lg:items-center'>
         <SearchBar
           onSubmit={handleOnSubmit}
-          isLandingPage={isLandingPage}
           onChange={handleOnChange}
           query={query}
         />
