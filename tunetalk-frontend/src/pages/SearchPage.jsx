@@ -8,7 +8,7 @@ export default function SearchPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const query = searchParams.get('query');
+  const query = searchParams.get('q');
 
   useEffect(() => {
     if (!query || !query.trim()) {

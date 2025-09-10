@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 
-export const AlbumContext = createContext({
+const AlbumContext = createContext({
   selectedAlbum: null,
   setSelectedAlbum: () => {},
   ratings: {},
@@ -9,7 +9,7 @@ export const AlbumContext = createContext({
   setReviews: () => {},
 });
 
-export function AlbumProvider({ children }) {
+function AlbumProvider({ children }) {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [ratings, setRatings] = useState({});
   const [reviews, setReviews] = useState({});
@@ -43,3 +43,5 @@ export function AlbumProvider({ children }) {
     </AlbumContext.Provider>
   );
 }
+
+export { AlbumContext, AlbumProvider };

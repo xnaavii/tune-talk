@@ -15,8 +15,8 @@ export default function Navbar() {
   const isLandingPage = location.pathname === '/';
 
   useEffect(() => {
-    const queryParam = searchParams.get('query');
-    if (location.pathname === '/results' && queryParam) {
+    const queryParam = searchParams.get('q');
+    if (location.pathname === '/search' && queryParam) {
       setQuery(queryParam);
     }
   }, [location, searchParams]);
@@ -25,7 +25,7 @@ export default function Navbar() {
     event.preventDefault();
 
     if (!query.trim()) return;
-    navigate(`/results?query=${encodeURIComponent(query)}`);
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   }
 
   function handleOnChange(event) {
@@ -33,7 +33,7 @@ export default function Navbar() {
 
     // Handle instant search without submit only when not on landing page
     if (!isLandingPage) {
-      navigate(`/results?query=${encodeURIComponent(event.target.value)}`);
+      navigate(`/search?q=${encodeURIComponent(event.target.value)}`);
     }
   }
 

@@ -2,18 +2,23 @@ import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { AlbumContext } from '../store/AlbumContext';
+import defaultBackground from '../assets/record-blue.jpg';
 
 export default function MainLayout() {
   const { selectedAlbum } = useContext(AlbumContext);
 
+  let bgImg = defaultBackground;
+
+  if (selectedAlbum?.image) {
+    bgImg = selectedAlbum.image;
+  }
+
   return (
     <div className='min-h-screen bg-[#0F2E48] text-white relative transition-all'>
-      {selectedAlbum?.image && (
-        <div
-          className='absolute inset-0 bg-cover bg-center filter opacity-40'
-          style={{ backgroundImage: `url(${selectedAlbum.image})` }}
-        />
-      )}
+      <div
+        className='absolute inset-0 bg-cover bg-center filter opacity-40'
+        style={{ backgroundImage: `url(${bgImg})` }}
+      />
 
       <div className='h-dvh max-w-full mx-auto p-3 grid grid-rows-[auto_1fr] gap-3 overflow-hidden relative z-10'>
         <Navbar />
