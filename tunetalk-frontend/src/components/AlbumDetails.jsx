@@ -1,9 +1,8 @@
-import { useContext } from 'react';
 import StarRating from '../components/StarRating';
-import { AlbumContext } from '../store/AlbumContext';
+import useAlbum from '../hooks/useAlbum';
 
 export default function AlbumDetails({ album }) {
-  const { ratings } = useContext(AlbumContext);
+  const { ratings } = useAlbum();
   const albumRating = ratings[album.id] || 0;
 
   return (

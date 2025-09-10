@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
+import useAlbum from '../hooks/useAlbum';
 import Star from './Star';
-import { AlbumContext } from '../store/AlbumContext';
 
 export default function StarRating({ count = 5, rating = null, albumId }) {
-  const { ratings, rateAlbum } = useContext(AlbumContext);
+  const { ratings, rateAlbum } = useAlbum();
   const [currentRating, setCurrentRating] = useState(
     rating || ratings[albumId] || 0
   );

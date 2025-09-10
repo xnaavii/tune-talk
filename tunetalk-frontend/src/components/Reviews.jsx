@@ -1,8 +1,8 @@
-import { useState, useContext } from 'react';
-import { AlbumContext } from '../store/AlbumContext';
+import { useState } from 'react';
+import useAlbum from '../hooks/useAlbum';
 
 export default function Reviews({ albumId, reviews = [] }) {
-  const { reviewAlbum } = useContext(AlbumContext);
+  const { reviewAlbum } = useAlbum();
   const [reviewText, setReviewText] = useState('');
 
   function handleAddReview() {

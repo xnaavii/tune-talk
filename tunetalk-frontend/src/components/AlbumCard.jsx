@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
+import useAlbum from '../hooks/useAlbum.js'
 import StarRating from './StarRating';
-import { useContext } from 'react';
-import { AlbumContext } from '../store/AlbumContext';
 
 export default function AlbumCard({ album }) {
-  const { ratings } = useContext(AlbumContext);
+  const { ratings } = useAlbum();
 
   const rating = ratings[album.id] || 0;
 

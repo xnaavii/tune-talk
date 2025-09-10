@@ -1,14 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import useAlbum from '../hooks/useAlbum';
 import { dummyAlbums } from '../data/dummyAlbums';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import Button from '../components/Button';
-import { AlbumContext } from '../store/AlbumContext';
 import Reviews from '../components/Reviews';
 import AlbumDetails from '../components/AlbumDetails';
 
 export default function AlbumPage() {
   const { album_id } = useParams();
-  const { setSelectedAlbum, reviews, selectedAlbum } = useContext(AlbumContext);
+  const { setSelectedAlbum, reviews, selectedAlbum } = useAlbum();
 
   const navigate = useNavigate();
 

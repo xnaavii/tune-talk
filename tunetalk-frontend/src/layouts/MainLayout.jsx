@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
+import useAlbum from '../hooks/useAlbum';
 import Navbar from '../components/Navbar';
-import { AlbumContext } from '../store/AlbumContext';
 import defaultBackground from '../assets/record-blue.jpg';
 
 export default function MainLayout() {
-  const { selectedAlbum } = useContext(AlbumContext);
+  const { selectedAlbum } = useAlbum();
 
   let bgImg = defaultBackground;
 
