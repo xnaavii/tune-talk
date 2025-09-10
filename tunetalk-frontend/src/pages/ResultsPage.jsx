@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import AlbumList from '../../components/AlbumList';
-import Spinner from '../../components/Spinner';
-import { dummyAlbums } from '../../data/dummyAlbums';
+import AlbumList from '../components/AlbumList';
+import Spinner from '../components/Spinner';
+import { dummyAlbums } from '../data/dummyAlbums';
 
 export default function ResultsPage() {
   const [results, setResults] = useState([]);

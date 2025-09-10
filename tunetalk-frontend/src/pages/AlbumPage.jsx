@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { dummyAlbums } from '../../data/dummyAlbums';
+import { dummyAlbums } from '../data/dummyAlbums';
 import { useContext, useEffect } from 'react';
-import Button from '../../components/Button';
-import { AlbumContext } from '../../store/AlbumContext';
-import Reviews from '../../components/Reviews';
-import AlbumDetails from '../../components/AlbumDetails';
+import Button from '../components/Button';
+import { AlbumContext } from '../store/AlbumContext';
+import Reviews from '../components/Reviews';
+import AlbumDetails from '../components/AlbumDetails';
 
 export default function AlbumPage() {
   const { album_id } = useParams();

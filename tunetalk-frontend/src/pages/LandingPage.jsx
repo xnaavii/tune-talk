@@ -1,8 +1,8 @@
-import Logo from '../../components/Logo';
-import ButtonsMenu from '../../components/ButtonsMenu';
-import Button from '../../components/Button';
-import BackgroundLayer from '../../components/BackgroundLayer';
-import SearchBar from '../../components/SearchBar';
+import Logo from '../components/Logo';
+import ButtonsMenu from '../components/ButtonsMenu';
+import Button from '../components/Button';
+import BackgroundLayer from '../components/BackgroundLayer';
+import SearchBar from '../components/SearchBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
