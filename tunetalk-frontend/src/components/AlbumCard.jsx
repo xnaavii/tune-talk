@@ -19,7 +19,7 @@ export default function AlbumCard({ album }) {
       <div className='relative z-10 flex gap-3 w-full bg-[#0F2E48]/40 rounded-2xl p-3 items-center h-full'>
         {/* Image wrapper with fixed width */}
         <div className='w-28 h-full overflow-hidden flex items-center justify-center'>
-          <Link to={`/results/${album.id}`}>
+          <Link to={`/search/${album.id}`}>
             <img
               src={album.image}
               alt={`Album cover for ${album.artist} - ${album.title}`}

@@ -4,7 +4,7 @@ import AlbumList from '../components/AlbumList';
 import Spinner from '../components/Spinner';
 import { dummyAlbums } from '../data/dummyAlbums';
 
-export default function ResultsPage() {
+export default function SearchPage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();

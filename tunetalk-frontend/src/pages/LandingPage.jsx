@@ -13,7 +13,7 @@ export default function LandingPage() {
   function handleOnSubmit(event) {
     event.preventDefault();
     if (!query.trim()) return;
-    navigate(`/results?query=${encodeURIComponent(query)}`);
+    navigate(`/search?query=${encodeURIComponent(query)}`);
   }
 
   function handleOnChange(event) {

@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import LandingPage from '../pages/LandingPage/LandingPage';
+import LandingPage from '../pages/LandingPage';
 import MainLayout from '../layouts/MainLayout';
-import ResultsPage from '../pages/ResultsPage/ResultsPage';
-import AlbumPage from '../pages/AlbumPage/AlbumPage';
+import SearchPage from '../pages/SearchPage';
+import AlbumPage from '../pages/AlbumPage';
 
 export default function AppRoutes() {
   return (
@@ -10,8 +10,8 @@ export default function AppRoutes() {
       <Route path='/' element={<LandingPage />} />
 
       <Route element={<MainLayout />}>
-        <Route path='/results' element={<ResultsPage />} />
-        <Route path='/results/:album_id' element={<AlbumPage />} />
+        <Route path='/search' element={<SearchPage />} />
+        <Route path='/search/:album_id' element={<AlbumPage />} />
       </Route>
     </Routes>
   );
