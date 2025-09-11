@@ -39,7 +39,7 @@ export default function SearchPage() {
   return (
     <>
       {loading && <Spinner />}
-      <AlbumList query={query} results={results} isLoading={loading} />
+      <AlbumList query={query} albums={results} isLoading={loading} />
     </>
   );
 }

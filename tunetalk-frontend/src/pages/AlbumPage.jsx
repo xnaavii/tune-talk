@@ -9,6 +9,7 @@ import AlbumDetails from '../components/AlbumDetails';
 export default function AlbumPage() {
   const { album_id } = useParams();
   const { setSelectedAlbum, reviews, selectedAlbum } = useAlbum();
+  console.log('Rendered from album page')
 
   const navigate = useNavigate();
 

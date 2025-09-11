@@ -1,19 +1,19 @@
 import AlbumCard from './AlbumCard';
 
-export default function AlbumList({ query, results, isLoading }) {
+export default function AlbumList({ query, albums, isLoading }) {
   return (
     <section className='flex-1 overflow-auto'>
       {query && (
         <>
-          {!isLoading && results.length > 0 && (
+          {!isLoading && albums.length > 0 && (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
-              {results.map((result, i) => (
-                <AlbumCard key={i} album={result} />
+              {albums.map(album => (
+                <AlbumCard key={album.id} album={album} />
               ))}
             </div>
           )}
-          {!isLoading && results.length === 0 && (
-            <p className='text-md p-4'>No results found.</p>
+          {!isLoading && albums.length === 0 && (
+            <p className='text-md p-4'>No albums found.</p>
           )}
         </>
       )}
