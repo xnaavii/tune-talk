@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import useAlbum from '../hooks/useAlbum';
 import Star from './Star';
+import PropTypes from 'prop-types';
 
 export default function StarRating({ count = 5, rating = null, albumId }) {
   const { ratings, rateAlbum } = useAlbum();
@@ -39,3 +40,9 @@ export default function StarRating({ count = 5, rating = null, albumId }) {
     </div>
   );
 }
+
+StarRating.propTypes = {
+  count: PropTypes.number,
+  rating: PropTypes.number,
+  albumId: PropTypes.string.isRequired,
+};

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Button({ label, icon, onClick }) {
   const isIconOnly = !label;
 
@@ -18,3 +20,9 @@ export default function Button({ label, icon, onClick }) {
     </button>
   );
 }
+
+Button.propTypes = {
+  label: PropTypes.string,
+  icon: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
+};

@@ -1,5 +1,6 @@
 import StarRating from '../components/StarRating';
 import useAlbum from '../hooks/useAlbum';
+import PropTypes from 'prop-types';
 
 export default function AlbumDetails({ album }) {
   const { ratings } = useAlbum();
@@ -27,3 +28,7 @@ export default function AlbumDetails({ album }) {
     </figure>
   );
 }
+
+AlbumDetails.propTypes = {
+  album: PropTypes.object.isRequired,
+};

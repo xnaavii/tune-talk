@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import useAlbum from '../hooks/useAlbum.js'
+import useAlbum from '../hooks/useAlbum.js';
 import StarRating from './StarRating';
+import PropTypes from 'prop-types';
 
 export default function AlbumCard({ album }) {
   const { ratings } = useAlbum();
@@ -45,3 +46,7 @@ export default function AlbumCard({ album }) {
     </figure>
   );
 }
+
+AlbumCard.propTypes = {
+  album: PropTypes.object.isRequired,
+};

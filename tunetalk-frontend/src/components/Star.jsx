@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Star({ filled, onClick, onMouseOver, onMouseLeave }) {
   return (
     <button
@@ -12,3 +14,10 @@ export default function Star({ filled, onClick, onMouseOver, onMouseLeave }) {
     </button>
   );
 }
+
+Star.propTypes = {
+  filled: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  onMouseOver: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
+};

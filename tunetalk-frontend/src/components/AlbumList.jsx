@@ -1,4 +1,5 @@
 import AlbumCard from './AlbumCard';
+import PropTypes from 'prop-types';
 
 export default function AlbumList({ albums }) {
   return (
@@ -11,3 +12,7 @@ export default function AlbumList({ albums }) {
     </section>
   );
 }
+
+AlbumList.propTypes = {
+  albums: PropTypes.arrayOf(PropTypes.object).isRequired,
+};

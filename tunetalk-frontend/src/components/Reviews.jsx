@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useAlbum from '../hooks/useAlbum';
+import PropTypes from 'prop-types';
 
 export default function Reviews({ albumId, reviews = [] }) {
   const { reviewAlbum } = useAlbum();
@@ -32,12 +33,12 @@ export default function Reviews({ albumId, reviews = [] }) {
         {reviews.length === 0 ? (
           <p className='text-stone-400 italic'>No reviews yet.</p>
         ) : (
-          reviews.map((r, i) => (
+          reviews.map((review, i) => (
             <div
               key={i}
               className='bg-[#C2E1FA]/10 rounded-lg p-2 text-stone-100'
             >
-              {r}
+              {review}
             </div>
           ))
         )}
@@ -45,3 +46,8 @@ export default function Reviews({ albumId, reviews = [] }) {
     </div>
   );
 }
+
+Reviews.propTypes = {
+  albumId: PropTypes.string.isRequired,
+  reviews: PropTypes.array,
+};

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function SearchBar({ onSubmit, onChange, query }) {
   return (
     <form className='relative grow-1' onSubmit={onSubmit}>
@@ -14,3 +16,9 @@ export default function SearchBar({ onSubmit, onChange, query }) {
     </form>
   );
 }
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+};
