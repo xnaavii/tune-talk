@@ -1,45 +1,47 @@
-import { useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import AlbumList from '../components/AlbumList';
 import Spinner from '../components/Spinner';
-import { dummyAlbums } from '../data/dummyAlbums';
+import { searchAlbums } from '../api/albums';
 
 export default function SearchPage() {
-  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [albums, setAlbums] = useState([]);
+  const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q');
 
   useEffect(() => {
-    if (!query || !query.trim()) {
-      setResults([]);
-      setLoading(false);
-      return;
+    async function fetchAlbums() {
+      setLoading(true);
+      setError(null);
+      try {
+        const q = query.toLowerCase().trim();
+        const response = await searchAlbums(q);
+        setAlbums(response);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    setLoading(true);
-    setResults([]);
-
-    const timeout = setTimeout(() => {
-      const lowerQuery = query.toLowerCase();
-
-      const filtered = dummyAlbums.filter(
-        (album) =>
-          album.artist.toLowerCase().includes(lowerQuery) ||
-          album.title.toLowerCase().includes(lowerQuery)
-      );
-
-      setResults(filtered);
-      setLoading(false);
-    }, 200);
-
-    return () => clearTimeout(timeout);
+    fetchAlbums();
   }, [query]);
 
   return (
     <>
-      {loading && <Spinner />}
-      <AlbumList query={query} albums={results} isLoading={loading} />
+      {loading ? <Spinner /> : null}
+      {error ? <p>{error.message}</p> : null}
+      {!query && (
+        <h2 className='text-md p-4'>
+          Try searching for an album, artist or a song.
+        </h2>
+      )}
+      {query && albums.length > 0 && <AlbumList albums={albums} />}
+      {query && albums.length === 0 && (
+        <p className='text-md p-4'>No albums found.</p>
+      )}
     </>
   );
 }
