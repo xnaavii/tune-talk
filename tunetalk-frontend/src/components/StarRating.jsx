@@ -1,18 +1,17 @@
 import { useState } from 'react';
-import useAlbum from '../hooks/useAlbum';
+import useRatings from '../hooks/useRatings';
 import Star from './Star';
 import PropTypes from 'prop-types';
 
 export default function StarRating({ count = 5, rating = null, albumId }) {
-  const { ratings, rateAlbum } = useAlbum();
-  const [currentRating, setCurrentRating] = useState(
-    rating || ratings[albumId] || 0
-  );
+  const { ratings, addRating } = useRatings();
+  const albumRating = ratings[albumId];
+  const [currentRating, setCurrentRating] = useState(albumRating || rating);
   const [hoveredStar, setHoveredStar] = useState(null);
 
-  function handleOnClickStar(index) {
-    setCurrentRating(index);
-    rateAlbum(albumId, index); // update context
+  function handleOnClickStar(rating) {
+    setCurrentRating(rating);
+    addRating(albumId, rating);
   }
 
   function handleOnHoverStar(index) {

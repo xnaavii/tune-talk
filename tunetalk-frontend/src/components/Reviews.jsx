@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import useAlbum from '../hooks/useAlbum';
+import useReviews from '../hooks/useReviews';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
 
 export default function Reviews({ albumId, reviews }) {
-  const { reviewAlbum } = useAlbum();
   const [reviewText, setReviewText] = useState('');
+  const { addReview } = useReviews();
 
   function handleAddReview() {
     if (reviewText === '') return;
-    reviewAlbum(albumId, reviewText);
+    addReview(albumId, reviewText);
     setReviewText('');
   }
 
@@ -28,9 +28,11 @@ export default function Reviews({ albumId, reviews }) {
         />
         <div className='flex flex-col gap-2'>
           {reviews.length > 0 ? (
-            reviews.map((review, i) => (
-              <div key={i} className='bg-[#C2E1FA]/10 rounded-lg p-2'>
-                <p className='whitespace-pre-line text-stone-100'>{review}</p>
+            reviews.map((review) => (
+              <div key={review.id} className='bg-[#C2E1FA]/10 rounded-lg p-2'>
+                <p className='whitespace-pre-line text-stone-100'>
+                  {review.review}
+                </p>
               </div>
             ))
           ) : (

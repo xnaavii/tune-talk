@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import useAlbum from '../hooks/useAlbum.js';
+import useRatings from '../hooks/useRatings';
 import StarRating from './StarRating';
 import PropTypes from 'prop-types';
 
 export default function AlbumCard({ album }) {
-  const { ratings } = useAlbum();
+  const { ratings } = useRatings();
 
-  const rating = ratings[album.id] || 0;
+  const rating = ratings[album.id];
 
   return (
     <figure className='relative flex gap-2 rounded-2xl overflow-hidden h-36'>
