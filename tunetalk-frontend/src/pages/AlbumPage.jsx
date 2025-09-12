@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import useAlbum from '../hooks/useAlbum';
 import useReviews from '../hooks/useReviews';
 import { dummyAlbums } from '../data/dummyAlbums';
-import Button from '../components/Button';
+import Button from '../components/common/Button';
 import Reviews from '../components/Reviews';
 import AlbumDetails from '../components/AlbumDetails';
 

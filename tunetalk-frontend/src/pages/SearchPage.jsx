@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import AlbumList from '../components/AlbumList';
-import Spinner from '../components/Spinner';
+import Spinner from '../components/common/Spinner';
 import { searchAlbums } from '../api/albums';
 
 export default function SearchPage() {

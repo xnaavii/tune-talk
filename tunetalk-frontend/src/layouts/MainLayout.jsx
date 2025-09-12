@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import useAlbum from '../hooks/useAlbum';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/common/Navbar';
 import defaultBackground from '../assets/record-blue.jpg';
 
 export default function MainLayout() {

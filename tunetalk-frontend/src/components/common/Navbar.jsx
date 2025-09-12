@@ -1,9 +1,9 @@
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Logo from './Logo';
-import ButtonsMenu from './ButtonsMenu';
-import Button from './Button';
-import SearchBar from './SearchBar';
+import Logo from '../common/Logo';
+import ButtonsMenu from '../common/ButtonsMenu';
+import Button from '../common/Button';
+import SearchBar from '../common/SearchBar';
 
 export default function Navbar() {
   const [searchParams] = useSearchParams();

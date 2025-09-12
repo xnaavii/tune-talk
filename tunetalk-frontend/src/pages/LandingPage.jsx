@@ -1,10 +1,10 @@
-import Logo from '../components/Logo';
-import ButtonsMenu from '../components/ButtonsMenu';
-import Button from '../components/Button';
-import BackgroundLayer from '../components/BackgroundLayer';
-import SearchBar from '../components/SearchBar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../components/common/Logo';
+import ButtonsMenu from '../components/common/ButtonsMenu';
+import Button from '../components/common/Button';
+import BackgroundLayer from '../components/common/BackgroundLayer';
+import SearchBar from '../components/common/SearchBar';
 
 export default function LandingPage() {
   const [query, setQuery] = useState('');
