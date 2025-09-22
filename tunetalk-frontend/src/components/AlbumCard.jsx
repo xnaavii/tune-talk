@@ -1,9 +1,18 @@
 import { Link } from 'react-router-dom';
 import StarRating from './StarRating';
 import PropTypes from 'prop-types';
-export default function AlbumCard({ album }) {
+import useAlbum from '../hooks/useAlbum';
+export default function AlbumCard({ albumId }) {
+  const { getAlbum } = useAlbum();
+
+  const album = getAlbum(albumId);
+
+  if (!album) {
+    return <p>Not found</p>;
+  }
+
   return (
-    <figure className='relative flex gap-2 rounded-2xl overflow-hidden h-36'>
+    <figure className='relative flex gap-2 rounded-2xl overflow-hidden h-fit'>
       {/* Blurred background with image */}
       <div
         className='absolute inset-0 z-0 bg-cover bg-center blur-lg scale-110 transition-all duration-300'
@@ -12,7 +21,7 @@ export default function AlbumCard({ album }) {
 
       <div className='relative z-10 flex gap-3 w-full bg-[#0F2E48]/40 rounded-2xl p-3 items-center h-full'>
         {/* Image wrapper with fixed width */}
-        <div className='w-28 h-full overflow-hidden flex items-center justify-center'>
+        <div className='w-40 h-full overflow-hidden flex items-center justify-center'>
           <Link to={`/search/${album.id}`}>
             <img
               src={album.image}
@@ -25,16 +34,15 @@ export default function AlbumCard({ album }) {
         </div>
 
         {/* Content stays fixed in its area */}
-        <div className='flex flex-col justify-between flex-1 h-full'>
+        <div className='flex flex-col justify-between flex-1 h-full gap-2'>
           <figcaption className='flex flex-col gap-1'>
             <p className='text-lg font-semibold'>{album.title}</p>
             <p className='text-md'>{album.artist}</p>
             <p className='text-sm text-stone-400'>{album.year}</p>
+            {album.reviews ? <span className='text-sm text-stone-300'>{album.reviews.length} reviews</span> : null}
           </figcaption>
 
-          <div className='self-start'>
-            <StarRating albumId={album.id} />
-          </div>
+          <StarRating albumId={album.id} />
         </div>
       </div>
     </figure>
@@ -42,5 +50,5 @@ export default function AlbumCard({ album }) {
 }
 
 AlbumCard.propTypes = {
-  album: PropTypes.object.isRequired,
+  album: PropTypes.string.isRequired,
 };

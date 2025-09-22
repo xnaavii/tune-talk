@@ -1,10 +1,11 @@
 import StarRating from '../components/StarRating';
-import useRating from '../hooks/useRatings';
+import useAlbum from '../hooks/useAlbum';
 import PropTypes from 'prop-types';
 
-export default function AlbumDetails({ album }) {
-  const { ratings } = useRating();
-  const albumRating = ratings[album.id];
+export default function AlbumDetails({ albumId }) {
+  const { getAlbum } = useAlbum();
+
+  const album = getAlbum(albumId);
 
   return (
     <figure className='grid grid-cols-1 sm:grid-cols-[2fr_2fr] md:grid-cols-[1fr_3fr] gap-4 p-4 w-full shrink-0'>
@@ -22,7 +23,12 @@ export default function AlbumDetails({ album }) {
         <p className='text-sm text-stone-400'>{album.year}</p>
 
         <div className='mt-2'>
-          <StarRating rating={albumRating} albumId={album.id} />
+          <StarRating rating={album.rating} albumId={album.id} />
+          {album.reviews ? (
+            <span className='text-sm text-stone-300'>
+              {album.reviews.length} reviews
+            </span>
+          ) : null}
         </div>
       </figcaption>
     </figure>
@@ -30,5 +36,5 @@ export default function AlbumDetails({ album }) {
 }
 
 AlbumDetails.propTypes = {
-  album: PropTypes.object.isRequired,
+  albumId: PropTypes.string.isRequired,
 };

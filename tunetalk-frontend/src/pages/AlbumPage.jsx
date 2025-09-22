@@ -31,7 +31,7 @@ export default function AlbumPage() {
       <div className='flex items-center justify-start shrink-0'>
         <Button icon='chevron-back' onClick={() => navigate(-1)} />
       </div>
-      <AlbumDetails album={album} />
+      <AlbumDetails albumId={album.id} />
       <Reviews albumId={album.id} reviews={albumReviews} />
     </>
   );
