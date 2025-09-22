@@ -12,9 +12,17 @@ function AlbumProvider({ children }) {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
   const [albums, setAlbums] = useState(dummyAlbums);
 
-  function getRating(id) {
+  function getAlbum(id) {
     const album = albums.find((album) => album.id === id);
-    return album.rating;
+    return album;
+  }
+
+  function changeRating(id, rating) {
+    setAlbums((currAlbums) =>
+      currAlbums.map((album) =>
+        album.id === id ? { ...album, rating: rating } : album
+      )
+    );
   }
 
   return (
@@ -24,7 +32,8 @@ function AlbumProvider({ children }) {
         setSelectedAlbum,
         albums,
         setAlbums,
-        getRating,
+        getAlbum,
+        changeRating,
       }}
     >
       {children}

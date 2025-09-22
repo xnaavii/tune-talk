@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import useReviews from '../hooks/useReviews';
+import useAlbum from '../hooks/useAlbum';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
 
-export default function Reviews({ albumId, reviews }) {
+export default function Reviews({ albumId }) {
   const [reviewText, setReviewText] = useState('');
-  const { addReview } = useReviews();
+  const { getAlbum } = useAlbum();
+  const { reviews } = getAlbum(albumId);
 
   function handleAddReview() {
-    if (reviewText === '') return;
-    addReview(albumId, reviewText);
     setReviewText('');
   }
 
@@ -31,7 +30,7 @@ export default function Reviews({ albumId, reviews }) {
             reviews.map((review) => (
               <div key={review.id} className='bg-[#C2E1FA]/10 rounded-lg p-2'>
                 <p className='whitespace-pre-line text-stone-100'>
-                  {review.review}
+                  {review.comment}
                 </p>
               </div>
             ))
@@ -46,5 +45,4 @@ export default function Reviews({ albumId, reviews }) {
 
 Reviews.propTypes = {
   albumId: PropTypes.string.isRequired,
-  reviews: PropTypes.array,
 };
