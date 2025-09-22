@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import { dummyAlbums } from '../data/dummyAlbums';
 
 const AlbumContext = createContext({
   selectedAlbum: null,
@@ -9,7 +10,12 @@ const AlbumContext = createContext({
 
 function AlbumProvider({ children }) {
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-  const [albums, setAlbums] = useState([]);
+  const [albums, setAlbums] = useState(dummyAlbums);
+
+  function getRating(id) {
+    const album = albums.find((album) => album.id === id);
+    return album.rating;
+  }
 
   return (
     <AlbumContext.Provider
@@ -18,6 +24,7 @@ function AlbumProvider({ children }) {
         setSelectedAlbum,
         albums,
         setAlbums,
+        getRating,
       }}
     >
       {children}
