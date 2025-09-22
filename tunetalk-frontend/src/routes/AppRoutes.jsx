@@ -3,6 +3,7 @@ import LandingPage from '../pages/LandingPage';
 import MainLayout from '../layouts/MainLayout';
 import SearchPage from '../pages/SearchPage';
 import AlbumPage from '../pages/AlbumPage';
+import PopularPage from '../pages/PopularPage';
 
 export default function AppRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function AppRoutes() {
       <Route element={<MainLayout />}>
         <Route path='/search' element={<SearchPage />} />
         <Route path='/search/:album_id' element={<AlbumPage />} />
+        <Route path='/popular' element={<PopularPage />} />
       </Route>
     </Routes>
   );

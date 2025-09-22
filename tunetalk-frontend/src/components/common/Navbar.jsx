@@ -1,4 +1,9 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useSearchParams,
+  Link,
+} from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Logo from '../common/Logo';
 import ButtonsMenu from '../common/ButtonsMenu';
@@ -51,7 +56,9 @@ export default function Navbar() {
           query={query}
         />
         <ButtonsMenu>
-          <Button label='Popular' icon='star-outline' />
+          <Link to={'/popular'}>
+            <Button label='Popular' icon='star-outline' />
+          </Link>
           <Button label='New' icon='sparkles-outline' />
           <Button label='Reviews' icon='person-outline' />
         </ButtonsMenu>

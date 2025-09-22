@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../components/common/Logo';
 import ButtonsMenu from '../components/common/ButtonsMenu';
 import Button from '../components/common/Button';
@@ -29,7 +29,9 @@ export default function LandingPage() {
           <div className='flex flex-col gap-3'>
             <SearchBar onChange={handleOnChange} onSubmit={handleOnSubmit} />
             <ButtonsMenu>
-              <Button label='Popular' icon='star-outline' />
+              <Link to={'/popular'}>
+                <Button label='Popular' icon='star-outline' />
+              </Link>
               <Button label='New' icon='sparkles-outline' />
               <Button label='Your Reviews' icon='person-outline' />
             </ButtonsMenu>
