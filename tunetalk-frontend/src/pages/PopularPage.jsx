@@ -1,10 +1,17 @@
 import { useEffect } from 'react';
-import { getAlbums } from '../api/albums';
-import useAlbum from '../hooks/useAlbum';
+import { fetchAlbums } from '../store/albumSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import AlbumCard from '../components/AlbumCard';
 
 export default function PopularPage() {
-  const { albums, setAlbums } = useAlbum();
+  const dispatch = useDispatch();
+  const { albums, status, error } = useSelector((state) => state.albums);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchAlbums());
+    }
+  }, [status, dispatch]);
 
   const sortedAlbums = [...albums].sort((a, b) => {
     const ratingDifference = b.rating - a.rating;
@@ -13,11 +20,8 @@ export default function PopularPage() {
     return b.reviews.length - a.reviews.length;
   });
 
-  useEffect(() => {
-    getAlbums()
-      .then((albums) => setAlbums(albums))
-      .catch((error) => console.log(error));
-  }, [setAlbums]);
+  if (status === 'loading') return <p>Loading ...</p>;
+  if (status === 'failed') return <p>Error: {error}</p>;
 
   return (
     <>

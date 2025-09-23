@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useAlbum from '../hooks/useAlbum';
-import useReviews from '../hooks/useReviews';
 import { dummyAlbums } from '../data/dummyAlbums';
 import Button from '../components/common/Button';
 import Reviews from '../components/Reviews';
@@ -10,13 +9,10 @@ import AlbumDetails from '../components/AlbumDetails';
 export default function AlbumPage() {
   const { album_id } = useParams();
   const { setSelectedAlbum } = useAlbum();
-  const { reviews } = useReviews();
 
   const navigate = useNavigate();
 
   const album = dummyAlbums.find((album) => album.id === +album_id);
-
-  const albumReviews = reviews.filter((r) => r.albumId === album?.id);
 
   useEffect(() => {
     setSelectedAlbum(album);
@@ -32,7 +28,7 @@ export default function AlbumPage() {
         <Button icon='chevron-back' onClick={() => navigate(-1)} />
       </div>
       <AlbumDetails albumId={album.id} />
-      <Reviews albumId={album.id} reviews={albumReviews} />
+      <Reviews albumId={album.id} reviews={album.reviews} />
     </>
   );
 }
