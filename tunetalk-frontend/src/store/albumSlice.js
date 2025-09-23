@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { dummyAlbums } from '../data/dummyAlbums';
+import { dummyAlbums } from '../data/dummyData';
 import { getAlbums } from '../api/albums';
 
 export const fetchAlbums = createAsyncThunk(
@@ -28,13 +28,13 @@ const albumsSlice = createSlice({
     setSelectedAlbum(state, action) {
       state.selectedAlbum = action.payload;
     },
-    changeRating(state, action) {
-      const { id, rating } = action.payload;
-      const album = state.albums.find((album) => album.id === id);
-      if (album) {
-        album.rating = rating;
-      }
-    },
+    // changeRating(state, action) {
+    //   const { id, rating } = action.payload;
+    //   const album = state.albums.find((album) => album.id === id);
+    //   if (album) {
+    //     album.rating = rating;
+    //   }
+    // },
     setAlbums(state, action) {
       state.albums = action.payload;
     },

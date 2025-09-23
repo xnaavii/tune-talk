@@ -1,4 +1,4 @@
-import { dummyAlbums } from '../data/dummyAlbums';
+import { dummyAlbums } from '../data/dummyData';
 
 export const getAlbums = () => {
   return new Promise((resolve, reject) => {

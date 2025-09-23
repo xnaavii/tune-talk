@@ -2,11 +2,11 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
 import { useSelector } from 'react-redux';
-import { selectAlbumById } from '../store/albumSlice';
+import { selectReviewsForAlbum } from '../store/reviewSlice';
 
 export default function Reviews({ albumId }) {
   const [reviewText, setReviewText] = useState('');
-  const { reviews } = useSelector((state) => selectAlbumById(state, albumId));
+  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
 
   function handleAddReview() {
     setReviewText('');

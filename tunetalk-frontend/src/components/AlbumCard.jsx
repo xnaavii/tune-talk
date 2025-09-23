@@ -3,8 +3,10 @@ import StarRating from './StarRating';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectAlbumById } from '../store/albumSlice';
+import { selectReviewsForAlbum } from '../store/reviewSlice';
 export default function AlbumCard({ albumId }) {
   const album = useSelector((state) => selectAlbumById(state, albumId));
+  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
 
   if (!album) {
     return <p>Not found</p>;
@@ -38,9 +40,9 @@ export default function AlbumCard({ albumId }) {
             <p className='text-lg font-semibold'>{album.title}</p>
             <p className='text-md'>{album.artist}</p>
             <p className='text-sm text-stone-400'>{album.year}</p>
-            {album.reviews ? (
+            {reviews ? (
               <span className='text-sm text-stone-300'>
-                {album.reviews.length} reviews
+                {reviews.length} reviews
               </span>
             ) : null}
           </figcaption>

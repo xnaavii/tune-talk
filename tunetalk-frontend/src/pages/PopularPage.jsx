@@ -6,6 +6,7 @@ import AlbumCard from '../components/AlbumCard';
 export default function PopularPage() {
   const dispatch = useDispatch();
   const { albums, status, error } = useSelector((state) => state.albums);
+  const reviews = useSelector((state) => state.reviews.reviews);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -17,7 +18,10 @@ export default function PopularPage() {
     const ratingDifference = b.rating - a.rating;
     if (ratingDifference !== 0) return ratingDifference;
 
-    return b.reviews.length - a.reviews.length;
+    const bReviewsCount = reviews.filter((r) => r.albumId === b.id).length;
+    const aReviewsCount = reviews.filter((r) => r.albumId === a.id).length;
+
+    return bReviewsCount - aReviewsCount;
   });
 
   if (status === 'loading') return <p>Loading ...</p>;
