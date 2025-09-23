@@ -1,15 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { dummyAlbums } from '../data/dummyData';
 
 export const fetchAlbums = createAsyncThunk('albums/fetchAlbums', async () => {
-  // Simulate API fetch
-  return dummyAlbums;
+  const res = await fetch('http://localhost:3000/albums');
+  if (!res.ok) {
+    throw new Error('Failed to fetch albums');
+  }
+  return await res.json();
 });
 
 const albumSlice = createSlice({
   name: 'albums',
   initialState: {
-    albums: dummyAlbums,
+    albums: [],
     status: 'idle',
     error: null,
     selectedAlbum: null,
