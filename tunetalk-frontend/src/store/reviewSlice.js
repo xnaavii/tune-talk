@@ -33,9 +33,22 @@ const reviewSlice = createSlice({
 
 export default reviewSlice.reducer;
 
+// Select all reviews from the store
 const selectAllReviews = (state) => state.reviews.reviews;
 
-export const selectReviewsForAlbum = createSelector(
-  [selectAllReviews, (_, albumId) => albumId],
-  (reviews, albumId) => reviews.filter((review) => review.albumId === albumId)
+// Get reviews for a specific album by its reviewIds
+export const selectReviewsByIds = createSelector(
+  [selectAllReviews, (_, reviewIds) => reviewIds || []],
+  (reviews, reviewIds) =>
+    reviewIds.map((id) => reviews.find((r) => r.id === id))
+);
+
+// Calculate the average rating for a specific album
+export const selectAverageRatingForAlbum = createSelector(
+  [selectReviewsByIds],
+  (albumReviews) => {
+    if (!albumReviews.length) return 0; // no reviews, rating is 0
+    const total = albumReviews.reduce((sum, r) => sum + r.rating, 0);
+    return total / albumReviews.length;
+  }
 );

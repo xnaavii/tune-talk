@@ -3,10 +3,18 @@ import StarRating from './StarRating';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectAlbumById } from '../store/albumSlice';
-import { selectReviewsForAlbum } from '../store/reviewSlice';
+import {
+  selectReviewsByIds,
+  selectAverageRatingForAlbum,
+} from '../store/reviewSlice';
 export default function AlbumCard({ albumId }) {
   const album = useSelector((state) => selectAlbumById(state, albumId));
-  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
+  const averageRating = useSelector((state) =>
+    selectAverageRatingForAlbum(state, album?.reviewIds || [])
+  );
+  const reviews = useSelector((state) =>
+    selectReviewsByIds(state, album?.reviewIds)
+  );
 
   if (!album) {
     return <p>Not found</p>;

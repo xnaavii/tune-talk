@@ -2,11 +2,13 @@ import StarRating from '../components/StarRating';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectAlbumById } from '../store/albumSlice';
-import { selectReviewsForAlbum } from '../store/reviewSlice';
+import { selectReviewsByIds } from '../store/reviewSlice';
 
 export default function AlbumDetails({ albumId }) {
   const album = useSelector((state) => selectAlbumById(state, albumId));
-  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
+  const reviews = useSelector((state) =>
+    selectReviewsByIds(state, album?.reviewIds)
+  );
 
   return (
     <figure className='grid grid-cols-1 sm:grid-cols-[2fr_2fr] md:grid-cols-[1fr_3fr] gap-4 p-4 w-full shrink-0'>

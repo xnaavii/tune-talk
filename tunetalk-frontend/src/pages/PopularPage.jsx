@@ -15,13 +15,22 @@ export default function PopularPage() {
   }, [status, dispatch]);
 
   const sortedAlbums = [...albums].sort((a, b) => {
-    const ratingDifference = b.rating - a.rating;
-    if (ratingDifference !== 0) return ratingDifference;
+    // Compute average ratings
+    const avgRatingA =
+      reviews
+        .filter((r) => r.albumId === a.id)
+        .reduce((sum, r) => sum + r.rating, 0) / (a.reviewIds.length || 1);
 
-    const bReviewsCount = reviews.filter((r) => r.albumId === b.id).length;
-    const aReviewsCount = reviews.filter((r) => r.albumId === a.id).length;
+    const avgRatingB =
+      reviews
+        .filter((r) => r.albumId === b.id)
+        .reduce((sum, r) => sum + r.rating, 0) / (b.reviewIds.length || 1);
 
-    return bReviewsCount - aReviewsCount;
+    // Sort by average rating descending
+    if (avgRatingB !== avgRatingA) return avgRatingB - avgRatingA;
+
+    // If ratings equal, sort by number of reviews
+    return b.reviewIds.length - a.reviewIds.length;
   });
 
   if (status === 'loading') return <p>Loading ...</p>;

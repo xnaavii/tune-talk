@@ -2,11 +2,16 @@ import { useState } from 'react';
 import Star from './Star';
 import PropTypes from 'prop-types';
 import { selectAlbumById } from '../store/albumSlice';
+import { selectAverageRatingForAlbum } from '../store/reviewSlice';
 import { useSelector } from 'react-redux';
 
 export default function StarRating({ count = 5, albumId }) {
-  const { rating } = useSelector((state) => selectAlbumById(state, albumId));
-  const [currentRating, setCurrentRating] = useState(rating || null);
+  const album = useSelector((state) => selectAlbumById(state, albumId));
+  const averageRating = useSelector((state) =>
+    selectAverageRatingForAlbum(state, album?.reviewIds || [])
+  );
+
+  const [currentRating, setCurrentRating] = useState(averageRating);
   const [hoveredStar, setHoveredStar] = useState(null);
 
   function handleOnClickStar(rating) {
@@ -36,6 +41,7 @@ export default function StarRating({ count = 5, albumId }) {
           />
         );
       })}
+      <span className='text-sm text-stone-300'>{averageRating.toFixed(1)}</span>
     </div>
   );
 }
