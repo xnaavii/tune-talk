@@ -3,18 +3,10 @@ import StarRating from './StarRating';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectAlbumById } from '../store/albumSlice';
-import {
-  selectReviewsByIds,
-  selectAverageRatingForAlbum,
-} from '../store/reviewSlice';
+import { selectReviewsForAlbum } from '../store/reviewSlice';
 export default function AlbumCard({ albumId }) {
   const album = useSelector((state) => selectAlbumById(state, albumId));
-  const averageRating = useSelector((state) =>
-    selectAverageRatingForAlbum(state, album?.reviewIds || [])
-  );
-  const reviews = useSelector((state) =>
-    selectReviewsByIds(state, album?.reviewIds)
-  );
+  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
 
   if (!album) {
     return <p>Not found</p>;
@@ -50,7 +42,8 @@ export default function AlbumCard({ albumId }) {
             <p className='text-sm text-stone-400'>{album.year}</p>
             {reviews ? (
               <span className='text-sm text-stone-300'>
-                {reviews.length} reviews
+                {reviews.filter((review) => review.comment !== '').length}{' '}
+                reviews
               </span>
             ) : null}
           </figcaption>

@@ -1,10 +1,10 @@
+// dummyAlbums.js
 export const dummyAlbums = [
   {
     id: 1,
     title: 'Greedy',
     artist: 'Tate Mcrae',
     year: '2023',
-    reviewIds: [1, 2, 3],
     image:
       'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/23/07/92/23079247-25be-3098-ef53-78e7d0fe7406/196871341653.jpg/1200x1200bf-60.jpg',
   },
@@ -13,7 +13,6 @@ export const dummyAlbums = [
     title: 'Think Later',
     artist: 'Tate Mcrae',
     year: '2023',
-    reviewIds: [4, 5],
     image:
       'https://upload.wikimedia.org/wikipedia/en/1/16/Tate_McRae_-_Think_Later.png',
   },
@@ -22,7 +21,6 @@ export const dummyAlbums = [
     title: 'SOS',
     artist: 'SZA',
     year: '2022',
-    reviewIds: [6, 7, 8],
     image:
       'https://ratedrnb.com/cdn/2022/12/sza-sos-album-cover-ratedrnb-scaled.jpg',
   },
@@ -31,7 +29,6 @@ export const dummyAlbums = [
     title: 'CTRL',
     artist: 'SZA',
     year: '2017',
-    reviewIds: [9, 10],
     image:
       'https://s3.amazonaws.com/truthstudios.com/wp-content/uploads/2017/06/14222958/sza-ctrl-album-art.jpg',
   },
@@ -59,7 +56,6 @@ export const dummyReviews = [
     comment: 'My favorite track',
     rating: 5,
   },
-
   {
     id: 4,
     albumId: 2,
@@ -74,7 +70,6 @@ export const dummyReviews = [
     comment: 'Grew on me after a few listens.',
     rating: 3,
   },
-
   {
     id: 6,
     albumId: 3,
@@ -96,7 +91,6 @@ export const dummyReviews = [
     comment: 'Some tracks feel repetitive, but overall solid.',
     rating: 4,
   },
-
   {
     id: 9,
     albumId: 4,

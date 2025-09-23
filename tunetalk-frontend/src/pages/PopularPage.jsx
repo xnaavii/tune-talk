@@ -15,22 +15,25 @@ export default function PopularPage() {
   }, [status, dispatch]);
 
   const sortedAlbums = [...albums].sort((a, b) => {
-    // Compute average ratings
+    // Filter actual reviews for each album
+    const reviewsA = reviews.filter((r) => r.albumId === a.id);
+    const reviewsB = reviews.filter((r) => r.albumId === b.id);
+
     const avgRatingA =
-      reviews
-        .filter((r) => r.albumId === a.id)
-        .reduce((sum, r) => sum + r.rating, 0) / (a.reviewIds.length || 1);
+      reviewsA.length > 0
+        ? reviewsA.reduce((sum, r) => sum + r.rating, 0) / reviewsA.length
+        : 0;
 
     const avgRatingB =
-      reviews
-        .filter((r) => r.albumId === b.id)
-        .reduce((sum, r) => sum + r.rating, 0) / (b.reviewIds.length || 1);
+      reviewsB.length > 0
+        ? reviewsB.reduce((sum, r) => sum + r.rating, 0) / reviewsB.length
+        : 0;
 
     // Sort by average rating descending
     if (avgRatingB !== avgRatingA) return avgRatingB - avgRatingA;
 
     // If ratings equal, sort by number of reviews
-    return b.reviewIds.length - a.reviewIds.length;
+    return reviewsB.length - reviewsA.length;
   });
 
   if (status === 'loading') return <p>Loading ...</p>;
@@ -39,18 +42,18 @@ export default function PopularPage() {
   return (
     <>
       <h2 className='text-3xl p-4 font-semibold'>Popular Music</h2>
-      {sortedAlbums?.length > 0 ? (
+      {sortedAlbums.length > 0 && (
         <div className='flex flex-col gap-2 items-center p-4'>
           {sortedAlbums.map((album, index) => (
             <div key={album.id} className='w-full flex flex-col gap-1 py-2'>
-              <span className='text-xl text-stone-100'>{`${index + 1}. ${
-                album.title
-              }`}</span>
+              <span className='text-xl text-stone-100'>
+                {`${index + 1}. ${album.title}`}
+              </span>
               <AlbumCard albumId={album.id} />
             </div>
           ))}
         </div>
-      ) : null}
+      )}
     </>
   );
 }

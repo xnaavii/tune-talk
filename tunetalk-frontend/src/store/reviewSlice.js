@@ -11,43 +11,51 @@ const reviewSlice = createSlice({
   name: 'reviews',
   initialState,
   reducers: {
-    addReview(state, action) {
-      const { albumId, user = 'defaultUser', comment, rating } = action.payload;
-      const exists = state.reviews.some(
-        (review) => review.albumId === albumId && review.user === user
+    addOrUpdateReview(state, action) {
+      const {
+        albumId,
+        user = 'defaultUser',
+        comment = '',
+        rating = 0,
+      } = action.payload;
+
+      const existingReview = state.reviews.find(
+        (r) => r.albumId === albumId && r.user === user
       );
 
-      if (!exists) {
-        const newReview = {
+      if (existingReview) {
+        existingReview.comment = comment;
+        existingReview.rating = rating;
+      } else {
+        state.reviews.push({
           id: nanoid(),
           albumId,
           user,
           comment,
           rating,
-        };
-        state.reviews.push(newReview);
+        });
       }
     },
   },
 });
 
 export default reviewSlice.reducer;
+export const { addOrUpdateReview } = reviewSlice.actions;
 
-// Select all reviews from the store
-const selectAllReviews = (state) => state.reviews.reviews;
+// --- Selectors ---
+export const selectAllReviews = (state) => state.reviews.reviews;
 
-// Get reviews for a specific album by its reviewIds
-export const selectReviewsByIds = createSelector(
-  [selectAllReviews, (_, reviewIds) => reviewIds || []],
-  (reviews, reviewIds) =>
-    reviewIds.map((id) => reviews.find((r) => r.id === id))
+// Reviews for a specific album
+export const selectReviewsForAlbum = createSelector(
+  [selectAllReviews, (_, albumId) => albumId],
+  (reviews, albumId) => reviews.filter((r) => r.albumId === albumId)
 );
 
-// Calculate the average rating for a specific album
+// Average rating for a specific album
 export const selectAverageRatingForAlbum = createSelector(
-  [selectReviewsByIds],
+  [selectReviewsForAlbum],
   (albumReviews) => {
-    if (!albumReviews.length) return 0; // no reviews, rating is 0
+    if (!albumReviews.length) return 0;
     const total = albumReviews.reduce((sum, r) => sum + r.rating, 0);
     return total / albumReviews.length;
   }

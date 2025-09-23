@@ -1,18 +1,30 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
-import { useSelector } from 'react-redux';
-import { selectAlbumById } from '../store/albumSlice';
-import { selectReviewsByIds } from '../store/reviewSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectReviewsForAlbum, addOrUpdateReview } from '../store/reviewSlice';
 
 export default function Reviews({ albumId }) {
+  const dispatch = useDispatch();
   const [reviewText, setReviewText] = useState('');
-  const album = useSelector((state) => selectAlbumById(state, albumId));
-  const reviews = useSelector((state) =>
-    selectReviewsByIds(state, album?.reviewIds)
-  );
+  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
+
+  const existingReview = reviews.find((r) => r.user === 'defaultUser');
+  const currentRating = existingReview?.rating || 0;
 
   function handleAddReview() {
+    if (!reviewText.trim()) return; // don't add empty reviews
+
+    // Dispatch the action to add or update the review
+    dispatch(
+      addOrUpdateReview({
+        albumId,
+        user: 'defaultUser', // you can replace with actual user
+        comment: reviewText,
+        rating: currentRating, // or allow user to set rating separately
+      })
+    );
+
     setReviewText('');
   }
 
@@ -31,13 +43,17 @@ export default function Reviews({ albumId }) {
         />
         <div className='flex flex-col gap-2'>
           {reviews.length > 0 ? (
-            reviews.map((review) => (
-              <div key={review.id} className='bg-[#C2E1FA]/10 rounded-lg p-2'>
-                <p className='whitespace-pre-line text-stone-100'>
-                  {review.comment}
-                </p>
-              </div>
-            ))
+            reviews
+              .filter(
+                (review) => review.comment && review.comment.trim() !== ''
+              )
+              .map((review) => (
+                <div key={review.id} className='bg-[#C2E1FA]/10 rounded-lg p-2'>
+                  <p className='whitespace-pre-line text-stone-100'>
+                    {review.comment}
+                  </p>
+                </div>
+              ))
           ) : (
             <p className='text-stone-400 italic'>No reviews yet.</p>
           )}
