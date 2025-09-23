@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedAlbum } from '../store/albumSlice';
+import { selectAlbumById, setSelectedAlbum } from '../store/albumSlice';
 import Button from '../components/common/Button';
 import Reviews from '../components/Reviews';
 import AlbumDetails from '../components/AlbumDetails';
@@ -11,8 +11,7 @@ export default function AlbumPage() {
   const { album_id } = useParams();
   const navigate = useNavigate();
 
-  const albums = useSelector((state) => state.albums.albums);
-  const album = albums.find((album) => album.id === +album_id);
+  const album = useSelector((state) => selectAlbumById(state, +album_id));
 
   useEffect(() => {
     dispatch(setSelectedAlbum(album || null));
