@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import Star from './Star';
 import PropTypes from 'prop-types';
-import useAlbum from '../hooks/useAlbum';
+import { selectAlbumById } from '../store/albumSlice';
+import { useSelector } from 'react-redux';
 
 export default function StarRating({ count = 5, albumId }) {
-  const { getAlbum, changeRating } = useAlbum();
-  const { rating } = getAlbum(albumId);
-
+  const { rating } = useSelector((state) => selectAlbumById(state, albumId));
   const [currentRating, setCurrentRating] = useState(rating || null);
   const [hoveredStar, setHoveredStar] = useState(null);
 
   function handleOnClickStar(rating) {
     setCurrentRating(rating);
-    changeRating(albumId, rating);
+    // TODO: Add function to change rating
   }
 
   function handleOnHoverStar(index) {
@@ -44,5 +43,5 @@ export default function StarRating({ count = 5, albumId }) {
 StarRating.propTypes = {
   count: PropTypes.number,
   rating: PropTypes.number,
-  albumId: PropTypes.string.isRequired,
+  albumId: PropTypes.number.isRequired,
 };

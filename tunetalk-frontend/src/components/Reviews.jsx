@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import useAlbum from '../hooks/useAlbum';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
+import { useSelector } from 'react-redux';
+import { selectAlbumById } from '../store/albumSlice';
 
 export default function Reviews({ albumId }) {
   const [reviewText, setReviewText] = useState('');
-  const { getAlbum } = useAlbum();
-  const { reviews } = getAlbum(albumId);
+  const { reviews } = useSelector((state) => selectAlbumById(state, albumId));
 
   function handleAddReview() {
     setReviewText('');
@@ -44,5 +44,5 @@ export default function Reviews({ albumId }) {
 }
 
 Reviews.propTypes = {
-  albumId: PropTypes.string.isRequired,
+  albumId: PropTypes.number.isRequired,
 };

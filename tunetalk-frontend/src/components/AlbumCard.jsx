@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import StarRating from './StarRating';
 import PropTypes from 'prop-types';
-import useAlbum from '../hooks/useAlbum';
+import { useSelector } from 'react-redux';
+import { selectAlbumById } from '../store/albumSlice';
 export default function AlbumCard({ albumId }) {
-  const { getAlbum } = useAlbum();
-
-  const album = getAlbum(albumId);
+  const album = useSelector((state) => selectAlbumById(state, albumId));
 
   if (!album) {
     return <p>Not found</p>;
@@ -39,7 +38,11 @@ export default function AlbumCard({ albumId }) {
             <p className='text-lg font-semibold'>{album.title}</p>
             <p className='text-md'>{album.artist}</p>
             <p className='text-sm text-stone-400'>{album.year}</p>
-            {album.reviews ? <span className='text-sm text-stone-300'>{album.reviews.length} reviews</span> : null}
+            {album.reviews ? (
+              <span className='text-sm text-stone-300'>
+                {album.reviews.length} reviews
+              </span>
+            ) : null}
           </figcaption>
 
           <StarRating albumId={album.id} />
@@ -50,5 +53,5 @@ export default function AlbumCard({ albumId }) {
 }
 
 AlbumCard.propTypes = {
-  album: PropTypes.string.isRequired,
+  album: PropTypes.number.isRequired,
 };

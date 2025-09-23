@@ -1,11 +1,10 @@
 import StarRating from '../components/StarRating';
-import useAlbum from '../hooks/useAlbum';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectAlbumById } from '../store/albumSlice';
 
 export default function AlbumDetails({ albumId }) {
-  const { getAlbum } = useAlbum();
-
-  const album = getAlbum(albumId);
+  const album = useSelector((state) => selectAlbumById(state, albumId));
 
   return (
     <figure className='grid grid-cols-1 sm:grid-cols-[2fr_2fr] md:grid-cols-[1fr_3fr] gap-4 p-4 w-full shrink-0'>
@@ -36,5 +35,5 @@ export default function AlbumDetails({ albumId }) {
 }
 
 AlbumDetails.propTypes = {
-  albumId: PropTypes.string.isRequired,
+  albumId: PropTypes.number.isRequired,
 };

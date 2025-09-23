@@ -51,7 +51,7 @@ const albumsSlice = createSlice({
       })
       .addCase(fetchAlbums.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.paylod || 'Failed to fetch albums';
+        state.error = action.payload || 'Failed to fetch albums';
       });
   },
 });
@@ -60,3 +60,6 @@ export const { setSelectedAlbum, changeRating, setAlbums } =
   albumsSlice.actions;
 
 export default albumsSlice.reducer;
+
+export const selectAlbumById = (state, albumId) =>
+  state.albums.albums.find((album) => album.id === albumId);
