@@ -1,23 +1,23 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import useAlbum from '../hooks/useAlbum';
-import { dummyAlbums } from '../data/dummyAlbums';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedAlbum } from '../store/albumSlice';
 import Button from '../components/common/Button';
 import Reviews from '../components/Reviews';
 import AlbumDetails from '../components/AlbumDetails';
 
 export default function AlbumPage() {
+  const dispatch = useDispatch();
   const { album_id } = useParams();
-  const { setSelectedAlbum } = useAlbum();
-
   const navigate = useNavigate();
 
-  const album = dummyAlbums.find((album) => album.id === +album_id);
+  const albums = useSelector((state) => state.albums.albums);
+  const album = albums.find((album) => album.id === +album_id);
 
   useEffect(() => {
-    setSelectedAlbum(album);
-    return () => setSelectedAlbum(null);
-  }, [album, setSelectedAlbum]);
+    dispatch(setSelectedAlbum(album || null));
+    return () => dispatch(setSelectedAlbum(null));
+  }, [dispatch, album]);
 
   if (!album)
     return <p className='text-center text-stone-300 mt-8'>Album not found</p>;
@@ -28,7 +28,7 @@ export default function AlbumPage() {
         <Button icon='chevron-back' onClick={() => navigate(-1)} />
       </div>
       <AlbumDetails albumId={album.id} />
-      <Reviews albumId={album.id} reviews={album.reviews} />
+      <Reviews albumId={album.id} />
     </>
   );
 }

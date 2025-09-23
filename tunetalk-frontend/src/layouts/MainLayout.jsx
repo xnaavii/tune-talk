@@ -1,10 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import useAlbum from '../hooks/useAlbum';
+import { useSelector } from 'react-redux';
 import Navbar from '../components/common/Navbar';
 import defaultBackground from '../assets/record-blue.jpg';
 
 export default function MainLayout() {
-  const { selectedAlbum } = useAlbum();
+  const { selectedAlbum } = useSelector((state) => state.albums);
 
   let bgImg = defaultBackground;
 
