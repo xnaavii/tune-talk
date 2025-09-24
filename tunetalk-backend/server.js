@@ -10,23 +10,7 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://tune-talk-7zc20o0lw-xnaaviis-projects.vercel.app',
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-  })
-);
-
+app.use(cors());
 app.use(express.json());
 
 const dataFile = path.resolve('./db.json');
