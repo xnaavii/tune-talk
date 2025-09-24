@@ -5,7 +5,9 @@ import {
   selectAverageRatingForAlbum,
   selectReviewsForAlbum,
   addOrUpdateReview,
+  fetchReviewsThunk,
 } from '../store/reviewSlice';
+import { postReview } from '../api/albums';
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function StarRating({ count = 5, albumId }) {
@@ -28,17 +30,24 @@ export default function StarRating({ count = 5, albumId }) {
     setCurrentRating(userRating);
   }, [userRating]);
 
-  function handleOnClickStar(rating) {
+  async function handleOnClickStar(rating) {
     setCurrentRating(rating);
 
-    dispatch(
-      addOrUpdateReview({
-        albumId,
-        user: 'defaultUser',
-        comment: existingReview?.comment || '',
-        rating,
-      })
-    );
+    const reviewObj = {
+      albumId,
+      user: 'defaultUser',
+      comment: existingReview?.comment || '',
+      rating,
+    };
+
+    dispatch(addOrUpdateReview(reviewObj));
+
+    try {
+      await postReview(albumId, reviewObj);
+      dispatch(fetchReviewsThunk());
+    } catch (error) {
+      console.error('Failed to save rating', error);
+    }
   }
 
   function handleOnHoverStar(index) {
@@ -74,9 +83,7 @@ export default function StarRating({ count = 5, albumId }) {
           You rated {userRating} star{userRating > 1 ? 's' : ''}
         </span>
       ) : (
-        <span className='text-xs text-stone-400'>
-          You didn't rate this.
-        </span>
+        <span className='text-xs text-stone-400'>You didn't rate this.</span>
       )}
     </div>
   );

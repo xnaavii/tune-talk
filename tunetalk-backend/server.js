@@ -28,7 +28,7 @@ app.get('/albums', (req, res) => {
 
 app.get('/albums/:id', (req, res) => {
   const data = readData();
-  const album = data.albums.find((a) => a.id === req.params.id);
+  const album = data.albums.find((a) => a.id === parseInt(req.params.id, 10));
   if (!album) return res.status(404).json({ error: 'Album not found' });
   res.json(album);
 });
@@ -40,7 +40,7 @@ app.get('/albums/:id/reviews', (req, res) => {
   res.json(reviews);
 });
 
-app.post('albums/:id/reviews', (req, res) => {
+app.post('/albums/:id/reviews', (req, res) => {
   const data = readData();
   const albumId = parseInt(req.params.id, 10);
   const { user = 'defaultUser', comment = '', rating = 0 } = req.body;
@@ -61,6 +61,10 @@ app.post('albums/:id/reviews', (req, res) => {
   res.json(review);
 });
 
+app.get('/reviews', (req, res) => {
+  const data = readData();
+  res.json(data.reviews);
+});
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });

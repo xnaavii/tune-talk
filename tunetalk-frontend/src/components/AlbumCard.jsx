@@ -1,25 +1,14 @@
 import { Link } from 'react-router-dom';
 import StarRating from './StarRating';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectAlbumById, fetchAlbumsThunk } from '../store/albumSlice';
+import { useSelector } from 'react-redux';
+import { selectAlbumById } from '../store/albumSlice';
 import { selectReviewsForAlbum } from '../store/reviewSlice';
-import { useEffect } from 'react';
 
 export default function AlbumCard({ albumId }) {
-  const dispatch = useDispatch();
-
   // Get album and reviews from the store
   const album = useSelector((state) => selectAlbumById(state, albumId));
   const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
-  const albumsStatus = useSelector((state) => state.albums.status);
-
-  // Fetch albums if not already loaded
-  useEffect(() => {
-    if (albumsStatus === 'idle') {
-      dispatch(fetchAlbumsThunk());
-    }
-  }, [albumsStatus, dispatch]);
 
   if (!album) {
     return <p>Loading album...</p>; // show temporary loading while fetching

@@ -1,29 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectReviewsForAlbum, addOrUpdateReview } from '../store/reviewSlice';
+import {
+  selectReviewsForAlbum,
+  addOrUpdateReview,
+  fetchReviewsThunk,
+} from '../store/reviewSlice';
+import { postReview } from '../api/albums';
 
 export default function Reviews({ albumId }) {
   const dispatch = useDispatch();
   const [reviewText, setReviewText] = useState('');
+
+  useEffect(() => {
+    dispatch(fetchReviewsThunk());
+  }, [dispatch]);
+
   const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
 
   const existingReview = reviews.find((r) => r.user === 'defaultUser');
   const currentRating = existingReview?.rating || 0;
 
-  function handleAddReview() {
+  async function handleAddReview() {
     if (!reviewText.trim()) return; // don't add empty reviews
 
-    // Dispatch the action to add or update the review
-    dispatch(
-      addOrUpdateReview({
-        albumId,
-        user: 'defaultUser', // you can replace with actual user
-        comment: reviewText,
-        rating: currentRating, // or allow user to set rating separately
-      })
-    );
+    const reviewObj = {
+      albumId,
+      user: 'defaultUser',
+      comment: reviewText,
+      rating: currentRating,
+    };
+
+    dispatch(addOrUpdateReview(reviewObj));
+
+    try {
+      await postReview(albumId, reviewObj);
+      dispatch(fetchReviewsThunk());
+    } catch (error) {
+      console.error('Failed to save rating', error);
+    }
 
     setReviewText('');
   }

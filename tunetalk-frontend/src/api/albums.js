@@ -56,7 +56,7 @@ export async function fetchAlbumById(id) {
   return res.json();
 }
 
-export async function fetchReviews(albumId) {
+export async function fetchReviewsById(albumId) {
   const res = await fetch(`http://localhost:3000/albums/${albumId}/reviews`);
   if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
@@ -69,5 +69,11 @@ export async function postReview(albumId, review) {
     body: JSON.stringify(review),
   });
   if (!res.ok) throw new Error('Failed to post review');
+  return res.json();
+}
+
+export async function fetchReviews() {
+  const res = await fetch(`http://localhost:3000/reviews/`);
+  if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 }

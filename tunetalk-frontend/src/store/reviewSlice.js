@@ -1,8 +1,20 @@
-import { createSlice, createSelector, nanoid } from '@reduxjs/toolkit';
-import { dummyReviews } from '../data/dummyData';
+import {
+  createSlice,
+  createSelector,
+  createAsyncThunk,
+  nanoid,
+} from '@reduxjs/toolkit';
+import { fetchReviews } from '../api/albums';
+
+export const fetchReviewsThunk = createAsyncThunk(
+  'reviews/fetchReviews',
+  async () => {
+    return await fetchReviews();
+  }
+);
 
 const initialState = {
-  reviews: dummyReviews,
+  reviews: [],
   status: 'idle',
   error: null,
 };
@@ -36,6 +48,20 @@ const reviewSlice = createSlice({
         });
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchReviewsThunk.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchReviewsThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.reviews = action.payload;
+      })
+      .addCase(fetchReviewsThunk.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      });
   },
 });
 
