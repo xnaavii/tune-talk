@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { fetchAlbums } from '../store/albumSlice';
+import { fetchAlbumsThunk } from '../store/albumSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import AlbumCard from '../components/AlbumCard';
 
@@ -10,7 +10,7 @@ export default function PopularPage() {
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchAlbums());
+      dispatch(fetchAlbumsThunk());
     }
   }, [status, dispatch]);
 

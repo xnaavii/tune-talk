@@ -43,3 +43,31 @@ export async function searchAlbums(query) {
       album.artist.toLowerCase().includes(query)
   );
 }
+
+export async function fetchAlbums() {
+  const res = await fetch('http://localhost:3000/albums');
+  if (!res.ok) throw new Error('Failed to fetch albums');
+  return res.json();
+}
+
+export async function fetchAlbumById(id) {
+  const res = await fetch(`http://localhost:3000/albums/${id}`);
+  if (!res.ok) throw new Error('Failed to fetch album');
+  return res.json();
+}
+
+export async function fetchReviews(albumId) {
+  const res = await fetch(`http://localhost:3000/albums/${albumId}/reviews`);
+  if (!res.ok) throw new Error('Failed to fetch reviews');
+  return res.json();
+}
+
+export async function postReview(albumId, review) {
+  const res = await fetch(`http://localhost:3000/albums/${albumId}/reviews`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(review),
+  });
+  if (!res.ok) throw new Error('Failed to post review');
+  return res.json();
+}

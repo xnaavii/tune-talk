@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import StarRating from './StarRating';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAlbumById, fetchAlbums } from '../store/albumSlice';
+import { selectAlbumById, fetchAlbumsThunk } from '../store/albumSlice';
 import { selectReviewsForAlbum } from '../store/reviewSlice';
 import { useEffect } from 'react';
 
@@ -17,7 +17,7 @@ export default function AlbumCard({ albumId }) {
   // Fetch albums if not already loaded
   useEffect(() => {
     if (albumsStatus === 'idle') {
-      dispatch(fetchAlbums());
+      dispatch(fetchAlbumsThunk());
     }
   }, [albumsStatus, dispatch]);
 

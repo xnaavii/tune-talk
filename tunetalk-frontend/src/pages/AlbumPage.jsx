@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  fetchAlbums,
+  fetchAlbumsThunk,
   selectAlbumById,
   setSelectedAlbum,
 } from '../store/albumSlice';
@@ -20,7 +20,7 @@ export default function AlbumPage() {
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchAlbums());
+      dispatch(fetchAlbumsThunk());
     }
   }, [status, dispatch]);
 

@@ -1,6 +1,7 @@
 import express from 'express';
-import fs, { read } from 'fs';
+import fs from 'fs';
 import path from 'path';
+import { nanoid } from 'nanoid';
 import cors from 'cors';
 
 const PORT = 3000;
@@ -29,6 +30,7 @@ app.get('/albums/:id', (req, res) => {
   const data = readData();
   const album = data.albums.find((a) => a.id === req.params.id);
   if (!album) return res.status(404).json({ error: 'Album not found' });
+  res.json(album);
 });
 
 app.get('/albums/:id/reviews', (req, res) => {
@@ -36,6 +38,27 @@ app.get('/albums/:id/reviews', (req, res) => {
   const albumId = parseInt(req.params.id);
   const reviews = data.reviews.filter((r) => r.albumId === albumId);
   res.json(reviews);
+});
+
+app.post('albums/:id/reviews', (req, res) => {
+  const data = readData();
+  const albumId = parseInt(req.params.id, 10);
+  const { user = 'defaultUser', comment = '', rating = 0 } = req.body;
+
+  let review = data.reviews.find(
+    (r) => r.albumId === albumId && r.user === user
+  );
+
+  if (review) {
+    review.comment = comment;
+    review.rating = rating;
+  } else {
+    review = { id: nanoid(), albumId, user, comment, rating };
+    data.reviews.push(review);
+  }
+
+  writeData(data);
+  res.json(review);
 });
 
 app.listen(PORT, () => {

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchAlbums } from '../api/albums';
 
-export const fetchAlbums = createAsyncThunk('albums/fetchAlbums', async () => {
-  const res = await fetch('http://localhost:3000/albums');
-  if (!res.ok) {
-    throw new Error('Failed to fetch albums');
+export const fetchAlbumsThunk = createAsyncThunk(
+  'albums/fetchAlbums',
+  async () => {
+    return await fetchAlbums(); // return the result
   }
-  return await res.json();
-});
+);
 
 const albumSlice = createSlice({
   name: 'albums',
@@ -23,14 +23,14 @@ const albumSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAlbums.pending, (state) => {
+      .addCase(fetchAlbumsThunk.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchAlbums.fulfilled, (state, action) => {
+      .addCase(fetchAlbumsThunk.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.albums = action.payload;
       })
-      .addCase(fetchAlbums.rejected, (state, action) => {
+      .addCase(fetchAlbumsThunk.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       });
