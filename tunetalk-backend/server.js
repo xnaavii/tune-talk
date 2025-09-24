@@ -3,8 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import { nanoid } from 'nanoid';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
-const PORT = 3000;
+dotenv.config();
+
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors());
