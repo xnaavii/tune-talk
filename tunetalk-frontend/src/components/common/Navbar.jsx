@@ -60,7 +60,9 @@ export default function Navbar() {
             <Button label='Popular' icon='star-outline' />
           </Link>
           <Button label='New' icon='sparkles-outline' />
-          <Button label='Reviews' icon='person-outline' />
+          <Link to={'/reviews'}>
+            <Button label='Reviews' icon='person-outline' />
+          </Link>
         </ButtonsMenu>
       </div>
     </nav>

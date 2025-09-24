@@ -87,7 +87,7 @@ export default function StarRating({ count = 5, albumId }) {
       </div>
 
       {userRating > 0 ? (
-        <span className='text-xs text-stone-400'>
+        <span className='text-xs text-stone-300'>
           You rated {userRating} star{userRating > 1 ? 's' : ''}
           <button
             className='ml-2 text-red-400 hover:underline'
