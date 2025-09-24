@@ -59,7 +59,9 @@ export default function Navbar() {
           <Link to={'/popular'}>
             <Button label='Popular' icon='star-outline' />
           </Link>
-          <Button label='New' icon='sparkles-outline' />
+          <Link to={'/new'}>
+            <Button label='New' icon='sparkles-outline' />
+          </Link>
           <Link to={'/reviews'}>
             <Button label='Reviews' icon='person-outline' />
           </Link>

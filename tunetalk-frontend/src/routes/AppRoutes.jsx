@@ -5,6 +5,7 @@ import SearchPage from '../pages/SearchPage';
 import AlbumPage from '../pages/AlbumPage';
 import PopularPage from '../pages/PopularPage';
 import ReviewsPage from '../pages/MyReviewsPage';
+import NewAlbumsPage from '../pages/NewAlbumsPage';
 
 export default function AppRoutes() {
   return (
@@ -16,6 +17,7 @@ export default function AppRoutes() {
         <Route path='/search/:album_id' element={<AlbumPage />} />
         <Route path='/popular' element={<PopularPage />} />
         <Route path='/reviews' element={<ReviewsPage />} />
+        <Route path='/new' element={<NewAlbumsPage />} />
       </Route>
     </Routes>
   );

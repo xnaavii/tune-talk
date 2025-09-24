@@ -43,3 +43,5 @@ export default albumSlice.reducer;
 // Selector to get album by ID
 export const selectAlbumById = (state, albumId) =>
   state.albums.albums.find((a) => a.id === albumId);
+
+export const selectAllAlbums = (state) => state.albums.albums;
