@@ -4,12 +4,20 @@ import {
   createAsyncThunk,
   nanoid,
 } from '@reduxjs/toolkit';
-import { fetchReviews } from '../api/albums';
+import { fetchReviews, deleteReview } from '../api/albums';
 
 export const fetchReviewsThunk = createAsyncThunk(
   'reviews/fetchReviews',
   async () => {
     return await fetchReviews();
+  }
+);
+
+export const deleteReviewThunk = createAsyncThunk(
+  'reviews/deleteReview',
+  async (reviewId) => {
+    await deleteReview(reviewId);
+    return reviewId;
   }
 );
 
@@ -61,6 +69,9 @@ const reviewSlice = createSlice({
       .addCase(fetchReviewsThunk.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(deleteReviewThunk.fulfilled, (state, action) => {
+        state.reviews = state.reviews.filter((r) => r.id !== action.payload);
       });
   },
 });

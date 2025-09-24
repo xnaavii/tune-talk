@@ -6,7 +6,7 @@ export default function ReviewInput({ value, onChange, onAddReview }) {
       <textarea
         name='review'
         id='review'
-        placeholder='Write a review'
+        placeholder='Write a review (optional)'
         maxLength={250}
         value={value}
         onChange={onChange}

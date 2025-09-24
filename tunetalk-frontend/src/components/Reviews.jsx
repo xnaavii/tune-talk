@@ -6,8 +6,10 @@ import {
   selectReviewsForAlbum,
   addOrUpdateReview,
   fetchReviewsThunk,
+  deleteReviewThunk,
 } from '../store/reviewSlice';
 import { postReview } from '../api/albums';
+import ReviewCard from './ReviewCard';
 
 export default function Reviews({ albumId }) {
   const dispatch = useDispatch();
@@ -44,6 +46,10 @@ export default function Reviews({ albumId }) {
     setReviewText('');
   }
 
+  function handleDeleteReview() {
+    dispatch(deleteReviewThunk(existingReview.id));
+  }
+
   function handleOnChange(e) {
     setReviewText(e.target.value);
   }
@@ -64,14 +70,14 @@ export default function Reviews({ albumId }) {
                 (review) => review.comment && review.comment.trim() !== ''
               )
               .map((review) => (
-                <div key={review.id} className='bg-[#C2E1FA]/10 rounded-lg p-2'>
-                  <p className='whitespace-pre-line text-stone-100'>
-                    {review.comment}
-                  </p>
-                </div>
+                <ReviewCard
+                  key={review.id}
+                  review={review}
+                  onDelete={handleDeleteReview}
+                />
               ))
           ) : (
-            <p className='text-stone-400 italic'>No reviews yet.</p>
+            <p className='text-stone-400 text-sm italic'>No reviews yet.</p>
           )}
         </div>
       </div>

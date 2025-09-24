@@ -65,6 +65,22 @@ app.get('/reviews', (req, res) => {
   const data = readData();
   res.json(data.reviews);
 });
+
+app.delete('/reviews/:id', (req, res) => {
+  const data = readData();
+  const reviewId = req.params.id;
+
+  const index = data.reviews.findIndex((r) => String(r.id) === reviewId);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Review not found' });
+  }
+
+  const deletedReview = data.reviews.splice(index, 1)[0];
+
+  writeData(data);
+  res.json(deletedReview);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);
 });

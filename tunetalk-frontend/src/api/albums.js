@@ -77,3 +77,11 @@ export async function fetchReviews() {
   if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 }
+
+export async function deleteReview(reviewId) {
+  const res = await fetch(`http://localhost:3000/reviews/${reviewId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete review');
+  return res.json();
+}

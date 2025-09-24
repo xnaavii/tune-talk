@@ -33,100 +33,86 @@
     {
       "id": 101,
       "albumId": 1,
-      "username": "alice",
+      "user": "alice",
       "comment": "Absolutely love this!",
       "rating": 5
     },
     {
       "id": 102,
       "albumId": 1,
-      "username": "bob",
+      "user": "bob",
       "comment": "Tate McRae never disappoints.",
       "rating": 4
     },
     {
       "id": 103,
       "albumId": 1,
-      "username": "charlie",
+      "user": "charlie",
       "comment": "My favorite track",
       "rating": 5
     },
     {
       "id": 104,
       "albumId": 2,
-      "username": "dana",
+      "user": "dana",
       "comment": "Not her best work, but some good songs.",
       "rating": 3
     },
     {
       "id": 105,
       "albumId": 2,
-      "username": "eli",
+      "user": "eli",
       "comment": "Grew on me after a few listens.",
       "rating": 3
     },
     {
       "id": 106,
       "albumId": 3,
-      "username": "frank",
+      "user": "frank",
       "comment": "SZA’s voice is magical!",
       "rating": 5
     },
     {
       "id": 107,
       "albumId": 3,
-      "username": "grace",
+      "user": "grace",
       "comment": "The lyrics really hit hard.",
       "rating": 5
     },
     {
       "id": 108,
       "albumId": 3,
-      "username": "hannah",
+      "user": "hannah",
       "comment": "Some tracks feel repetitive, but overall solid.",
       "rating": 4
     },
     {
       "id": 109,
       "albumId": 4,
-      "username": "ian",
+      "user": "ian",
       "comment": "A classic R&B masterpiece.",
       "rating": 5
     },
     {
       "id": 110,
       "albumId": 4,
-      "username": "jane",
+      "user": "jane",
       "comment": "Love the production and vocals!",
       "rating": 5
     },
     {
-      "id": "6OXdpLKEkjUBD8JgvsZJg",
-      "albumId": 2,
-      "user": "defaultUser",
-      "comment": "So good",
-      "rating": 4
-    },
-    {
-      "id": "oZTNzbW3vzX9BDeEU1AyV",
-      "albumId": 1,
+      "id": "7qnuLjqhmhc2yo8BwFsSQ",
+      "albumId": 3,
       "user": "defaultUser",
       "comment": "",
       "rating": 3
     },
     {
-      "id": "U7ej32mc6EE3f_qAr_g3X",
-      "albumId": 3,
-      "user": "defaultUser",
-      "comment": "Not that bad",
-      "rating": 5
-    },
-    {
-      "id": "KllTlwauUdIFTCOM6TmU6",
+      "id": "Wnkc0rMwcIWsJnuqzmx46",
       "albumId": 4,
       "user": "defaultUser",
-      "comment": "I lvoe this ",
-      "rating": 5
+      "comment": "",
+      "rating": 4
     }
   ]
 }

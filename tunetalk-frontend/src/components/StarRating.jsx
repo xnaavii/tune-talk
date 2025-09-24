@@ -6,6 +6,7 @@ import {
   selectReviewsForAlbum,
   addOrUpdateReview,
   fetchReviewsThunk,
+  deleteReviewThunk,
 } from '../store/reviewSlice';
 import { postReview } from '../api/albums';
 import { useSelector, useDispatch } from 'react-redux';
@@ -54,6 +55,10 @@ export default function StarRating({ count = 5, albumId }) {
     setHoveredStar(index);
   }
 
+  function handleRemoveRating(reviewId) {
+    dispatch(deleteReviewThunk(reviewId));
+  }
+
   return (
     <div className='flex flex-col gap-1'>
       <div className='flex items-center gap-2'>
@@ -61,7 +66,9 @@ export default function StarRating({ count = 5, albumId }) {
           const index = i + 1;
           const isFilled = hoveredStar
             ? index <= hoveredStar
-            : index <= currentRating;
+            : index <= (userRating || averageRating);
+
+          const isUserRated = userRating > 0 && index <= userRating;
 
           return (
             <Star
@@ -70,6 +77,7 @@ export default function StarRating({ count = 5, albumId }) {
               onClick={() => handleOnClickStar(index)}
               onMouseOver={() => handleOnHoverStar(index)}
               onMouseLeave={() => setHoveredStar(null)}
+              isUserRated={isUserRated}
             />
           );
         })}
@@ -81,6 +89,12 @@ export default function StarRating({ count = 5, albumId }) {
       {userRating > 0 ? (
         <span className='text-xs text-stone-400'>
           You rated {userRating} star{userRating > 1 ? 's' : ''}
+          <button
+            className='ml-2 text-red-400 hover:underline'
+            onClick={() => handleRemoveRating(existingReview.id)}
+          >
+            Remove
+          </button>
         </span>
       ) : (
         <span className='text-xs text-stone-400'>You didn't rate this.</span>
