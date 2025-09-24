@@ -1,5 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+console.log(API_URL);
+
 export async function searchAlbums(query) {
   const res = await fetch(`${API_URL}/albums`);
   if (!res.ok) throw new Error('Failed to fetch albums');
@@ -7,7 +9,6 @@ export async function searchAlbums(query) {
   const albums = await res.json();
 
   if (!query) return albums;
-
   return albums.filter(
     (album) =>
       album.title.toLowerCase().includes(query) ||
