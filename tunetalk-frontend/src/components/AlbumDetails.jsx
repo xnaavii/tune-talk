@@ -27,7 +27,7 @@ export default function AlbumDetails({ albumId }) {
           <StarRating rating={album.rating} albumId={album.id} />
           {reviews ? (
             <span className='text-sm text-stone-300'>
-              {reviews.filter((review) => review.comment !== '').length} reviews
+              {reviews?.length} reviews
             </span>
           ) : null}
         </div>

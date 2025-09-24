@@ -38,7 +38,7 @@ export default function AlbumCard({ albumId }) {
             <p className='text-md'>{album.artist}</p>
             <p className='text-sm text-stone-400'>{album.year}</p>
             <span className='text-sm text-stone-300'>
-              {reviews?.filter((review) => review.comment !== '').length || 0}{' '}
+              {reviews?.length || 0}{' '}
               {reviews?.length > 1 ? 'reviews' : 'review'}
             </span>
           </figcaption>
