@@ -1,36 +1,7 @@
-// import { dummyAlbums } from '../data/dummyData';
-
-// export const getAlbums = () => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       if (dummyAlbums) {
-//         resolve(dummyAlbums);
-//       } else {
-//         reject(new Error('There was a problem fetching all albums'));
-//       }
-//     }, 300);
-//   });
-// };
-
-// export const searchAlbums = (query) => {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       if (query) {
-//         const filteredAlbums = dummyAlbums.filter(
-//           (album) =>
-//             album.artist.toLowerCase().includes(query) ||
-//             album.title.toLowerCase().includes(query)
-//         );
-//         resolve(filteredAlbums);
-//       } else {
-//         reject(new Error('There was a problem getting the album'));
-//       }
-//     }, 300);
-//   });
-// };
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function searchAlbums(query) {
-  const res = await fetch('http://localhost:3000/albums');
+  const res = await fetch(`${API_URL}/albums`);
   if (!res.ok) throw new Error('Failed to fetch albums');
 
   const albums = await res.json();
@@ -45,25 +16,25 @@ export async function searchAlbums(query) {
 }
 
 export async function fetchAlbums() {
-  const res = await fetch('http://localhost:3000/albums');
+  const res = await fetch(`${API_URL}/albums`);
   if (!res.ok) throw new Error('Failed to fetch albums');
   return res.json();
 }
 
 export async function fetchAlbumById(id) {
-  const res = await fetch(`http://localhost:3000/albums/${id}`);
+  const res = await fetch(`${API_URL}/albums/${id}`);
   if (!res.ok) throw new Error('Failed to fetch album');
   return res.json();
 }
 
 export async function fetchReviewsById(albumId) {
-  const res = await fetch(`http://localhost:3000/albums/${albumId}/reviews`);
+  const res = await fetch(`${API_URL}/albums/${albumId}/reviews`);
   if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 }
 
 export async function postReview(albumId, review) {
-  const res = await fetch(`http://localhost:3000/albums/${albumId}/reviews`, {
+  const res = await fetch(`${API_URL}/albums/${albumId}/reviews`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(review),
@@ -73,13 +44,13 @@ export async function postReview(albumId, review) {
 }
 
 export async function fetchReviews() {
-  const res = await fetch(`http://localhost:3000/reviews/`);
+  const res = await fetch(`${API_URL}/reviews/`);
   if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 }
 
 export async function deleteReview(reviewId) {
-  const res = await fetch(`http://localhost:3000/reviews/${reviewId}`, {
+  const res = await fetch(`${API_URL}/reviews/${reviewId}`, {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete review');

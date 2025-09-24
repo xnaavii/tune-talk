@@ -23,9 +23,7 @@ export default function MyReviewsPage() {
   return (
     <>
       <div className='flex flex-col gap-4 p-4'>
-        <h2 className='text-3xl font-semibold text-stone-100 mb-4'>
-          Your Reviews
-        </h2>
+        <h2 className='text-3xl font-semibold text-stone-100'>Your Reviews</h2>
         {myReviews.length === 0 ? (
           <p className='text-stone-300'>You haven't reviewed any albums yet.</p>
         ) : (

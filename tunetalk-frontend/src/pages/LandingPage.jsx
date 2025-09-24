@@ -32,8 +32,12 @@ export default function LandingPage() {
               <Link to={'/popular'}>
                 <Button label='Popular' icon='star-outline' />
               </Link>
-              <Button label='New' icon='sparkles-outline' />
-              <Button label='Your Reviews' icon='person-outline' />
+              <Link to={'/new'}>
+                <Button label='New' icon='sparkles-outline' />
+              </Link>
+              <Link to={'/reviews'}>
+                <Button label='Reviews' icon='person-outline' />
+              </Link>
             </ButtonsMenu>
           </div>
         </div>

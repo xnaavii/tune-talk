@@ -16,7 +16,7 @@ export default function NewAlbumsPage() {
 
   return (
     <div className='flex flex-col gap-4 p-4'>
-      <h2 className='text-3xl font-semibold text-stone-100 mb-4'>
+      <h2 className='text-3xl font-semibold text-stone-100'>
         Newly Released Albums
       </h2>
 
