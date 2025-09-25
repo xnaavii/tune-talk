@@ -17,8 +17,8 @@ const albumSlice = createSlice({
     selectedAlbum: null,
   },
   reducers: {
-    setSelectedAlbum(state, album) {
-      state.selectedAlbum = album;
+    setSelectedAlbum(state, action) {
+      state.selectedAlbum = action.payload;
     },
   },
   extraReducers: (builder) => {

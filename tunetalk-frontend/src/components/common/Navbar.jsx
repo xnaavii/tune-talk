@@ -6,9 +6,13 @@ import {
 } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Logo from '../common/Logo';
-import ButtonsMenu from '../common/ButtonsMenu';
 import Button from '../common/Button';
 import SearchBar from '../common/SearchBar';
+import {
+  IoStarOutline,
+  IoSparklesOutline,
+  IoPersonOutline,
+} from 'react-icons/io5';
 
 export default function Navbar() {
   const [searchParams] = useSearchParams();
@@ -45,27 +49,29 @@ export default function Navbar() {
   return (
     <nav
       className={
-        'flex flex-col lg:flex-row py-2 px-4 gap-4 items-center justify-center text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-2xl bg-[#C2E1FA]/20'
+        'flex flex-col sm:flex-row sm:px-[20px] py-[12px] sm:gap-[18px] items-center justify-center rounded-[6px] backdrop-blur-[32.6px] bg-[#C2E1FA]/20 h-fit'
       }
     >
-      <Logo size={'md'} />
-      <div className='flex flex-col gap-3 lg:flex-row flex-1 lg:items-center'>
+      <Link to={'/'} aria-label='Go to home page'>
+        <Logo size={'md'} />
+      </Link>
+      <div className='flex flex-col sm:flex-row grow-1 gap-[12px] md:[gap-0] items-center w-[90%]'>
         <SearchBar
           onSubmit={handleOnSubmit}
           onChange={handleOnChange}
           query={query}
         />
-        <ButtonsMenu>
+        <menu className='shrink-0 flex gap-[12px] flex-wrap'>
           <Link to={'/popular'}>
-            <Button label='Popular' icon='star-outline' />
+            <Button label='Popular' icon={IoStarOutline} />
           </Link>
           <Link to={'/new'}>
-            <Button label='New' icon='sparkles-outline' />
+            <Button label='New' icon={IoSparklesOutline} />
           </Link>
           <Link to={'/reviews'}>
-            <Button label='Reviews' icon='person-outline' />
+            <Button label='Your Reviews' icon={IoPersonOutline} />
           </Link>
-        </ButtonsMenu>
+        </menu>
       </div>
     </nav>
   );

@@ -28,7 +28,9 @@ export default function LandingPage() {
       <BackgroundLayer />
 
       <main className='z-20 flex flex-col justify-center items-center max-w-[404px] w-full px-4'>
-        <Logo size={'lg'} />
+        <Link to={'/'} aria-label='Go to home page'>
+          <Logo size={'lg'} />
+        </Link>
         <div className='w-full flex flex-col items-center gap-[18px]'>
           <SearchBar onChange={handleOnChange} onSubmit={handleOnSubmit} />
           <nav className='flex flex-row gap-[12px]'>
