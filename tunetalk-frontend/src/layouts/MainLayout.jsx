@@ -6,16 +6,15 @@ import defaultBackground from '../assets/record-blue.jpg';
 export default function MainLayout() {
   const selectedAlbum = useSelector((state) => state.albums.selectedAlbum);
 
-  console.log(selectedAlbum);
-
   const bgImg = selectedAlbum?.image ?? defaultBackground;
 
   return (
     <div className='min-h-screen bg-[#0F2E48] relative transition-all'>
       <div
-        className='absolute inset-0 bg-cover bg-center bg-no-repeat filter opacity-40'
+        className='absolute inset-0 bg-cover bg-center bg-no-repeat'
         style={{
           backgroundImage: `url(${bgImg})`,
+          opacity: selectedAlbum?.image ? 0.4 : 0.2,
         }}
       />
 
