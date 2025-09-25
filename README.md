@@ -33,7 +33,7 @@ Planned improvements:
 - Connect to a real database (PostgreSQL / MongoDB)  
 - Replace mock data with a real API  
 - Authentication & user accounts  
-- Advanced review features (edit, delete, likes)  
+- Advanced review features (edit, likes)  
 
 ---
 
@@ -41,18 +41,16 @@ Planned improvements:
 
 - **Frontend:** React, Redux Toolkit, Tailwind CSS  
 - **Backend:** Node.js + Express (mock API)  
-- **Tooling:** Vite (or CRA, depending on setup), ESLint, Prettier  
+- **Tooling:** Vite, ESLint, Prettier  
 
 ---
 
 ## 🧪 Known Issues & TODOs
 
-- **Database separation:** Currently using mock data; backend and frontend need proper DB integration and API endpoints.  
 - **UI improvements:** Some pages/components could be refined for better responsiveness and UX.  
 - **State management:** Some Redux slices can be further optimized or split for clarity.  
 - **Error handling:** Minimal error handling on frontend and backend; needs improvement.  
-- **Authentication:** Not implemented yet.  
-- **Feature enhancements:** Edit/delete reviews, remove/edit rating without affecting the review, like/dislike reviews, user accounts, and search functionality.
+- **Feature enhancements:** Remove/edit rating without affecting the review, search debounce.
 
 ---
 
