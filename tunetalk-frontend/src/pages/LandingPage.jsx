@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../components/common/Logo';
-import ButtonsMenu from '../components/common/ButtonsMenu';
 import Button from '../components/common/Button';
 import BackgroundLayer from '../components/common/BackgroundLayer';
 import SearchBar from '../components/common/SearchBar';
+import {
+  IoStarOutline,
+  IoSparklesOutline,
+  IoPersonOutline,
+} from 'react-icons/io5';
 
 export default function LandingPage() {
   const [query, setQuery] = useState('');
@@ -20,28 +24,26 @@ export default function LandingPage() {
     setQuery(event.target.value);
   }
   return (
-    <div className='h-dvh relative'>
+    <div className='h-dvh flex justify-center items-center '>
       <BackgroundLayer />
 
-      <div className='relative z-20 flex items-center justify-center h-full'>
-        <div className='flex flex-col items-center gap-3'>
-          <Logo />
-          <div className='flex flex-col gap-3'>
-            <SearchBar onChange={handleOnChange} onSubmit={handleOnSubmit} />
-            <ButtonsMenu>
-              <Link to={'/popular'}>
-                <Button label='Popular' icon='star-outline' />
-              </Link>
-              <Link to={'/new'}>
-                <Button label='New' icon='sparkles-outline' />
-              </Link>
-              <Link to={'/reviews'}>
-                <Button label='Reviews' icon='person-outline' />
-              </Link>
-            </ButtonsMenu>
-          </div>
+      <main className='z-20 flex flex-col justify-center items-center max-w-[404px] w-full px-4'>
+        <Logo size={96} />
+        <div className='w-full flex flex-col items-center gap-[18px]'>
+          <SearchBar onChange={handleOnChange} onSubmit={handleOnSubmit} />
+          <nav className='flex flex-row gap-[12px]'>
+            <Link to='/popular'>
+              <Button label='Popular' icon={IoStarOutline} />
+            </Link>
+            <Link to='/new'>
+              <Button label='New' icon={IoSparklesOutline} />
+            </Link>
+            <Link to='/reviews'>
+              <Button label='Your Reviews' icon={IoPersonOutline} />
+            </Link>
+          </nav>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
