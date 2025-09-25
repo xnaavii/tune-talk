@@ -48,9 +48,8 @@ export default function Navbar() {
 
   return (
     <nav
-      className={
-        'flex flex-col sm:flex-row sm:px-[20px] py-[12px] sm:gap-[18px] items-center justify-center rounded-[6px] backdrop-blur-[32.6px] bg-[#C2E1FA]/20 h-fit'
-      }
+      className='h-fit flex flex-col sm:flex-row sm:px-[20px] py-[4px] sm:gap-[18px] 
+             items-center justify-center rounded-[6px] backdrop-blur-[32.6px] bg-[#C2E1FA]/20'
     >
       <Link to={'/'} aria-label='Go to home page'>
         <Logo size={'md'} />

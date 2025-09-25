@@ -23,7 +23,7 @@ export default function MainLayout() {
           py-[6px] px-[6px] md:py-[26px] md:px-[26px] lg:py-[49px] lg:px-[49px]'
       >
         <Navbar />
-        <main className='flex-1 max-w-[942px] md:flex-row px-[32px] py-[44px] gap-4 text-stone-100 border-stone-50 rounded-lg shadow- backdrop-blur-[30px] bg-[#C2E1FA]/16 overflow-y-scroll'>
+        <main className='flex-1 max-w-[942px] md:flex-row px-[32px] py-[24px] gap-4 text-stone-100 border-stone-50 rounded-lg shadow- backdrop-blur-[30px] bg-[#C2E1FA]/16 overflow-auto'>
           <Outlet />
         </main>
       </div>

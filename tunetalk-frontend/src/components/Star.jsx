@@ -18,7 +18,7 @@ export default function Star({
       className='focus:outline-none'
     >
       <Icon
-        className={`text-3xl transition-all duration-200
+        className={`text-[32px] sm:text-[28px] transition-all duration-200
           text-stone-200
           ${
             isUserRated

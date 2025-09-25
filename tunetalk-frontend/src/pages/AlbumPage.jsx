@@ -6,9 +6,9 @@ import {
   selectAlbumById,
   setSelectedAlbum,
 } from '../store/albumSlice';
-import Button from '../components/common/Button';
 import Reviews from '../components/Reviews';
 import AlbumDetails from '../components/AlbumDetails';
+import { IoChevronBack } from 'react-icons/io5';
 
 export default function AlbumPage() {
   const dispatch = useDispatch();
@@ -35,12 +35,14 @@ export default function AlbumPage() {
     return <p className='text-center text-stone-300 mt-8'>Album not found</p>;
 
   return (
-    <>
+    <div className='flex flex-col gap-[14px]'>
       <div className='flex items-center justify-start shrink-0'>
-        <Button icon='chevron-back' onClick={() => navigate(-1)} />
+        <button onClick={() => navigate(-1)}>
+          <IoChevronBack className='w-[28px] h-[28px]' />
+        </button>
       </div>
       <AlbumDetails albumId={album.id} />
       <Reviews albumId={album.id} />
-    </>
+    </div>
   );
 }

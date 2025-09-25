@@ -24,7 +24,7 @@ export default function StarRating({ count = 5, albumId }) {
   const existingReview = reviews.find((r) => r.user === 'defaultUser');
   const userRating = existingReview?.rating || 0;
 
-  const [currentRating, setCurrentRating] = useState(userRating);
+  const [_, setCurrentRating] = useState(userRating);
   const [hoveredStar, setHoveredStar] = useState(null);
 
   useEffect(() => {
@@ -60,8 +60,8 @@ export default function StarRating({ count = 5, albumId }) {
   }
 
   return (
-    <div className='flex flex-col gap-1'>
-      <div className='flex items-center gap-2'>
+    <div className='flex flex-col gap-[6px]'>
+      <div className='flex items-center gap-[6px]'>
         {Array.from({ length: count }).map((_, i) => {
           const index = i + 1;
           const isFilled = hoveredStar

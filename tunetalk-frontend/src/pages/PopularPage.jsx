@@ -41,9 +41,9 @@ export default function PopularPage() {
 
   return (
     <>
-      <h2 className='text-3xl p-4 font-semibold'>Popular Music</h2>
+      <h2 className='text-3xl font-semibold'>Popular Music</h2>
       {sortedAlbums.length > 0 && (
-        <div className='flex flex-col gap-2 items-center p-4'>
+        <div className='flex flex-col gap-4 items-center p-4'>
           {sortedAlbums.map((album, index) => (
             <div key={album.id} className='w-full flex flex-col gap-1 py-2'>
               <span className='text-xl text-stone-100'>
