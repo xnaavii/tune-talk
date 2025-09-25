@@ -48,7 +48,7 @@ export default function Navbar() {
         'flex flex-col lg:flex-row py-2 px-4 gap-4 items-center justify-center text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-2xl bg-[#C2E1FA]/20'
       }
     >
-      <Logo />
+      <Logo size={'md'} />
       <div className='flex flex-col gap-3 lg:flex-row flex-1 lg:items-center'>
         <SearchBar
           onSubmit={handleOnSubmit}
