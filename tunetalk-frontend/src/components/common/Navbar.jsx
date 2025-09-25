@@ -60,7 +60,7 @@ export default function Navbar() {
           onChange={handleOnChange}
           query={query}
         />
-        <menu className='shrink-0 flex gap-[12px] flex-wrap'>
+        <menu className='shrink-0 flex gap-[12px] py-[6px] sm:py-0 flex-wrap'>
           <Link to={'/popular'}>
             <Button label='Popular' icon={IoStarOutline} />
           </Link>
