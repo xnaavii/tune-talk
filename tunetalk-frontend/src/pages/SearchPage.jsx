@@ -12,36 +12,52 @@ export default function SearchPage() {
   const query = searchParams.get('q');
 
   useEffect(() => {
-    async function fetchAlbums() {
-      setLoading(true);
+    if (!query) {
+      setAlbums([]);
+      return;
+    }
+    setLoading(true);
+
+    const timer = setTimeout(async () => {
       setError(null);
       try {
         const q = query.toLowerCase().trim();
         const response = await searchAlbums(q);
         setAlbums(response);
       } catch (error) {
-        setError(error.message);
+        setError(error.message || 'Something went wrong');
       } finally {
         setLoading(false);
       }
-    }
+    }, 300);
 
-    fetchAlbums();
+    return () => clearTimeout(timer);
   }, [query]);
+
+  if (loading) {
+    return <Spinner />;
+  }
+
+  if (error) {
+    return <p className='text-red-400'>{error}</p>;
+  }
+
+  if (query === '') {
+    return (
+      <h2 className='text-md text-stone-200'>Try searching for an album...</h2>
+    );
+  }
+
+  if (albums.length === 0) {
+    return (
+      <h2 className='text-md text-stone-200'>No albums found for "{query}"</h2>
+    );
+  }
 
   return (
     <>
-      {loading ? <Spinner /> : null}
-      {error ? <p>{error.message}</p> : null}
-      {!query && (
-        <h2 className='text-md p-4'>
-          Try searching for an album, artist or a song.
-        </h2>
-      )}
-      {query && albums.length > 0 && <AlbumList albums={albums} />}
-      {query && albums.length === 0 && (
-        <p className='text-md p-4'>No albums found.</p>
-      )}
+      <h2 className='text-md mb-2 text-stone-200'>Showing {albums.length} results for "{query}"</h2>
+      <AlbumList albums={albums} />
     </>
   );
 }
