@@ -15,41 +15,43 @@ export default function AlbumCard({ albumId }) {
   }
 
   return (
-    <figure className='relative flex gap-2 rounded-2xl overflow-hidden h-fit'>
+    <figure className='relative rounded-[16px] overflow-hidden h-fit grid grid-cols-[auto_1fr]'>
       <div
-        className='absolute inset-0 z-0 bg-cover bg-center blur-lg scale-110 transition-all duration-300'
+        className='absolute inset-0 z-0 bg-cover bg-center blur-[32.6px] scale-110 transition-all duration-300'
         style={{ backgroundImage: `url(${album.image})` }}
       />
 
-      <div className='relative z-10 flex gap-3 w-full bg-[#0F2E48]/40 rounded-2xl p-3 items-center h-full'>
-        <div className='w-40 h-full overflow-hidden flex items-center justify-center'>
-          <Link to={`/search/${album.id}`}>
-            <img
-              src={album.image}
-              alt={`Album cover for ${album.artist} - ${album.title}`}
-              className='rounded-md object-cover h-full transition-all duration-300 ease-in-out'
-            />
-          </Link>
-        </div>
+      <div className='max-w-[140px] relative z-10 bg-[#0F2E48]/40 flex items-center justify-center p-[10px]'>
+        <img
+          src={album.image}
+          alt={`Album cover for ${album.artist} - ${album.title}`}
+          className='rounded-md object-cover transition-all duration-300 ease-in-out'
+        />
+      </div>
 
-        <div className='flex flex-col justify-between flex-1 h-full gap-2'>
-          <figcaption className='flex flex-col gap-1'>
-            <p className='text-lg font-semibold'>{album.title}</p>
-            <p className='text-md'>{album.artist}</p>
-            <p className='text-sm text-stone-400'>{album.year}</p>
-            <span className='text-sm text-stone-300'>
+      <div className='relative z-10 bg-[#0F2E48]/40 flex flex-col justify-center p-[10px]'>
+        <Link to={`/search/${album.id}`}>
+          <figcaption className='flex flex-col gap-[2px]'>
+            <div className='hover:underline'>
+              <p className='text-[14px] sm:text-[16px] font-semibold'>
+                {album.title}
+              </p>
+              <p className='text-[14px] sm:text-[16px]'>{album.artist}</p>
+              <p className='text-[10px] sm:text-[12px] text-stone-'>{album.year}</p>
+            </div>
+
+            <span className='text-[10px] text-stone-400'>
               {reviews?.length || 0}{' '}
               {reviews?.length > 1 ? 'reviews' : 'review'}
             </span>
           </figcaption>
-
+        </Link>
           <StarRating albumId={album.id} />
-        </div>
       </div>
     </figure>
   );
 }
 
 AlbumCard.propTypes = {
-  albumId: PropTypes.number.isRequired,
+  albumId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };

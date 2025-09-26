@@ -60,7 +60,7 @@ export default function StarRating({ count = 5, albumId }) {
   }
 
   return (
-    <div className='flex flex-col gap-[6px]'>
+    <div className='flex flex-col gap-[2px]'>
       <div className='flex items-center gap-[6px]'>
         {Array.from({ length: count }).map((_, i) => {
           const index = i + 1;
@@ -87,17 +87,19 @@ export default function StarRating({ count = 5, albumId }) {
       </div>
 
       {userRating > 0 ? (
-        <span className='text-xs text-stone-300'>
+        <span className='text-[10px] sm:text-[14px] text-stone-300'>
           You rated {userRating} star{userRating > 1 ? 's' : ''}
           <button
-            className='ml-2 text-red-400 hover:underline'
+            className='ml-2 text-red-400 hover:underline md:text-[14px]'
             onClick={() => handleRemoveRating(existingReview.id)}
           >
             Remove
           </button>
         </span>
       ) : (
-        <span className='text-xs text-stone-400'>You didn't rate this.</span>
+        <span className='text-[10px] sm:text-[14px] text-stone-400'>
+          You didn't rate this.
+        </span>
       )}
     </div>
   );
