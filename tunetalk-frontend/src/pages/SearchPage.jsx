@@ -12,8 +12,9 @@ export default function SearchPage() {
   const query = searchParams.get('q');
 
   useEffect(() => {
-    if (!query) {
+    if (!query || query.trim() === '') {
       setAlbums([]);
+      setLoading(false);
       return;
     }
     setLoading(true);
@@ -56,7 +57,9 @@ export default function SearchPage() {
 
   return (
     <>
-      <h2 className='text-md mb-2 text-stone-200'>Showing {albums.length} results for "{query}"</h2>
+      <h2 className='text-md mb-2 text-stone-200'>
+        Showing {albums.length} results for "{query}"
+      </h2>
       <AlbumList albums={albums} />
     </>
   );
