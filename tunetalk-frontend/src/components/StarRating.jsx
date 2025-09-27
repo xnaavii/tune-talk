@@ -93,14 +93,23 @@ export default function StarRating({ count = 5, albumId }) {
             </button>
           );
         })}
-        <span className='text-sm text-stone-300'>
-          {averageRating.toFixed(1)}
-        </span>
-        {userRating ? (
-          <button onClick={() => handleRemoveRating(existingReview.id)}>
-            <IoRemoveCircle color='#ffe3e3' />
-          </button>
-        ) : null}
+        <div
+          className={`transition-all duration-300 ease-in-out overflow-hidden ${
+            userRating > 0 ? 'opacity-100 py-1' : 'opacity-0 py-0'
+          }`}
+        >
+          <span className='flex flex-wrap items-center gap-1 sm:gap-2 text-[10px] sm:text-[14px] text-stone-300'>
+            <button
+              className='ml-1 sm:ml-2 p-1 rounded-full hover:bg-red-200 active:bg-red-300 transition-colors'
+              onClick={() => handleRemoveRating(existingReview.id)}
+            >
+              <IoRemoveCircle
+                className='w-4 h-4 sm:w-5 sm:h-5'
+                color='#ffe3e3'
+              />
+            </button>
+          </span>
+        </div>
       </div>
     </div>
   );

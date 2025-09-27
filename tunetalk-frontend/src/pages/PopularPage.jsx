@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { fetchAlbumsThunk } from '../store/albumSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import AlbumCard from '../components/AlbumCard';
+import { IoStar } from 'react-icons/io5';
 
 export default function PopularPage() {
   const dispatch = useDispatch();
@@ -41,18 +42,38 @@ export default function PopularPage() {
 
   return (
     <>
-      <h2 className='text-3xl font-semibold'>Popular Music</h2>
-      {sortedAlbums.length > 0 && (
-        <div className='flex flex-col gap-4 items-center p-4'>
-          {sortedAlbums.map((album, index) => (
-            <div key={album.id} className='w-full flex flex-col gap-1 py-2'>
-              <span className='text-xl text-stone-100'>
-                {`${index + 1}. ${album.title}`}
-              </span>
-              <AlbumCard albumId={album.id} />
-            </div>
-          ))}
+      <h2 className='text-3xl font-semibold text-stone-100 mb-4'>
+        Popular Music
+      </h2>
+
+      {sortedAlbums.length > 0 ? (
+        <div className='flex flex-col gap-[12px] w-full'>
+          {sortedAlbums.map((album) => {
+            const albumReviews = reviews.filter((r) => r.albumId === album.id);
+            const avgRating =
+              albumReviews.length > 0
+                ? albumReviews.reduce((sum, r) => sum + r.rating, 0) /
+                  albumReviews.length
+                : 0;
+
+            return (
+              <div key={album.id} className='flex flex-row gap-3 items-center'>
+                <span className='flex items-center gap-[6px] text-stone-200'>
+                  {avgRating.toFixed(1)} <IoStar size={12} />
+                </span>
+                <div className='flex-1'>
+                  <AlbumCard album={album} />
+                </div>
+
+                {/* <span className='text-[12px]'>
+                  {albumReviews.length} reviews
+                </span> */}
+              </div>
+            );
+          })}
         </div>
+      ) : (
+        <p className='text-stone-300'>No popular albums available.</p>
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { fetchAlbums } from '../api/albums';
 
 export const fetchAlbumsThunk = createAsyncThunk(
@@ -40,8 +40,10 @@ const albumSlice = createSlice({
 export const { setSelectedAlbum } = albumSlice.actions;
 export default albumSlice.reducer;
 
-// Selector to get album by ID
-export const selectAlbumById = (state, albumId) =>
-  state.albums.albums.find((a) => a.id === albumId);
-
 export const selectAllAlbums = (state) => state.albums.albums;
+
+// Selector to get album by ID
+export const selectAlbumById = createSelector(
+  [selectAllAlbums, (_, albumId) => albumId],
+  (albums, albumId) => albums.find((album) => album.id === albumId)
+);

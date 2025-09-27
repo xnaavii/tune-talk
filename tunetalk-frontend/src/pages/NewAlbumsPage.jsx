@@ -30,7 +30,7 @@ export default function NewAlbumsPage() {
               </h3>
               <div className='flex flex-col gap-2'>
                 {albumsByYear[year].map((album) => (
-                  <AlbumCard key={album.id} albumId={album.id} />
+                  <AlbumCard key={album.id} album={album} />
                 ))}
               </div>
             </div>

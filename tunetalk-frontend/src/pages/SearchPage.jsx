@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import AlbumList from '../components/AlbumList';
 import Spinner from '../components/common/Spinner';
+import AlbumCard from '../components/AlbumCard';
 import { searchAlbums } from '../api/albums';
 
 export default function SearchPage() {
@@ -60,7 +60,11 @@ export default function SearchPage() {
       <h2 className='text-md mb-2 text-stone-200'>
         Showing {albums.length} results for "{query}"
       </h2>
-      <AlbumList albums={albums} />
+      <div className='grid grid-rows-1 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 md:grid-cols-3 gap-[6px] overflow-x-auto py-2'>
+        {albums.map((album) => (
+          <AlbumCard album={album} key={album.id} />
+        ))}
+      </div>
     </>
   );
 }
