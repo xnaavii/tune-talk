@@ -10,6 +10,7 @@ import {
 } from '../store/reviewSlice';
 import { postReview } from '../api/albums';
 import { useSelector, useDispatch } from 'react-redux';
+import { IoRemoveCircle } from 'react-icons/io5';
 
 export default function StarRating({ count = 5, albumId }) {
   const dispatch = useDispatch();
@@ -51,56 +52,56 @@ export default function StarRating({ count = 5, albumId }) {
     }
   }
 
-  function handleOnHoverStar(index) {
-    setHoveredStar(index);
-  }
-
   function handleRemoveRating(reviewId) {
     dispatch(deleteReviewThunk(reviewId));
   }
 
   return (
     <div className='flex flex-col gap-[2px]'>
-      <div className='flex items-center gap-[6px]'>
+      <div className='flex items-center gap-[4px]'>
         {Array.from({ length: count }).map((_, i) => {
           const index = i + 1;
-          const isFilled = hoveredStar
-            ? index <= hoveredStar
-            : index <= (userRating || averageRating);
 
-          const isUserRated = userRating > 0 && index <= userRating;
+          const fullStars = Math.floor(averageRating);
+          const fraction = averageRating - fullStars;
+          const hasHalfStar = fraction >= 0.5;
+          let half = hasHalfStar && index === fullStars + 1;
 
           return (
-            <Star
+            <button
               key={i}
-              filled={isFilled}
               onClick={() => handleOnClickStar(index)}
-              onMouseOver={() => handleOnHoverStar(index)}
+              onMouseOver={() => setHoveredStar(index)}
               onMouseLeave={() => setHoveredStar(null)}
-              isUserRated={isUserRated}
-            />
+            >
+              <Star
+                size='xl'
+                color={
+                  hoveredStar !== null || userRating > 0
+                    ? 'rgba(250,204,21)'
+                    : '#FFFFFF'
+                }
+                filled={
+                  hoveredStar !== null
+                    ? index <= hoveredStar
+                    : userRating > 0
+                    ? index <= userRating
+                    : index <= fullStars
+                }
+                half={hoveredStar === null && userRating === 0 ? half : false}
+              />
+            </button>
           );
         })}
         <span className='text-sm text-stone-300'>
           {averageRating.toFixed(1)}
         </span>
-      </div>
-
-      {userRating > 0 ? (
-        <span className='text-[10px] sm:text-[14px] text-stone-300'>
-          You rated {userRating} star{userRating > 1 ? 's' : ''}
-          <button
-            className='ml-2 text-red-400 hover:underline md:text-[14px]'
-            onClick={() => handleRemoveRating(existingReview.id)}
-          >
-            Remove
+        {userRating ? (
+          <button onClick={() => handleRemoveRating(existingReview.id)}>
+            <IoRemoveCircle color='#ffe3e3' />
           </button>
-        </span>
-      ) : (
-        <span className='text-[10px] sm:text-[14px] text-stone-400'>
-          You didn't rate this.
-        </span>
-      )}
+        ) : null}
+      </div>
     </div>
   );
 }
