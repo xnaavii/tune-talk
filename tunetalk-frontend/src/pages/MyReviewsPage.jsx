@@ -1,59 +1,66 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import AlbumCard from '../components/AlbumCard';
-import { selectAllReviews } from '../store/reviewSlice';
 import { selectAllAlbums } from '../store/albumSlice';
+import { selectAllRatings } from '../store/ratingSlice';
+import { selectAllReviews } from '../store/reviewSlice';
+import { IoStar, IoChatbubbleOutline } from 'react-icons/io5';
+import { fetchRatingsThunk } from '../store/ratingSlice';
+import { fetchReviewsThunk } from '../store/reviewSlice';
 
 export default function MyReviewsPage() {
-  const reviews = useSelector(selectAllReviews);
+  const dispatch = useDispatch();
+
+  const ratingsStatus = useSelector((state) => state.ratings.fetchStatus);
+  const reviewsStatus = useSelector((state) => state.reviews.fetchStatus);
+
+  useEffect(() => {
+    if (ratingsStatus === 'idle') dispatch(fetchRatingsThunk());
+    if (reviewsStatus === 'idle') dispatch(fetchReviewsThunk());
+  }, [ratingsStatus, reviewsStatus, dispatch]);
+
   const albums = useSelector(selectAllAlbums);
+  const ratings = useSelector(selectAllRatings);
+  const reviews = useSelector(selectAllReviews);
 
-  // Only reviews by current user
-  const myReviews = reviews.filter((r) => r.user === 'defaultUser');
+  const userId = 'user1';
 
-  // Group album IDs by rating
-  const reviewsByRating = myReviews.reduce((acc, review) => {
-    if (!acc[review.rating]) acc[review.rating] = new Set();
-    acc[review.rating].add(review.albumId);
-    return acc;
-  }, {});
-
-  // Sort ratings descending (5 stars first)
-  const sortedRatings = Object.keys(reviewsByRating)
-    .map(Number)
-    .sort((a, b) => b - a);
+  const userRatings = ratings.filter((r) => r.userId === userId);
 
   return (
     <>
-      <h2 className='text-3xl font-semibold text-stone-100 mb-4'>My Reviews</h2>
-      <div className='flex flex-col gap-6'>
-        {myReviews.length === 0 ? (
-          <p className='text-stone-300'>You haven't reviewed any albums yet.</p>
+      <h2 className='text-3xl font-semibold text-stone-100 mb-4'>
+        My Reviews & Ratings
+      </h2>
+      <div className='flex flex-col gap-[6px]'>
+        {userRatings.length === 0 ? (
+          <p className='text-stone-300'>You haven't rated any albums yet.</p>
         ) : (
-          sortedRatings.map((rating) => {
-            const albumList = [...reviewsByRating[rating]];
+          userRatings.map((ratingObj) => {
+            const album = albums.find((a) => a.id === ratingObj.albumId);
+            if (!album) return null;
+
+            const userReview = reviews.find(
+              (r) => r.userId === userId && r.albumId === album.id
+            );
 
             return (
-              <div key={rating} className='flex flex-col gap-2'>
-                <h3 className='text-xl font-medium text-stone-200 mt-4 mb-2'>
-                  {rating} Star Reviews
-                </h3>
-                <div
-                  className={`grid grid-flow-col auto-cols-[220px] gap-[6px] overflow-x-auto py-2 ${
-                    albumList.length > 2 ? 'grid-rows-2' : 'grid-rows-1'
-                  }`}
-                >
-                  {albumList.map((albumId) => {
-                    const album = albums.find((a) => a.id === albumId);
-                    return (
-                        <div
-                          key={albumId}
-                          className='w-full flex flex-col gap-1'
-                        >
-                          <AlbumCard album={album} />
-                        </div>
-                        
-                    );
-                  })}
+              <div
+                key={album.id}
+                className='flex flex-row items-center justify-between gap-3 rounded-[16px]'
+              >
+                <div className='flex-1'>
+                  <AlbumCard album={album} />
+                </div>
+                <div className='flex flex-col items-end gap-1'>
+                  <span className='flex items-center gap-1 text-stone-200'>
+                    {ratingObj.rating} <IoStar size={12} />
+                  </span>
+                  {userReview && (
+                    <span className='flex items-center gap-1 text-stone-200 text-[12px]'>
+                      <IoChatbubbleOutline size={12} /> {userReview.comment}
+                    </span>
+                  )}
                 </div>
               </div>
             );

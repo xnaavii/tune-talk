@@ -133,14 +133,6 @@
       "comment": "Love the production and vocals!",
       "createdAt": "2025-09-28T15:45:00Z",
       "edited": false
-    },
-    {
-      "id": "Sf4u599WAW-2J8pybTGwz",
-      "albumId": 4,
-      "userId": "user1",
-      "comment": "Such a great album",
-      "createdAt": "2025-09-28T19:24:20.074Z",
-      "edited": false
     }
   ],
   "ratings": [
@@ -152,25 +144,11 @@
       "createdAt": "2025-09-28T18:22:03.113Z"
     },
     {
-      "id": "5m0dIwIT_YcPchTrFVfyc",
+      "id": "_MG_xIrUFSON9Sezfbvo0",
       "albumId": 2,
       "userId": "user1",
-      "rating": 3,
-      "createdAt": "2025-09-28T21:06:26.579Z"
-    },
-    {
-      "id": "0tttnQTNRT6LyiUaeXOES",
-      "albumId": 3,
-      "userId": "user1",
-      "rating": 4,
-      "createdAt": "2025-09-28T21:13:04.408Z"
-    },
-    {
-      "id": "xRRAF2bDjJZ5xt566ueOQ",
-      "albumId": 4,
-      "userId": "user1",
       "rating": 5,
-      "createdAt": "2025-09-28T21:13:50.644Z"
+      "createdAt": "2025-09-28T21:38:52.646Z"
     }
   ]
 }
