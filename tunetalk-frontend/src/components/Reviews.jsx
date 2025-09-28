@@ -20,18 +20,19 @@ export default function Reviews({ albumId }) {
   }, [dispatch]);
 
   const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
+  console.log(reviews);
 
-  const existingReview = reviews.find((r) => r.user === 'defaultUser');
-  const currentRating = existingReview?.rating || 0;
+  const existingReview = reviews.find(
+    (r) => r.user === 'user1' && r.albumId === albumId
+  );
 
   async function handleAddReview() {
-    if (!reviewText.trim()) return; // don't add empty reviews
+    if (!reviewText.trim()) return;
 
     const reviewObj = {
       albumId,
-      user: 'defaultUser',
+      userId: 'user1',
       comment: reviewText,
-      rating: currentRating,
     };
 
     dispatch(addOrUpdateReview(reviewObj));
@@ -40,14 +41,14 @@ export default function Reviews({ albumId }) {
       await postReview(albumId, reviewObj);
       dispatch(fetchReviewsThunk());
     } catch (error) {
-      console.error('Failed to save rating', error);
+      console.error('Failed to save review', error);
     }
 
     setReviewText('');
   }
 
-  function handleDeleteReview() {
-    dispatch(deleteReviewThunk(existingReview.id));
+  function handleDeleteReview(reviewId) {
+    dispatch(deleteReviewThunk(reviewId));
   }
 
   function handleOnChange(e) {
@@ -65,17 +66,13 @@ export default function Reviews({ albumId }) {
         />
         <div className='flex flex-col gap-2'>
           {reviews.length > 0 ? (
-            reviews
-              .filter(
-                (review) => review.comment && review.comment.trim() !== ''
-              )
-              .map((review) => (
-                <ReviewCard
-                  key={review.id}
-                  review={review}
-                  onDelete={handleDeleteReview}
-                />
-              ))
+            reviews.map((review) => (
+              <ReviewCard
+                key={review.id}
+                review={review}
+                onDelete={handleDeleteReview}
+              />
+            ))
           ) : (
             <p className='text-stone-400 text-sm italic'>No reviews yet.</p>
           )}

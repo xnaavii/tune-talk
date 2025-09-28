@@ -1,111 +1,155 @@
 {
+  "users": [
+    {
+      "id": "user1",
+      "username": "defaultUser",
+      "password": "defaultUser",
+      "reviewIds": [
+        101,
+        111
+      ],
+      "ratingIds": [
+        201
+      ]
+    },
+    {
+      "id": "user2",
+      "username": "bob",
+      "password": "bob123",
+      "reviewIds": [
+        102
+      ],
+      "ratingIds": []
+    },
+    {
+      "id": "user3",
+      "username": "charlie",
+      "password": "charlie123",
+      "reviewIds": [
+        103
+      ],
+      "ratingIds": []
+    }
+  ],
   "albums": [
     {
       "id": 1,
       "title": "Greedy",
-      "artist": "Tate Mcrae",
-      "year": "2023",
+      "artist": "Tate McRae",
+      "year": 2023,
       "image": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/23/07/92/23079247-25be-3098-ef53-78e7d0fe7406/196871341653.jpg/1200x1200bf-60.jpg"
     },
     {
       "id": 2,
       "title": "Think Later",
-      "artist": "Tate Mcrae",
-      "year": "2023",
+      "artist": "Tate McRae",
+      "year": 2023,
       "image": "https://upload.wikimedia.org/wikipedia/en/1/16/Tate_McRae_-_Think_Later.png"
     },
     {
       "id": 3,
       "title": "SOS",
       "artist": "SZA",
-      "year": "2022",
+      "year": 2022,
       "image": "https://ratedrnb.com/cdn/2022/12/sza-sos-album-cover-ratedrnb-scaled.jpg"
     },
     {
       "id": 4,
       "title": "CTRL",
       "artist": "SZA",
-      "year": "2017",
+      "year": 2017,
       "image": "https://s3.amazonaws.com/truthstudios.com/wp-content/uploads/2017/06/14222958/sza-ctrl-album-art.jpg"
     }
   ],
   "reviews": [
     {
-      "id": 101,
-      "albumId": 1,
-      "user": "alice",
-      "comment": "Absolutely love this!",
-      "rating": 5
-    },
-    {
       "id": 102,
       "albumId": 1,
-      "user": "bob",
+      "userId": "user2",
       "comment": "Tate McRae never disappoints.",
-      "rating": 4
+      "createdAt": "2025-09-28T15:05:00Z",
+      "edited": false
     },
     {
       "id": 103,
       "albumId": 1,
-      "user": "charlie",
+      "userId": "user3",
       "comment": "My favorite track",
-      "rating": 5
+      "createdAt": "2025-09-28T15:10:00Z",
+      "edited": false
     },
     {
       "id": 104,
       "albumId": 2,
-      "user": "dana",
+      "userId": "user4",
       "comment": "Not her best work, but some good songs.",
-      "rating": 3
+      "createdAt": "2025-09-28T15:15:00Z",
+      "edited": true
     },
     {
       "id": 105,
       "albumId": 2,
-      "user": "eli",
+      "userId": "user5",
       "comment": "Grew on me after a few listens.",
-      "rating": 3
+      "createdAt": "2025-09-28T15:20:00Z",
+      "edited": false
     },
     {
       "id": 106,
       "albumId": 3,
-      "user": "frank",
+      "userId": "user6",
       "comment": "SZA’s voice is magical!",
-      "rating": 5
+      "createdAt": "2025-09-28T15:25:00Z",
+      "edited": false
     },
     {
       "id": 107,
       "albumId": 3,
-      "user": "grace",
+      "userId": "user7",
       "comment": "The lyrics really hit hard.",
-      "rating": 5
+      "createdAt": "2025-09-28T15:30:00Z",
+      "edited": false
     },
     {
       "id": 108,
       "albumId": 3,
-      "user": "hannah",
+      "userId": "user8",
       "comment": "Some tracks feel repetitive, but overall solid.",
-      "rating": 4
+      "createdAt": "2025-09-28T15:35:00Z",
+      "edited": false
     },
     {
       "id": 109,
       "albumId": 4,
-      "user": "ian",
+      "userId": "user9",
       "comment": "A classic R&B masterpiece.",
-      "rating": 5
+      "createdAt": "2025-09-28T15:40:00Z",
+      "edited": false
     },
     {
       "id": 110,
       "albumId": 4,
-      "user": "jane",
+      "userId": "user10",
       "comment": "Love the production and vocals!",
-      "rating": 5
+      "createdAt": "2025-09-28T15:45:00Z",
+      "edited": false
     },
     {
-      "id": "7qnuLjqhmhc2yo8BwFsSQ",
+      "id": 111,
       "albumId": 3,
-      "user": "defaultUser",
-      "comment": "",
-      "rating": 3
+      "userId": "user1",
+      "comment": "Excited to listen to this album!",
+      "createdAt": "2025-09-28T15:50:00Z",
+      "edited": false
+    }
+  ],
+  "ratings": [
+    {
+      "id": "1ND_EG7DERFf9R8TbjYXuC",
+      "albumId": 1,
+      "userId": "user2",
+      "rating": 4,
+      "createdAt": "2025-09-28T18:22:03.113Z"
     }
   ]
 }

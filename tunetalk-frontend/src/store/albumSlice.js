@@ -1,10 +1,14 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from '@reduxjs/toolkit';
 import { fetchAlbums } from '../api/albums';
 
 export const fetchAlbumsThunk = createAsyncThunk(
   'albums/fetchAlbums',
   async () => {
-    return await fetchAlbums(); // return the result
+    return await fetchAlbums();
   }
 );
 

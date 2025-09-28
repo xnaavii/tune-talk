@@ -21,38 +21,34 @@ export const deleteReviewThunk = createAsyncThunk(
   }
 );
 
-const initialState = {
-  reviews: [],
-  status: 'idle',
-  error: null,
-};
-
 const reviewSlice = createSlice({
   name: 'reviews',
-  initialState,
+  initialState: {
+    reviews: [],
+    fetchStatus: 'idle',
+    fetchError: null,
+    deleteStatus: 'idle',
+    deleteError: null,
+  },
   reducers: {
     addOrUpdateReview(state, action) {
-      const {
-        albumId,
-        user = 'defaultUser',
-        comment = '',
-        rating = 0,
-      } = action.payload;
+      const { albumId, userId, comment } = action.payload;
 
       const existingReview = state.reviews.find(
-        (r) => r.albumId === albumId && r.user === user
+        (r) => r.albumId === albumId && r.userId === userId
       );
 
       if (existingReview) {
         existingReview.comment = comment;
-        existingReview.rating = rating;
+        existingReview.edited = true;
       } else {
         state.reviews.push({
           id: nanoid(),
           albumId,
-          user,
+          userId,
           comment,
-          rating,
+          createdAt: new Date().toISOString(),
+          edited: false,
         });
       }
     },
@@ -60,18 +56,28 @@ const reviewSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchReviewsThunk.pending, (state) => {
-        state.status = 'loading';
+        state.fetchStatus = 'loading';
+        state.fetchError = null;
       })
       .addCase(fetchReviewsThunk.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.fetchStatus = 'succeeded';
         state.reviews = action.payload;
       })
       .addCase(fetchReviewsThunk.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message;
+        state.fetchStatus = 'failed';
+        state.fetchError = action.error.message;
+      })
+      .addCase(deleteReviewThunk.pending, (state) => {
+        state.deleteStatus = 'loading';
+        state.deleteError = null;
       })
       .addCase(deleteReviewThunk.fulfilled, (state, action) => {
+        state.deleteStatus = 'succeeded';
         state.reviews = state.reviews.filter((r) => r.id !== action.payload);
+      })
+      .addCase(deleteReviewThunk.rejected, (state, action) => {
+        state.deleteStatus = 'failed';
+        state.deleteError = action.error.message;
       });
   },
 });
@@ -88,12 +94,3 @@ export const selectReviewsForAlbum = createSelector(
   (reviews, albumId) => reviews.filter((r) => r.albumId === albumId)
 );
 
-// Average rating for a specific album
-export const selectAverageRatingForAlbum = createSelector(
-  [selectReviewsForAlbum],
-  (albumReviews) => {
-    if (!albumReviews.length) return 0;
-    const total = albumReviews.reduce((sum, r) => sum + r.rating, 0);
-    return total / albumReviews.length;
-  }
-);

@@ -46,17 +46,24 @@ app.get('/albums/:id/reviews', (req, res) => {
 app.post('/albums/:id/reviews', (req, res) => {
   const data = readData();
   const albumId = parseInt(req.params.id, 10);
-  const { user = 'defaultUser', comment = '', rating = 0 } = req.body;
+  const { userId, comment } = req.body;
 
   let review = data.reviews.find(
-    (r) => r.albumId === albumId && r.user === user
+    (review) => review.albumId === albumId && review.userId === userId
   );
 
   if (review) {
     review.comment = comment;
-    review.rating = rating;
+    review.edited = true;
   } else {
-    review = { id: nanoid(), albumId, user, comment, rating };
+    review = {
+      id: nanoid(),
+      albumId,
+      userId,
+      comment,
+      createdAt: new Date().toISOString(),
+      edited: false,
+    };
     data.reviews.push(review);
   }
 
@@ -82,6 +89,55 @@ app.delete('/reviews/:id', (req, res) => {
 
   writeData(data);
   res.json(deletedReview);
+});
+
+app.get('/ratings', (req, res) => {
+  const data = readData();
+  res.json(data.ratings);
+});
+
+app.post('/ratings/:id', (req, res) => {
+  const data = readData();
+  const albumId = parseInt(req.params.id, 10);
+  const { userId, rating } = req.body;
+
+  const existingRating = data.ratings.find(
+    (r) => r.albumId === albumId && r.userId === userId
+  );
+
+  let result;
+  if (existingRating) {
+    existingRating.rating = rating;
+    result = existingRating;
+  } else {
+    const newRating = {
+      id: nanoid(),
+      albumId,
+      userId,
+      rating,
+      createdAt: new Date().toISOString(),
+    };
+    data.ratings.push(newRating);
+    result = newRating;
+  }
+
+  writeData(data);
+  res.json(result);
+});
+
+app.delete('/ratings/:id', (req, res) => {
+  const data = readData();
+  const ratingId = req.params.id;
+
+  const index = data.ratings.findIndex((r) => String(r.id) === ratingId);
+  if (index === -1) {
+    return res.status(404).json({ error: 'Rating not found' });
+  }
+
+  const deletedRating = data.ratings.splice(index, 1)[0];
+
+  writeData(data);
+  res.json(deletedRating);
 });
 
 app.listen(PORT, () => {

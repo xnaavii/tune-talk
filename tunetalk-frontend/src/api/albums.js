@@ -40,6 +40,19 @@ export async function fetchReviewsById(albumId) {
   if (!res.ok) throw new Error('Failed to fetch reviews');
   return res.json();
 }
+export async function fetchReviews() {
+  const res = await fetch(`${API_URL}/reviews/`);
+  if (!res.ok) throw new Error('Failed to fetch reviews');
+  return res.json();
+}
+
+export async function deleteReview(reviewId) {
+  const res = await fetch(`${API_URL}/reviews/${reviewId}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Failed to delete review');
+  return res.json();
+}
 
 export async function postReview(albumId, review) {
   const res = await fetch(`${API_URL}/albums/${albumId}/reviews`, {
@@ -51,14 +64,24 @@ export async function postReview(albumId, review) {
   return res.json();
 }
 
-export async function fetchReviews() {
-  const res = await fetch(`${API_URL}/reviews/`);
-  if (!res.ok) throw new Error('Failed to fetch reviews');
+export async function fetchRatings() {
+  const res = await fetch(`${API_URL}/ratings`);
+  if (!res.ok) throw new Error('Failed to fetch ratings');
   return res.json();
 }
 
-export async function deleteReview(reviewId) {
-  const res = await fetch(`${API_URL}/reviews/${reviewId}`, {
+export async function postRating(albumId, rating) {
+  const res = await fetch(`${API_URL}/ratings/${albumId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(rating),
+  });
+  if (!res.ok) throw new Error('Failed to post rating');
+  return res.json();
+}
+
+export async function deleteRating(ratingId) {
+  const res = await fetch(`${API_URL}/ratings/${ratingId}`, {
     method: 'DELETE',
   });
   if (!res.ok) throw new Error('Failed to delete review');

@@ -2,58 +2,59 @@ import { useState, useEffect } from 'react';
 import Star from './Star';
 import PropTypes from 'prop-types';
 import {
+  selectRatingsForAlbum,
+  addOrUpdateRating,
+  fetchRatingsThunk,
   selectAverageRatingForAlbum,
-  selectReviewsForAlbum,
-  addOrUpdateReview,
-  fetchReviewsThunk,
-  deleteReviewThunk,
-} from '../store/reviewSlice';
-import { postReview } from '../api/albums';
+  deleteRatingThunk,
+} from '../store/ratingSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { IoRemoveCircle } from 'react-icons/io5';
+import { postRating } from '../api/albums';
 
 export default function StarRating({ count = 5, albumId }) {
   const dispatch = useDispatch();
 
   const averageRating = useSelector((state) =>
-    selectAverageRatingForAlbum(state, albumId || [])
+    selectAverageRatingForAlbum(state, albumId)
   );
 
-  const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
+  const ratings = useSelector((state) => selectRatingsForAlbum(state, albumId));
 
-  // Find current user's review
-  const existingReview = reviews.find((r) => r.user === 'defaultUser');
-  const userRating = existingReview?.rating || 0;
+  const existingRating = ratings.find((r) => r.userId === 'user1');
 
-  const [_, setCurrentRating] = useState(userRating);
+  const [currentRating, setCurrentRating] = useState(
+    existingRating?.rating || 0
+  );
+
   const [hoveredStar, setHoveredStar] = useState(null);
 
   useEffect(() => {
-    setCurrentRating(userRating);
-  }, [userRating]);
+    setCurrentRating(existingRating?.rating || 0);
+  }, [existingRating]);
 
   async function handleOnClickStar(rating) {
     setCurrentRating(rating);
 
-    const reviewObj = {
+    const ratingobj = {
       albumId,
-      user: 'defaultUser',
-      comment: existingReview?.comment || '',
+      userId: 'user1',
       rating,
     };
 
-    dispatch(addOrUpdateReview(reviewObj));
+    dispatch(addOrUpdateRating(ratingobj));
 
     try {
-      await postReview(albumId, reviewObj);
-      dispatch(fetchReviewsThunk());
+      await postRating(albumId, ratingobj);
+      dispatch(fetchRatingsThunk());
     } catch (error) {
       console.error('Failed to save rating', error);
     }
   }
 
-  function handleRemoveRating(reviewId) {
-    dispatch(deleteReviewThunk(reviewId));
+  function handleRemoveRating(ratingId) {
+    dispatch(deleteRatingThunk(ratingId));
+    setCurrentRating(0);
   }
 
   return (
@@ -77,32 +78,40 @@ export default function StarRating({ count = 5, albumId }) {
               <Star
                 size='20'
                 color={
-                  hoveredStar !== null || userRating > 0
+                  hoveredStar !== null || currentRating > 0
                     ? 'rgba(250,204,21)'
                     : '#FFFFFF'
                 }
                 filled={
                   hoveredStar !== null
                     ? index <= hoveredStar
-                    : userRating > 0
-                    ? index <= userRating
+                    : currentRating > 0
+                    ? index <= currentRating
                     : index <= fullStars
                 }
-                half={hoveredStar === null && userRating === 0 ? half : false}
+                half={
+                  hoveredStar === null && currentRating === 0 ? half : false
+                }
               />
             </button>
           );
         })}
-        <span className='text-[10px] sm:text-[12px]'>{averageRating.toFixed(1)}</span>
+        {averageRating > 0 ? (
+          <span className='text-[10px] sm:text-[12px]'>
+            {averageRating.toFixed(1)}
+          </span>
+        ) : null}
         <div
           className={`transition-all duration-300 ease-in-out overflow-hidden ${
-            userRating > 0 ? 'opacity-100 py-1' : 'opacity-0 py-0'
+            currentRating > 0 ? 'opacity-100 py-1' : 'opacity-0 py-0'
           }`}
         >
           <span className='flex flex-wrap items-center gap-1 sm:gap-2 text-[10px] sm:text-[14px] text-stone-300'>
             <button
               className='ml-1 sm:ml-2 p-1 rounded-full hover:bg-red-200 active:bg-red-300 transition-colors'
-              onClick={() => handleRemoveRating(existingReview.id)}
+              onClick={() =>
+                existingRating && handleRemoveRating(existingRating.id)
+              }
             >
               <IoRemoveCircle
                 className='w-4 h-4 sm:w-5 sm:h-5'

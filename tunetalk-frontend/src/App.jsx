@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchAlbumsThunk } from './store/albumSlice';
 import { fetchReviewsThunk } from './store/reviewSlice';
+import { fetchRatingsThunk } from './store/ratingSlice';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ export default function App() {
   useEffect(() => {
     dispatch(fetchAlbumsThunk());
     dispatch(fetchReviewsThunk());
+    dispatch(fetchRatingsThunk());
   }, [dispatch]);
 
   return (

@@ -8,7 +8,7 @@ export default function ReviewCard({ review, onDelete }) {
           {review.comment}
         </p>
 
-        {review.user === 'defaultUser' && review.comment !== '' && (
+        {review.userId === 'user1' && review.comment !== '' && (
           <button
             onClick={() => onDelete(review.id)}
             className='text-xs text-red-400 hover:text-red-300 transition-colors'
@@ -30,17 +30,19 @@ export default function ReviewCard({ review, onDelete }) {
         ))}
       </div>
 
-      <span className='text-xs text-stone-400 italic'>— {review.user}</span>
+      <span className='text-xs text-stone-400 italic'>— {review.userId}</span>
     </div>
   );
 }
 
 ReviewCard.propTypes = {
   review: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    user: PropTypes.string.isRequired,
-    comment: PropTypes.string,
-    rating: PropTypes.number.isRequired,
+    albumId: PropTypes.number.isRequired,
+    comment: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    edited: PropTypes.bool.isRequired,
+    id: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
 };
