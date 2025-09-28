@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { fetchAlbumsThunk } from '../store/albumSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import AlbumCard from '../components/AlbumCard';
@@ -18,9 +18,15 @@ export default function PopularPage() {
     if (status === 'idle') dispatch(fetchAlbumsThunk());
   }, [status, dispatch]);
 
-  // Compute metrics
-  const albumsWithMetrics = useMemo(() => {
-    return albums.map((album) => {
+  if (status === 'loading') return <Spinner />;
+  if (status === 'failed') return <p>{error}</p>;
+
+  // Sort by rating using your existing utility
+  const byRating = sortAlbums(albums, reviews, ratings);
+
+  // Sort by number of reviews (computed inline for latest data)
+  const byReviews = [...albums]
+    .map((album) => {
       const albumReviews = reviews.filter((r) => r.albumId === album.id);
       const albumRatings = ratings.filter((r) => r.albumId === album.id);
       const avgRating =
@@ -29,26 +35,8 @@ export default function PopularPage() {
             albumRatings.length
           : 0;
       return { ...album, albumReviews, albumRatings, avgRating };
-    });
-  }, [albums, reviews, ratings]);
-
-  // By rating
-  const byRating = useMemo(
-    () => sortAlbums(albums, reviews, ratings),
-    [albums, reviews, ratings]
-  );
-
-  // By number of reviews
-  const byReviews = useMemo(
-    () =>
-      [...albumsWithMetrics].sort(
-        (a, b) => b.albumReviews.length - a.albumReviews.length
-      ),
-    [albumsWithMetrics]
-  );
-
-  if (status === 'loading') return <Spinner />;
-  if (status === 'failed') return <p>Error: {error}</p>;
+    })
+    .sort((a, b) => b.albumReviews.length - a.albumReviews.length);
 
   return (
     <>
@@ -57,7 +45,7 @@ export default function PopularPage() {
       </h2>
 
       {/* Rating Section */}
-      <h3 className='p-2 text-lg font-medium text-stone-200'>By Rating</h3>
+      <h3 className='p-1 text-lg font-medium text-stone-200 mb-2'>By Rating</h3>
       <div className='flex flex-col gap-3 w-full mb-6'>
         {byRating.map((album, index) => {
           const albumRatings = ratings.filter((r) => r.albumId === album.id);
@@ -67,12 +55,14 @@ export default function PopularPage() {
                 albumRatings.length
               : 0;
 
+          const displayRating = avgRating > 0 ? avgRating.toFixed(1) : '–';
+
           if (avgRating <= 0) return null;
 
           return (
             <div
               key={album.id}
-              className='flex flex-row items-center justify-between gap-3 p-2 bg-[#0F2E48]/30 rounded-[16px]'
+              className='flex flex-row items-center justify-between gap-3 rounded-[16px]'
             >
               <div
                 className={`flex-1 ${
@@ -83,7 +73,7 @@ export default function PopularPage() {
                 <AlbumCard album={album} />
               </div>
               <span className='flex items-center gap-[6px] text-stone-200 justify-end w-[40px]'>
-                {avgRating.toFixed(1)} <IoStar size={12} />
+                {displayRating} <IoStar size={12} />
               </span>
             </div>
           );
@@ -91,15 +81,17 @@ export default function PopularPage() {
       </div>
 
       {/* Review Section */}
-      <h3 className='p-2 text-lg font-medium text-stone-200'>By Reviews</h3>
+      <h3 className='p-1 text-lg font-medium text-stone-200 mb-2'>By Reviews</h3>
       <div className='flex flex-col gap-3 w-full'>
         {byReviews.map((album, index) => {
-          if (album.albumReviews.length <= 0) return null;
+          const albumReviews = reviews.filter((r) => r.albumId === album.id);
+
+          if (albumReviews.length <= 0) return null;
 
           return (
             <div
               key={album.id}
-              className='flex flex-row items-center justify-between gap-3 p-2 bg-[#0F2E48]/30 rounded-[16px]'
+              className='flex flex-row items-center justify-between gap-3 rounded-[16px]'
             >
               <div
                 className={`flex-1 ${
@@ -110,7 +102,7 @@ export default function PopularPage() {
                 <AlbumCard album={album} />
               </div>
               <span className='flex items-center gap-[6px] text-stone-200 justify-end w-[40px]'>
-                {album.albumReviews.length} <IoChatbubbleOutline size={12} />
+                {albumReviews.length} <IoChatbubbleOutline size={12} />
               </span>
             </div>
           );
