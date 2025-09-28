@@ -75,7 +75,7 @@ export default function StarRating({ count = 5, albumId }) {
               onMouseLeave={() => setHoveredStar(null)}
             >
               <Star
-                size='xl'
+                size='20'
                 color={
                   hoveredStar !== null || userRating > 0
                     ? 'rgba(250,204,21)'
@@ -93,6 +93,7 @@ export default function StarRating({ count = 5, albumId }) {
             </button>
           );
         })}
+        <span className='text-[10px] sm:text-[12px]'>{averageRating.toFixed(1)}</span>
         <div
           className={`transition-all duration-300 ease-in-out overflow-hidden ${
             userRating > 0 ? 'opacity-100 py-1' : 'opacity-0 py-0'
