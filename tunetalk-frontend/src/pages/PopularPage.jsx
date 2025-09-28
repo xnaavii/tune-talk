@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { fetchAlbumsThunk } from '../store/albumSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import AlbumCard from '../components/AlbumCard';
-import { IoStar } from 'react-icons/io5';
+import { IoChatbubbleOutline, IoStar } from 'react-icons/io5';
 import { sortAlbums } from '../utils/sortAlbums';
 import { selectAllRatings } from '../store/ratingSlice';
 import Spinner from '../components/common/Spinner';
@@ -13,13 +13,39 @@ export default function PopularPage() {
   const reviews = useSelector((state) => state.reviews.reviews);
   const ratings = useSelector(selectAllRatings);
 
+  // Fetch albums if idle
   useEffect(() => {
-    if (status === 'idle') {
-      dispatch(fetchAlbumsThunk());
-    }
+    if (status === 'idle') dispatch(fetchAlbumsThunk());
   }, [status, dispatch]);
 
-  const sortedAlbums = sortAlbums(albums, reviews, ratings);
+  // Compute metrics
+  const albumsWithMetrics = useMemo(() => {
+    return albums.map((album) => {
+      const albumReviews = reviews.filter((r) => r.albumId === album.id);
+      const albumRatings = ratings.filter((r) => r.albumId === album.id);
+      const avgRating =
+        albumRatings.length > 0
+          ? albumRatings.reduce((sum, r) => sum + r.rating, 0) /
+            albumRatings.length
+          : 0;
+      return { ...album, albumReviews, albumRatings, avgRating };
+    });
+  }, [albums, reviews, ratings]);
+
+  // By rating
+  const byRating = useMemo(
+    () => sortAlbums(albums, reviews, ratings),
+    [albums, reviews, ratings]
+  );
+
+  // By number of reviews
+  const byReviews = useMemo(
+    () =>
+      [...albumsWithMetrics].sort(
+        (a, b) => b.albumReviews.length - a.albumReviews.length
+      ),
+    [albumsWithMetrics]
+  );
 
   if (status === 'loading') return <Spinner />;
   if (status === 'failed') return <p>Error: {error}</p>;
@@ -30,37 +56,66 @@ export default function PopularPage() {
         Popular Music
       </h2>
 
-      {sortedAlbums.length > 0 ? (
-        <div className='flex flex-col gap-[12px] w-full'>
-          {sortedAlbums.map((album) => {
-            const albumReviews = reviews.filter((r) => r.albumId === album.id);
-            const albumRatings = ratings.filter((r) => r.albumId === album.id);
+      {/* Rating Section */}
+      <h3 className='p-2 text-lg font-medium text-stone-200'>By Rating</h3>
+      <div className='flex flex-col gap-3 w-full mb-6'>
+        {byRating.map((album, index) => {
+          const albumRatings = ratings.filter((r) => r.albumId === album.id);
+          const avgRating =
+            albumRatings.length > 0
+              ? albumRatings.reduce((sum, r) => sum + r.rating, 0) /
+                albumRatings.length
+              : 0;
 
-            const avgRating =
-              albumRatings.length > 0
-                ? albumRatings.reduce((sum, r) => sum + r.rating, 0) /
-                  albumRatings.length
-                : 0;
+          if (avgRating <= 0) return null;
 
-            return (
-              <div key={album.id} className='flex flex-row gap-3 items-center'>
-                <span className='flex items-center gap-[6px] text-stone-200'>
-                  {avgRating.toFixed(1)} <IoStar size={12} />
-                </span>
-                <div className='flex-1'>
-                  <AlbumCard album={album} />
-                </div>
-
-                <span className='text-[12px]'>
-                  {albumReviews.length} reviews
-                </span>
+          return (
+            <div
+              key={album.id}
+              className='flex flex-row items-center justify-between gap-3 p-2 bg-[#0F2E48]/30 rounded-[16px]'
+            >
+              <div
+                className={`flex-1 ${
+                  index === 0 &&
+                  'animate-pulse duration-2000 border border-stone-400 rounded-[16px]'
+                }`}
+              >
+                <AlbumCard album={album} />
               </div>
-            );
-          })}
-        </div>
-      ) : (
-        <p className='text-stone-300'>No popular albums available.</p>
-      )}
+              <span className='flex items-center gap-[6px] text-stone-200 justify-end w-[40px]'>
+                {avgRating.toFixed(1)} <IoStar size={12} />
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Review Section */}
+      <h3 className='p-2 text-lg font-medium text-stone-200'>By Reviews</h3>
+      <div className='flex flex-col gap-3 w-full'>
+        {byReviews.map((album, index) => {
+          if (album.albumReviews.length <= 0) return null;
+
+          return (
+            <div
+              key={album.id}
+              className='flex flex-row items-center justify-between gap-3 p-2 bg-[#0F2E48]/30 rounded-[16px]'
+            >
+              <div
+                className={`flex-1 ${
+                  index === 0 &&
+                  'animate-pulse duration-2000 border border-stone-400 rounded-[16px]'
+                }`}
+              >
+                <AlbumCard album={album} />
+              </div>
+              <span className='flex items-center gap-[6px] text-stone-200 justify-end w-[40px]'>
+                {album.albumReviews.length} <IoChatbubbleOutline size={12} />
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }

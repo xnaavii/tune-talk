@@ -135,11 +135,11 @@
       "edited": false
     },
     {
-      "id": 111,
-      "albumId": 3,
+      "id": "Sf4u599WAW-2J8pybTGwz",
+      "albumId": 4,
       "userId": "user1",
-      "comment": "Excited to listen to this album!",
-      "createdAt": "2025-09-28T15:50:00Z",
+      "comment": "Such a great album",
+      "createdAt": "2025-09-28T19:24:20.074Z",
       "edited": false
     }
   ],
@@ -150,20 +150,6 @@
       "userId": "user2",
       "rating": 4,
       "createdAt": "2025-09-28T18:22:03.113Z"
-    },
-    {
-      "id": "pIcKTcpPgaqtfmJkRsf03",
-      "albumId": 4,
-      "userId": "user1",
-      "rating": 3,
-      "createdAt": "2025-09-28T18:35:14.029Z"
-    },
-    {
-      "id": "jybqjzAfruunF0ZByBury",
-      "albumId": 1,
-      "userId": "user1",
-      "rating": 4,
-      "createdAt": "2025-09-28T18:40:54.218Z"
     }
   ]
 }

@@ -14,13 +14,14 @@ export async function searchAlbums(query) {
   if (!res.ok) throw new Error('Failed to fetch albums');
 
   const albums = await res.json();
+  const filteredAlbums = albums.filter(
+    (album) =>
+      album.title.toLowerCase().includes(query.toLowerCase()) ||
+      album.artist.toLowerCase().includes(query.toLowerCase())
+  );
 
   if (!query) return albums;
-  return albums.filter(
-    (album) =>
-      album.title.toLowerCase().includes(query) ||
-      album.artist.toLowerCase().includes(query)
-  );
+  return filteredAlbums;
 }
 
 export async function fetchAlbums() {
