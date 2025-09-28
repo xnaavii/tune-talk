@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ReviewInput from './ReviewInput';
 import { useSelector, useDispatch } from 'react-redux';
@@ -8,6 +8,7 @@ import {
   fetchReviewsThunk,
   deleteReviewThunk,
 } from '../store/reviewSlice';
+import { selectRatingsForAlbum } from '../store/ratingSlice';
 import { postReview } from '../api/albums';
 import ReviewCard from './ReviewCard';
 
@@ -15,16 +16,10 @@ export default function Reviews({ albumId }) {
   const dispatch = useDispatch();
   const [reviewText, setReviewText] = useState('');
 
-  useEffect(() => {
-    dispatch(fetchReviewsThunk());
-  }, [dispatch]);
-
   const reviews = useSelector((state) => selectReviewsForAlbum(state, albumId));
-  console.log(reviews);
+  const ratings = useSelector((state) => selectRatingsForAlbum(state, albumId));
 
-  const existingReview = reviews.find(
-    (r) => r.user === 'user1' && r.albumId === albumId
-  );
+  console.log(ratings);
 
   async function handleAddReview() {
     if (!reviewText.trim()) return;
@@ -66,13 +61,20 @@ export default function Reviews({ albumId }) {
         />
         <div className='flex flex-col gap-2'>
           {reviews.length > 0 ? (
-            reviews.map((review) => (
-              <ReviewCard
-                key={review.id}
-                review={review}
-                onDelete={handleDeleteReview}
-              />
-            ))
+            reviews.map((review) => {
+              const userRating =
+                ratings.find((rating) => rating.userId === review.userId)
+                  ?.rating || 0;
+
+              return (
+                <ReviewCard
+                  key={review.id}
+                  review={review}
+                  onDelete={handleDeleteReview}
+                  rating={userRating}
+                />
+              );
+            })
           ) : (
             <p className='text-stone-400 text-sm italic'>No reviews yet.</p>
           )}

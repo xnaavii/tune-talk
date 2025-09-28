@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function ReviewCard({ review, onDelete }) {
+export default function ReviewCard({ review, onDelete, rating }) {
   return (
     <div className='bg-[#C2E1FA]/10 rounded-xl p-3 flex flex-col gap-2 shadow-sm'>
       <div className='flex justify-between items-start'>
@@ -20,14 +20,20 @@ export default function ReviewCard({ review, onDelete }) {
 
       {/* Stars */}
       <div className='flex items-center gap-1'>
-        {Array.from({ length: 5 }).map((_, i) => (
-          <span
-            key={i}
-            className={i < review.rating ? 'text-yellow-400' : 'text-stone-600'}
-          >
-            ★
+        {rating && rating > 0 ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <span
+              key={i}
+              className={i < rating ? 'text-yellow-400' : 'text-stone-600'}
+            >
+              ★
+            </span>
+          ))
+        ) : (
+          <span className='text-[10px] text-stone-600'>
+            User hasn't rated this.
           </span>
-        ))}
+        )}
       </div>
 
       <span className='text-xs text-stone-400 italic'>— {review.userId}</span>
@@ -45,4 +51,5 @@ ReviewCard.propTypes = {
     userId: PropTypes.string.isRequired,
   }).isRequired,
   onDelete: PropTypes.func.isRequired,
+  rating: PropTypes.number,
 };
