@@ -1,42 +1,42 @@
-import { IoStar, IoStarOutline } from 'react-icons/io5';
+import { IoStar, IoStarOutline, IoStarHalf } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 
 export default function Star({
-  filled,
-  onClick,
-  onMouseOver,
-  onMouseLeave,
-  isUserRated,
+  filled = false,
+  half = false,
+  size = '16',
+  color = '#FFFFFF',
 }) {
-  const Icon = filled ? IoStar : IoStarOutline;
+  // Size takes in the tailwind class of a font size (e.g. sm, md, lg..)
+  const styleClasses = 'absolute top-0 left-0 transition-opacity duration-300';
 
   return (
-    <button
-      onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
-      className='focus:outline-none'
-    >
-      <Icon
-        className={`text-3xl transition-all duration-200
-          text-stone-200
-          ${
-            isUserRated
-              ? 'text-yellow-200 drop-shadow-[0_0_4px_rgba(250,204,21,0.5)]'
-              : ''
-          }
-          ${filled && !isUserRated ? 'text-yellow-50' : ''}
-          hover:text-yellow-300
-        `}
+    <div className={`relative w-[1em] h-[1em] p-[10px]`}>
+      <IoStarOutline
+        className={styleClasses}
+        style={{
+          fill: color,
+          opacity: !filled && !half ? 1 : 0,
+        }}
+        size={parseInt(size)}
       />
-    </button>
+      <IoStarHalf
+        className={styleClasses}
+        style={{ fill: color, opacity: half ? 1 : 0 }}
+        size={parseInt(size)}
+      />
+      <IoStar
+        className={styleClasses}
+        style={{ fill: color, opacity: filled ? 1 : 0 }}
+        size={parseInt(size)}
+      />
+    </div>
   );
 }
 
 Star.propTypes = {
   filled: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
-  onMouseOver: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
-  isUserRated: PropTypes.bool,
+  half: PropTypes.bool,
+  size: PropTypes.string,
+  color: PropTypes.string,
 };

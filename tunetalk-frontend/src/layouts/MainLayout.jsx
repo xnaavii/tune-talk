@@ -4,24 +4,39 @@ import Navbar from '../components/common/Navbar';
 import defaultBackground from '../assets/record-blue.jpg';
 
 export default function MainLayout() {
-  const { selectedAlbum } = useSelector((state) => state.albums);
+  const selectedAlbum = useSelector((state) => state.albums.selectedAlbum);
 
-  let bgImg = defaultBackground;
-
-  if (selectedAlbum?.image) {
-    bgImg = selectedAlbum.image;
-  }
+  const bgImg = selectedAlbum?.image ?? defaultBackground;
 
   return (
-    <div className='min-h-screen bg-[#0F2E48] text-white relative transition-all'>
+    <div className='relative min-h-dvh bg-[#0F2E48] transition-all'>
+      {/* Background image */}
       <div
-        className='absolute inset-0 bg-cover bg-center filter opacity-40'
-        style={{ backgroundImage: `url(${bgImg})` }}
+        className='absolute inset-0 bg-cover bg-center bg-no-repeat'
+        style={{
+          backgroundImage: `url(${bgImg})`,
+          opacity: selectedAlbum?.image ? 0.4 : 0.2,
+        }}
       />
 
-      <div className='h-dvh max-w-full mx-auto p-3 grid grid-rows-[auto_1fr] gap-3 overflow-hidden relative z-10'>
+      {/* Content wrapper: keeps responsive padding + safe-area */}
+      <div
+        className='
+          h-dvh
+          max-w-[942px]
+          mx-auto
+          flex flex-col gap-[6px] md:gap-[18px]
+          overflow-hidden
+          relative z-10
+          transition-all
+          py-[6px] md:py-[26px] lg:py-[49px]
+          px-[6px] md:px-[26px] lg:px-[49px]
+          pt-safe-top
+          pb-safe-bottom
+        '
+      >
         <Navbar />
-        <main className='flex-1 w-full md:flex-row p-3 gap-4 text-stone-100 border-stone-50 rounded-lg shadow-sm backdrop-blur-2xl bg-[#C2E1FA]/20 overflow-auto'>
+        <main className='flex-1 max-w-[942px] md:flex-row px-[32px] py-[24px] gap-4 text-stone-100 border-stone-50 rounded-lg shadow backdrop-blur-[30px] bg-[#C2E1FA]/16 overflow-auto'>
           <Outlet />
         </main>
       </div>

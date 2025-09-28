@@ -1,4 +1,12 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const DEBUG = import.meta.env.VITE_DEBUG;
+
+let API_URL;
+
+if (DEBUG && DEBUG === 'true') {
+  API_URL = import.meta.env.VITE_API_URL_DEV;
+} else {
+  API_URL = import.meta.env.VITE_API_URL;
+}
 
 export async function searchAlbums(query) {
   const res = await fetch(`${API_URL}/albums`);

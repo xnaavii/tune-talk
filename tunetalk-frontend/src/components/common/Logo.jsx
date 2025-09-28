@@ -1,17 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-
-export default function Logo() {
-  const navigate = useNavigate();
-
-  function handleOnClick() {
-    navigate('/');
-  }
+export default function Logo({ size }) {
+  const sizes = {
+    sm: 'text-[32px] font-bold',
+    md: 'text-[48px] font-bold',
+    lg: 'text-[96px] font-semibold',
+  };
 
   return (
-    <h1 className={'tracking-tighter text-7xl font-extrabold text-stone-50'}>
-      <button onClick={handleOnClick} className=' hover:cursor-pointer'>
-        Tunetalk
-      </button>
+    <h1
+      className={`tracking-[-6%] ${sizes[size]} text-[#F8F9FA] [text-stroke:1px_#F8F9FA]`}
+    >
+      Tunetalk
     </h1>
   );
 }

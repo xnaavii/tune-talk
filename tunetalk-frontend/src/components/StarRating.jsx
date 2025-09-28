@@ -10,6 +10,7 @@ import {
 } from '../store/reviewSlice';
 import { postReview } from '../api/albums';
 import { useSelector, useDispatch } from 'react-redux';
+import { IoRemoveCircle } from 'react-icons/io5';
 
 export default function StarRating({ count = 5, albumId }) {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export default function StarRating({ count = 5, albumId }) {
   const existingReview = reviews.find((r) => r.user === 'defaultUser');
   const userRating = existingReview?.rating || 0;
 
-  const [currentRating, setCurrentRating] = useState(userRating);
+  const [_, setCurrentRating] = useState(userRating);
   const [hoveredStar, setHoveredStar] = useState(null);
 
   useEffect(() => {
@@ -51,54 +52,66 @@ export default function StarRating({ count = 5, albumId }) {
     }
   }
 
-  function handleOnHoverStar(index) {
-    setHoveredStar(index);
-  }
-
   function handleRemoveRating(reviewId) {
     dispatch(deleteReviewThunk(reviewId));
   }
 
   return (
-    <div className='flex flex-col gap-1'>
-      <div className='flex items-center gap-2'>
+    <div className='flex flex-col gap-[2px]'>
+      <div className='flex items-center gap-[4px]'>
         {Array.from({ length: count }).map((_, i) => {
           const index = i + 1;
-          const isFilled = hoveredStar
-            ? index <= hoveredStar
-            : index <= (userRating || averageRating);
 
-          const isUserRated = userRating > 0 && index <= userRating;
+          const fullStars = Math.floor(averageRating);
+          const fraction = averageRating - fullStars;
+          const hasHalfStar = fraction >= 0.5;
+          let half = hasHalfStar && index === fullStars + 1;
 
           return (
-            <Star
+            <button
               key={i}
-              filled={isFilled}
               onClick={() => handleOnClickStar(index)}
-              onMouseOver={() => handleOnHoverStar(index)}
+              onMouseOver={() => setHoveredStar(index)}
               onMouseLeave={() => setHoveredStar(null)}
-              isUserRated={isUserRated}
-            />
+            >
+              <Star
+                size='20'
+                color={
+                  hoveredStar !== null || userRating > 0
+                    ? 'rgba(250,204,21)'
+                    : '#FFFFFF'
+                }
+                filled={
+                  hoveredStar !== null
+                    ? index <= hoveredStar
+                    : userRating > 0
+                    ? index <= userRating
+                    : index <= fullStars
+                }
+                half={hoveredStar === null && userRating === 0 ? half : false}
+              />
+            </button>
           );
         })}
-        <span className='text-sm text-stone-300'>
-          {averageRating.toFixed(1)}
-        </span>
+        <span className='text-[10px] sm:text-[12px]'>{averageRating.toFixed(1)}</span>
+        <div
+          className={`transition-all duration-300 ease-in-out overflow-hidden ${
+            userRating > 0 ? 'opacity-100 py-1' : 'opacity-0 py-0'
+          }`}
+        >
+          <span className='flex flex-wrap items-center gap-1 sm:gap-2 text-[10px] sm:text-[14px] text-stone-300'>
+            <button
+              className='ml-1 sm:ml-2 p-1 rounded-full hover:bg-red-200 active:bg-red-300 transition-colors'
+              onClick={() => handleRemoveRating(existingReview.id)}
+            >
+              <IoRemoveCircle
+                className='w-4 h-4 sm:w-5 sm:h-5'
+                color='#ffe3e3'
+              />
+            </button>
+          </span>
+        </div>
       </div>
-
-      {userRating > 0 ? (
-        <span className='text-xs text-stone-300'>
-          You rated {userRating} star{userRating > 1 ? 's' : ''}
-          <button
-            className='ml-2 text-red-400 hover:underline'
-            onClick={() => handleRemoveRating(existingReview.id)}
-          >
-            Remove
-          </button>
-        </span>
-      ) : (
-        <span className='text-xs text-stone-400'>You didn't rate this.</span>
-      )}
     </div>
   );
 }

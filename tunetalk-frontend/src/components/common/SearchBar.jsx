@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
+import { IoSearch } from 'react-icons/io5';
 
 export default function SearchBar({ onSubmit, onChange, query }) {
   return (
-    <form className='relative grow-1' onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className='relative w-full p-[2px]'>
       <input
         value={query}
         onChange={onChange}
-        className='w-full py-3 pr-10 pl-4 text-stone-100 border-stone-50 rounded-3xl shadow-sm backdrop-blur-md bg-[#C2E1FA]/20 outline-none focus:ring-2 focus:ring-stone-100 focus:ring-inset placeholder:text-stone-300'
+        className='text-[14px] w-full pr-12 pl-4 py-[10px] text-[#FFFFFF] outline-none focus:ring-2 focus:ring-stone-100 rounded-[32px] focus:ring-inset placeholder:text-[#BABFC4] backdrop-blur-[10px] bg-[#C9CED3]/16  shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)]'
         placeholder='Search for an artist, album or a song'
       />
-      <ion-icon
-        name='search-outline'
-        class='absolute right-3 top-1/2 -translate-y-1/2 text-xl text-stone-100 pointer-events-none'
-      />
+      <IoSearch className='absolute right-4 top-1/2 -translate-y-1/2 text-[#FFFFFF] w-[24px] h-[24px] stroke-[1.75]' />
     </form>
   );
 }

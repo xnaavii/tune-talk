@@ -1,28 +1,18 @@
 import PropTypes from 'prop-types';
 
-export default function Button({ label, icon, onClick }) {
-  const isIconOnly = !label;
-
+export default function Button({ label, icon: Icon, ...props }) {
   return (
     <button
-      onClick={onClick}
-      className={`${
-        isIconOnly ? 'p-2 aspect-square rounded-full' : 'py-2 px-4 rounded-3xl'
-      } flex items-center justify-center gap-2 bg-[#C2E1FA]/20 text-stone-100 border-stone-50 shadow-sm backdrop-blur-md hover:cursor-pointer hover:bg-[#C2E1FA]/40 transition-all duration-200`}
+      {...props}
+      className='w-fit h-fit py-[6px] px-[8px] rounded-[16px] flex items-center justify-between gap-[6px] bg-[#C2E1FA]/20 text-[#F8F9FA] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)] backdrop-blur-[23.2px] hover:cursor-pointer hover:bg-[#C2E1FA]/40 transition-all duration-200'
     >
-      {icon && (
-        <ion-icon
-          name={icon}
-          className={`${isIconOnly ? 'text-md' : 'text-sm'}`}
-        />
-      )}
-      {!isIconOnly && <span className='text-sm'>{label}</span>}
+      {label && <span className='text-[12px] flex-1/2'>{label}</span>}
+      {Icon && <Icon className='w-[14px] h-[14px] text-[#F8F9FA]' />}
     </button>
   );
 }
 
 Button.propTypes = {
   label: PropTypes.string,
-  icon: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  icon: PropTypes.elementType,
 };
