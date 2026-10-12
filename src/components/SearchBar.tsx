@@ -38,7 +38,7 @@ export function SearchBar({
 					onKeyDown={onKeyDown}
 					// biome-ignore lint/a11y/noAutofocus: the landing page is a search page
 					autoFocus={autoFocus}
-					className={`glass-input [&::-webkit-search-cancel-button]:hidden ${compact ? "py-[7px]! pl-4 pr-10 text-[13px]!" : "pr-12"}`}
+					className={`glass-input [&::-webkit-search-cancel-button]:hidden ${compact ? "py-2! pl-4 pr-10 text-base!" : "pr-12"}`}
 					placeholder="Search music"
 					aria-label="Search music"
 				/>

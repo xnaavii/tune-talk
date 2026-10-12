@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { IoClose, IoSearch } from "react-icons/io5";
 import { useSearchNavigation } from "#/hooks/useSearchNavigation";
-import { Button } from "./Button";
+import { Button, navIconClass } from "./Button";
 import { Logo } from "./Logo";
 import { NavMenu } from "./NavMenu";
 import { SearchBar } from "./SearchBar";
@@ -38,13 +38,13 @@ export function Navbar() {
 	const hiddenWhileSearching = searchOpen ? "max-md:hidden" : "";
 
 	return (
-		<header className="glass-panel shrink-0 flex items-center gap-3 md:gap-4 px-3 md:px-4 py-2">
+		<header className="glass-panel shrink-0 flex items-center gap-2 md:gap-4 px-3 md:px-4 py-2 min-h-14">
 			<Link
 				to="/"
 				aria-label="Go to home page"
 				className={`shrink-0 ${hiddenWhileSearching}`}
 			>
-				<Logo size="xs" />
+				<Logo size="sm" />
 			</Link>
 			<div
 				className={`flex-1 min-w-0 md:max-w-sm ${searchOpen ? "" : "max-md:hidden"}`}
@@ -64,20 +64,20 @@ export function Navbar() {
 				<Button
 					icon={IoClose}
 					aria-label="Close search"
-					className="md:hidden shrink-0"
+					className={`md:hidden shrink-0 ${navIconClass}`}
 					onClick={() => setSearchOpen(false)}
 				/>
 			)}
 			<div
-				className={`ml-auto flex items-center gap-1.5 ${hiddenWhileSearching}`}
+				className={`ml-auto flex items-center gap-1 sm:gap-1.5 ${hiddenWhileSearching}`}
 			>
 				<Button
 					icon={IoSearch}
 					aria-label="Open search"
-					className="md:hidden"
+					className={`md:hidden ${navIconClass}`}
 					onClick={openSearch}
 				/>
-				<NavMenu compact className="flex items-center gap-1.5" />
+				<NavMenu compact className="flex items-center gap-1 sm:gap-1.5" />
 			</div>
 		</header>
 	);
