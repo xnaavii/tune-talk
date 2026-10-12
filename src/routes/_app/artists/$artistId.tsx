@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { IoChevronBack } from "react-icons/io5";
 import { SiApplemusic } from "react-icons/si";
-import defaultCover from "#/assets/record-blue.jpg";
+import defaultCover from "#/assets/record-blue.webp";
 import { IconButton } from "#/components/Button";
 import { Section } from "#/components/PageHeader";
 import { Spinner } from "#/components/Spinner";

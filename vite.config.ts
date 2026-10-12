@@ -7,7 +7,15 @@ import { defineConfig } from "vite";
 
 const config = defineConfig({
 	resolve: { tsconfigPaths: true },
-	plugins: [devtools(), nitro(), tailwindcss(), tanstackStart(), viteReact()],
+	plugins: [
+		devtools(),
+		// Run the server in Frankfurt, next to the Neon database (eu-central-1),
+		// instead of Vercel's default Washington, D.C. region.
+		nitro({ vercel: { functions: { regions: ["fra1"] } } }),
+		tailwindcss(),
+		tanstackStart(),
+		viteReact(),
+	],
 });
 
 export default config;

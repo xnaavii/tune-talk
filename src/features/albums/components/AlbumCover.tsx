@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react";
-import defaultCover from "#/assets/record-blue.jpg";
+import defaultCover from "#/assets/record-blue.webp";
 import type { Album } from "../types";
 
 // Some albums have no artwork, so fall back to the site background.
