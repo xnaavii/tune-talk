@@ -10,6 +10,11 @@ function createAuth() {
 		emailAndPassword: {
 			enabled: true,
 		},
+		// Keep a signed copy of the session in a cookie for a few minutes, so
+		// most page loads skip the database round trip to check who's signed in.
+		session: {
+			cookieCache: { enabled: true, maxAge: 60 * 5 },
+		},
 		database: drizzleAdapter(db, {
 			provider: "pg",
 		}),

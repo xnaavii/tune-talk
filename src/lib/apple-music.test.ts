@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { chartGet } from "./apple-music";
+import { catalogGet, chartGet } from "./apple-music";
 
 const fetchMock = vi.fn();
 vi.stubGlobal("fetch", fetchMock);
@@ -36,5 +36,24 @@ describe("chartGet", () => {
 	it("fails when there's no copy to fall back on", async () => {
 		fetchMock.mockResolvedValue(json({}, 504));
 		await expect(chartGet("/missing.json")).rejects.toThrow("(504)");
+	});
+});
+
+describe("catalogGet", () => {
+	it("reuses a lookup instead of asking Apple again", async () => {
+		fetchMock.mockResolvedValueOnce(json({ results: ["album"] }));
+		const params = { id: "42", entity: "song" };
+		expect(await catalogGet("/lookup", params)).toEqual({ results: ["album"] });
+		expect(await catalogGet("/lookup", params)).toEqual({ results: ["album"] });
+		expect(fetchMock).toHaveBeenCalledTimes(1);
+		expect(String(fetchMock.mock.calls[0][0])).toBe(
+			"https://itunes.apple.com/lookup?country=us&id=42&entity=song",
+		);
+	});
+
+	it("gives up on a request that takes too long", async () => {
+		fetchMock.mockResolvedValueOnce(json({ results: [] }));
+		await catalogGet("/search", { term: "timeout" });
+		expect(fetchMock.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal);
 	});
 });

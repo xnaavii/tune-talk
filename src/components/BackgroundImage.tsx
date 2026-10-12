@@ -1,4 +1,4 @@
-import defaultBackground from "#/assets/record-blue.jpg";
+import defaultBackground from "#/assets/record-blue.webp";
 
 // Full-bleed blurred backdrop behind every page: the album cover on album
 // pages, the record photo everywhere else.

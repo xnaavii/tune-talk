@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import defaultCover from "#/assets/record-blue.jpg";
+import defaultCover from "#/assets/record-blue.webp";
 import type { Artist } from "../types";
 
 // Artist row card, matching AlbumCard: the catalog has no artist photos, so
