@@ -91,6 +91,10 @@ main::-webkit-scrollbar-thumb {
 }
 
 main {
+  /* Reserve the scrollbar's space so content doesn't shift sideways when
+     a page grows tall enough to scroll (e.g. when data loads in). */
+  scrollbar-gutter: stable;
+  overflow-x: hidden;
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
