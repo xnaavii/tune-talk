@@ -5,8 +5,9 @@ import { IconButton } from "#/components/Button";
 import { Section } from "#/components/PageHeader";
 import { Spinner } from "#/components/Spinner";
 import { StatusMessage } from "#/components/StatusMessage";
+import { AlbumCard } from "#/features/albums/components/AlbumCard";
 import { AlbumDetails } from "#/features/albums/components/AlbumDetails";
-import { AlbumShelf } from "#/features/albums/components/AlbumShelf";
+import { AlbumGrid } from "#/features/albums/components/AlbumGrid";
 import { Tracklist } from "#/features/albums/components/Tracklist";
 import { albumQueries } from "#/features/albums/queries";
 import type { AlbumWithTracks } from "#/features/albums/types";
@@ -56,19 +57,15 @@ function AlbumPage() {
 	const { data: album } = useSuspenseQuery(albumQueries.details(albumId));
 
 	return (
-		<div className="flex flex-col gap-12">
-			<div className="flex flex-col gap-4">
-				<IconButton
-					icon={IoChevronBack}
-					label="Go back"
-					onClick={() => window.history.back()}
-				/>
-				<AlbumDetails album={album} />
-			</div>
-			<div className="grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-				<Tracklist album={album} />
-				<Reviews albumId={album.id} />
-			</div>
+		<div className="flex flex-col gap-6">
+			<IconButton
+				icon={IoChevronBack}
+				label="Go back"
+				onClick={() => window.history.back()}
+			/>
+			<AlbumDetails album={album} />
+			<Tracklist album={album} />
+			<Reviews albumId={album.id} />
 			<MoreByArtist album={album} />
 		</div>
 	);
@@ -83,7 +80,7 @@ function MoreByArtist({ album }: { album: AlbumWithTracks }) {
 	});
 	const others = [...(artist?.albums ?? []), ...(artist?.singles ?? [])]
 		.filter((other) => other.id !== album.id)
-		.slice(0, 15);
+		.slice(0, 6);
 
 	if (!album.artistId || others.length === 0) return null;
 
@@ -95,7 +92,11 @@ function MoreByArtist({ album }: { album: AlbumWithTracks }) {
 				params: { artistId: album.artistId },
 			}}
 		>
-			<AlbumShelf albums={others} />
+			<AlbumGrid>
+				{others.map((other) => (
+					<AlbumCard key={other.id} album={other} />
+				))}
+			</AlbumGrid>
 		</Section>
 	);
 }

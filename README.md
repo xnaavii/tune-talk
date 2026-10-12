@@ -16,8 +16,8 @@ It’s a full-stack **TanStack Start** app with real album data from **Apple Mus
 
 - **Explore**: the day's No. 1 album, top songs, most played albums, genre crates and charts from 16 countries
 - **Search** artists, songs and albums from the Apple Music catalog (free **iTunes Search API**, no API key)
-- **Song previews**: tap any song for Apple's 30 second preview; a docked player keeps it spinning while you browse
-- **Album pages** with the tracklist laid out as Side A and Side B, and **artist pages** with top songs and discography
+- **Song previews**: tap any song for Apple's 30 second preview; a player under the page keeps it going while you browse
+- **Album pages** with the tracklist, and **artist pages** with top songs and discography
 - Charts (songs and albums) plus popular albums ranked by Tune Talk ratings
 - Email and password accounts with **Better Auth**
 - Rate and review albums, and see all your reviews in one place
@@ -31,7 +31,7 @@ It’s a full-stack **TanStack Start** app with real album data from **Apple Mus
 - **Data:** TanStack Query, Drizzle ORM, Neon Postgres
 - **Auth:** Better Auth (email and password, Drizzle adapter)
 - **Forms:** TanStack Form with zod
-- **Styling:** Tailwind CSS, Inter, Fraunces and JetBrains Mono
+- **Styling:** Tailwind CSS
 - **Tooling:** Vite, Biome, Vitest
 
 ---

@@ -9,7 +9,6 @@ import {
 	AlbumGrid,
 	AlbumGridSkeleton,
 } from "#/features/albums/components/AlbumGrid";
-import { AlbumShelf } from "#/features/albums/components/AlbumShelf";
 import { ArtistCard } from "#/features/artists/components/ArtistCard";
 import { GenreGrid } from "#/features/genres/components/GenreGrid";
 import { searchQueries } from "#/features/search/queries";
@@ -40,9 +39,6 @@ export const Route = createFileRoute("/_app/search")({
 	head: () => ({ meta: [{ title: "Search | Tunetalk" }] }),
 });
 
-const artistGridClass =
-	"grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5";
-
 function SearchPage() {
 	const { q, type = "all" } = Route.useSearch();
 	const {
@@ -60,9 +56,8 @@ function SearchPage() {
 		return (
 			<>
 				<PageHeader
-					eyebrow="Search"
-					title="Find your next record"
-					description="Search Apple Music for artists, songs and albums, or start from a genre."
+					title="Search"
+					description="Search for an artist, song or album, or browse a genre."
 				/>
 				<GenreGrid />
 			</>
@@ -71,8 +66,8 @@ function SearchPage() {
 
 	return (
 		<>
-			<PageHeader eyebrow="Search results" title={`“${q}”`} />
-			<div className="mb-8">
+			<PageHeader title={`Results for "${q}"`} />
+			<div className="mb-5">
 				<Tabs
 					label="Result type"
 					tabs={SEARCH_TYPES.map((tab) => ({
@@ -83,12 +78,10 @@ function SearchPage() {
 				/>
 			</div>
 			{isLoading ? (
-				<>
+				<div className="flex flex-col gap-8">
 					<SongListSkeleton count={4} />
-					<div className="mt-8">
-						<AlbumGridSkeleton count={4} />
-					</div>
-				</>
+					<AlbumGridSkeleton />
+				</div>
 			) : isError ? (
 				<StatusMessage tone="error">{error.message}</StatusMessage>
 			) : results ? (
@@ -127,33 +120,37 @@ function Results({
 	}
 	if (type === "artists") {
 		return (
-			<div className={artistGridClass}>
+			<AlbumGrid>
 				{artists.map((artist) => (
 					<ArtistCard artist={artist} key={artist.id} />
 				))}
-			</div>
+			</AlbumGrid>
 		);
 	}
 
 	return (
-		<div className="flex flex-col gap-12">
-			{songs.length > 0 && (
-				<Section title="Songs">
-					<SongList songs={songs.slice(0, 6)} columns={2} />
-				</Section>
-			)}
+		<div className="flex flex-col gap-8">
 			{artists.length > 0 && (
 				<Section title="Artists">
-					<div className="shelf -mx-4 px-4 sm:-mx-8 sm:px-8">
-						{artists.map((artist) => (
+					<AlbumGrid>
+						{artists.slice(0, 3).map((artist) => (
 							<ArtistCard artist={artist} key={artist.id} />
 						))}
-					</div>
+					</AlbumGrid>
+				</Section>
+			)}
+			{songs.length > 0 && (
+				<Section title="Songs">
+					<SongList songs={songs.slice(0, 5)} />
 				</Section>
 			)}
 			{albums.length > 0 && (
 				<Section title="Albums">
-					<AlbumShelf albums={albums} />
+					<AlbumGrid>
+						{albums.slice(0, 9).map((album) => (
+							<AlbumCard album={album} key={album.id} />
+						))}
+					</AlbumGrid>
 				</Section>
 			)}
 		</div>

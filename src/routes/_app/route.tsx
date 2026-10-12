@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Outlet, useMatch } from "@tanstack/react-router";
 import { BackgroundImage } from "#/components/BackgroundImage";
-import { Sidebar } from "#/components/Sidebar";
-import { TabBar } from "#/components/TabBar";
-import { TopBar } from "#/components/TopBar";
+import { Navbar } from "#/components/Navbar";
 import { albumQueries } from "#/features/albums/queries";
 import { NowPlayingBar } from "#/features/player/components/NowPlayingBar";
 import { PlayerProvider } from "#/features/player/PlayerProvider";
@@ -27,23 +25,15 @@ function AppLayout() {
 
 	return (
 		<PlayerProvider>
-			<div className="relative flex h-dvh flex-col overflow-hidden bg-navy-deep">
+			<div className="relative min-h-dvh bg-navy">
 				<BackgroundImage image={albumId ? album?.image : undefined} />
 
-				<div className="relative z-10 flex min-h-0 flex-1 flex-col gap-2 md:p-3 lg:gap-3">
-					<div className="flex min-h-0 flex-1 gap-3">
-						<Sidebar />
-						<div className="flex min-w-0 flex-1 flex-col overflow-hidden md:glass-panel md:rounded-2xl">
-							<TopBar />
-							<main className="flex-1 overflow-y-auto px-4 pt-4 pb-10 sm:px-8">
-								<Outlet />
-							</main>
-						</div>
-					</div>
+				<div className="relative z-10 mx-auto flex h-dvh max-w-[960px] flex-col gap-2 p-2 sm:gap-4 sm:p-6 lg:py-12">
+					<Navbar />
+					<main className="glass-panel flex-1 overflow-auto px-4 py-5 sm:px-8 sm:py-6">
+						<Outlet />
+					</main>
 					<NowPlayingBar />
-				</div>
-				<div className="relative z-10">
-					<TabBar />
 				</div>
 			</div>
 		</PlayerProvider>

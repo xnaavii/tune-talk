@@ -1,13 +1,11 @@
 import { Link, useLocation, useSearch } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useSearchNavigation } from "#/hooks/useSearchNavigation";
-import { AccountMenu } from "./AccountMenu";
 import { Logo } from "./Logo";
+import { NavMenu } from "./NavMenu";
 import { SearchBar } from "./SearchBar";
 
-// Search across the top of the content area; on phones it also carries the
-// logo and account button.
-export function TopBar() {
+export function Navbar() {
 	const { pathname } = useLocation();
 	const { q } = useSearch({ strict: false });
 	const [query, setQuery] = useState(q ?? "");
@@ -24,19 +22,17 @@ export function TopBar() {
 	}
 
 	return (
-		<header className="flex shrink-0 flex-col gap-3 px-4 pt-4 pb-2 sm:px-8 sm:pt-6">
-			<div className="flex items-center justify-between md:hidden">
-				<Link to="/" aria-label="Go to home page">
-					<Logo size="sm" />
-				</Link>
-				<AccountMenu variant="compact" />
-			</div>
-			<div className="w-full max-w-xl">
+		<header className="glass-panel shrink-0 flex flex-col md:flex-row items-center gap-3 md:gap-5 px-4 md:px-5 py-3">
+			<Link to="/" aria-label="Go to home page" className="shrink-0">
+				<Logo size="md" />
+			</Link>
+			<div className="flex flex-col lg:flex-row items-center gap-3 w-full min-w-0">
 				<SearchBar
 					value={query}
 					onChange={handleChange}
 					onSubmit={() => goToSearch(query)}
 				/>
+				<NavMenu className="shrink-0 flex flex-wrap justify-center gap-2" />
 			</div>
 		</header>
 	);

@@ -2,21 +2,15 @@ import { IoPause, IoPlay } from "react-icons/io5";
 import type { Song } from "#/features/songs/types";
 import { isPlayable, usePlayer } from "../PlayerProvider";
 
-const sizes = {
-	md: { button: "size-10", icon: "size-4" },
-	lg: { button: "size-14", icon: "size-6" },
-};
-
 interface PlayButtonProps {
-	// The first song to play, and the list it plays through.
+	// The songs to play, in order.
 	songs: Song[];
 	label: string;
-	size?: keyof typeof sizes;
 }
 
-// The round label-coloured button that starts a list of previews, or
-// pauses it when one of its songs is playing.
-export function PlayButton({ songs, label, size = "lg" }: PlayButtonProps) {
+// Glass pill that plays a list of previews, or pauses it when one of its
+// songs is playing.
+export function PlayButton({ songs, label }: PlayButtonProps) {
 	const { play, toggle, current, isPlaying } = usePlayer();
 	const playable = songs.filter(isPlayable);
 	const first = playable[0];
@@ -28,19 +22,15 @@ export function PlayButton({ songs, label, size = "lg" }: PlayButtonProps) {
 	return (
 		<button
 			type="button"
-			aria-label={showPause ? "Pause" : label}
-			title={showPause ? "Pause" : label}
 			onClick={() => (isFromList ? toggle() : play(first, playable))}
-			className={`${sizes[size].button} inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-label text-navy-deep shadow-sleeve transition-transform hover:scale-105 active:scale-95`}
+			className="inline-flex w-fit cursor-pointer items-center gap-2 rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-navy shadow-soft transition-colors hover:bg-glass"
 		>
 			{showPause ? (
-				<IoPause aria-hidden className={sizes[size].icon} />
+				<IoPause aria-hidden className="size-3.5" />
 			) : (
-				<IoPlay
-					aria-hidden
-					className={`${sizes[size].icon} translate-x-[1px]`}
-				/>
+				<IoPlay aria-hidden className="size-3.5" />
 			)}
+			{showPause ? "Pause" : label}
 		</button>
 	);
 }

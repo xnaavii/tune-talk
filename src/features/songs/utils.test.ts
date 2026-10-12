@@ -3,9 +3,9 @@ import type { Song } from "./types";
 import {
 	formatDuration,
 	formatTotalDuration,
+	groupByDisc,
 	isCatalogSong,
 	normalizeCatalogSong,
-	splitIntoSides,
 } from "./utils";
 
 function song(id: number, discNumber = 1): Song {
@@ -73,21 +73,15 @@ describe("formatDuration", () => {
 	});
 });
 
-describe("splitIntoSides", () => {
-	it("splits a single disc into two sides", () => {
-		const sides = splitIntoSides([1, 2, 3, 4, 5, 6, 7].map((id) => song(id)));
-		expect(sides.map((side) => [side.label, side.songs.length])).toEqual([
-			["Side A", 4],
-			["Side B", 3],
+describe("groupByDisc", () => {
+	it("keeps a single disc as one tracklist", () => {
+		expect(groupByDisc([song(1), song(2)])).toEqual([
+			{ label: "Tracklist", songs: [song(1), song(2)] },
 		]);
 	});
 
-	it("keeps short releases on one side", () => {
-		expect(splitIntoSides([song(1), song(2)])).toHaveLength(1);
-	});
-
 	it("uses one section per disc", () => {
-		const sides = splitIntoSides([song(1, 1), song(2, 2), song(3, 1)]);
-		expect(sides.map((side) => side.label)).toEqual(["Disc 1", "Disc 2"]);
+		const discs = groupByDisc([song(1, 1), song(2, 2), song(3, 1)]);
+		expect(discs.map((disc) => disc.label)).toEqual(["Disc 1", "Disc 2"]);
 	});
 });

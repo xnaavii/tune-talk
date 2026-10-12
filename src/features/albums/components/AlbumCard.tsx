@@ -1,57 +1,60 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Vinyl } from "#/components/Vinyl";
 import type { Album } from "../types";
-import { displayTitle, isSingleOrEp, releaseYear } from "../utils";
-import { AlbumCover } from "./AlbumCover";
+import { releaseYear } from "../utils";
+import { AlbumCover, albumCoverUrl } from "./AlbumCover";
 
 interface AlbumCardProps {
 	album: Album;
-	// Extra detail after the year, such as a rating.
+	// Extra detail under the year, such as a rating.
 	meta?: ReactNode;
 }
 
-// An album as a sleeve with its record peeking out; hovering pulls the
-// record further out and gives it a turn.
 export function AlbumCard({ album, meta }: AlbumCardProps) {
 	return (
 		<Link
 			to="/albums/$albumId"
 			params={{ albumId: album.id }}
-			className="group flex flex-col gap-3 rounded-lg focus-visible:outline-offset-4"
+			className="group block rounded-2xl focus-visible:outline-offset-2"
 		>
-			<div className="relative aspect-square">
-				<Vinyl
-					image={album.image}
-					className="absolute top-[6%] right-0 w-[88%] transition-transform duration-500 ease-out group-hover:translate-x-[14%] group-hover:rotate-90"
+			<figure className="relative overflow-hidden rounded-2xl ring-1 ring-ink/10 transition-all duration-300 group-hover:ring-ink/40 group-hover:-translate-y-0.5">
+				{/* Blurred cover tints each card with its artwork */}
+				<div
+					aria-hidden
+					className="absolute inset-0 scale-110 bg-cover bg-center blur-[32px]"
+					style={{ backgroundImage: `url("${albumCoverUrl(album)}")` }}
 				/>
-				<AlbumCover
-					album={album}
-					loading="lazy"
-					className="relative aspect-square w-[88%] rounded-[4px] object-cover shadow-sleeve transition-transform duration-500 ease-out group-hover:-translate-y-1"
-				/>
-			</div>
-			<div className="flex min-w-0 flex-col gap-0.5 pr-[12%]">
-				<p className="truncate text-[15px] font-semibold leading-snug text-ink">
-					{displayTitle(album)}
-				</p>
-				<p className="truncate text-sm text-ink/70">{album.artist}</p>
-				<p className="font-mono text-[11px] uppercase tracking-wider text-ink/50">
-					{isSingleOrEp(album) ? "Single" : "Album"} · {releaseYear(album)}
-					{meta}
-				</p>
-			</div>
+
+				<div className="relative flex items-center gap-3 bg-navy/25 p-2.5">
+					<AlbumCover
+						album={album}
+						loading="lazy"
+						className="size-16 shrink-0 rounded-md object-cover shadow-soft"
+					/>
+					<figcaption className="flex min-w-0 flex-col gap-0.5">
+						<p className="truncate text-[15px] font-semibold group-hover:underline">
+							{album.title}
+						</p>
+						<p className="truncate text-sm text-ink/85">{album.artist}</p>
+						<p className="text-xs text-ink/60">
+							{releaseYear(album)}
+							{meta}
+						</p>
+					</figcaption>
+				</div>
+			</figure>
 		</Link>
 	);
 }
 
 export function AlbumCardSkeleton() {
 	return (
-		<div className="flex flex-col gap-3">
-			<div className="aspect-square w-[88%] rounded-[4px] bg-glass/15" />
-			<div className="flex flex-col gap-2 pr-[12%]">
-				<div className="h-3.5 w-3/4 rounded bg-glass/15" />
-				<div className="h-3 w-1/2 rounded bg-glass/10" />
+		<div className="flex items-center gap-3 rounded-2xl bg-glass/10 p-2.5 ring-1 ring-ink/10">
+			<div className="size-16 shrink-0 rounded-md bg-glass/15" />
+			<div className="flex flex-1 flex-col gap-2">
+				<div className="h-3.5 w-2/3 rounded bg-glass/15" />
+				<div className="h-3 w-1/2 rounded bg-glass/15" />
+				<div className="h-2.5 w-1/5 rounded bg-glass/10" />
 			</div>
 		</div>
 	);
