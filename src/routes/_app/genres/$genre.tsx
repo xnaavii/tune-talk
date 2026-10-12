@@ -10,10 +10,7 @@ import {
 import { findGenre, type Genre } from "#/features/genres/genres";
 import { genreQueries } from "#/features/genres/queries";
 import { PlayButton } from "#/features/player/components/PlayButton";
-import {
-	SongList,
-	SongListSkeleton,
-} from "#/features/songs/components/SongList";
+import { SongList } from "#/features/songs/components/SongList";
 
 export const Route = createFileRoute("/_app/genres/$genre")({
 	params: {
@@ -33,20 +30,12 @@ export const Route = createFileRoute("/_app/genres/$genre")({
 	notFoundComponent: () => <StatusMessage>Genre not found.</StatusMessage>,
 });
 
-function GenreHeader({ genre }: { genre: Genre }) {
+function genreHeader(genre: Genre) {
 	return (
-		<div
-			className="-mx-4 -mt-4 mb-4 px-4 pt-10 pb-1 sm:-mx-8 sm:px-8"
-			style={{
-				background: `linear-gradient(to bottom, oklch(0.55 0.16 ${genre.hue} / 0.45), transparent)`,
-			}}
-		>
-			<PageHeader
-				eyebrow="Genre crate"
-				title={genre.name}
-				description={`Albums and songs filed under ${genre.name} on Apple Music.`}
-			/>
-		</div>
+		<PageHeader
+			title={genre.name}
+			description={`Albums and songs filed under ${genre.name} on Apple Music.`}
+		/>
 	);
 }
 
@@ -58,30 +47,22 @@ function GenrePage() {
 	if (data.albums.length + data.songs.length === 0) {
 		return (
 			<>
-				<GenreHeader genre={genre} />
-				<StatusMessage>This crate is empty right now.</StatusMessage>
+				{genreHeader(genre)}
+				<StatusMessage>Nothing in this genre right now.</StatusMessage>
 			</>
 		);
 	}
 
+	const songs = data.songs.slice(0, 10);
+
 	return (
 		<>
-			<GenreHeader genre={genre} />
-			<div className="flex flex-col gap-12">
-				{data.songs.length > 0 && (
-					<Section
-						title={
-							<span className="flex items-center gap-3">
-								Songs
-								<PlayButton
-									songs={data.songs}
-									label={`Play ${genre.name}`}
-									size="md"
-								/>
-							</span>
-						}
-					>
-						<SongList songs={data.songs.slice(0, 10)} columns={2} />
+			{genreHeader(genre)}
+			<div className="flex flex-col gap-8">
+				{songs.length > 0 && (
+					<Section title="Songs">
+						<PlayButton songs={songs} label={`Play ${genre.name}`} />
+						<SongList songs={songs} />
 					</Section>
 				)}
 				{data.albums.length > 0 && (
@@ -100,14 +81,10 @@ function GenrePage() {
 
 function GenrePending() {
 	const params = Route.useParams();
-	const genre = findGenre(params.genre) as Genre;
 	return (
 		<>
-			<GenreHeader genre={genre} />
-			<SongListSkeleton />
-			<div className="mt-10">
-				<AlbumGridSkeleton />
-			</div>
+			{genreHeader(findGenre(params.genre) as Genre)}
+			<AlbumGridSkeleton />
 		</>
 	);
 }

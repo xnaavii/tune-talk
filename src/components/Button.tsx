@@ -2,11 +2,11 @@ import { Link, type LinkProps } from "@tanstack/react-router";
 import type { ComponentProps } from "react";
 import type { IconType } from "react-icons";
 
-const buttonClass =
+export const buttonClass =
 	"h-fit w-fit inline-flex items-center gap-[6px] rounded-full py-[6px] px-[10px] bg-glass/20 text-ink text-[12px] shadow-soft backdrop-blur-[23px] hover:bg-glass/35 active:bg-glass/45 transition-colors duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed";
 
 // Current page in the nav reads as pressed.
-const activeClass = "bg-glass/45 ring-1 ring-ink/40";
+export const activeClass = "bg-glass/45 ring-1 ring-ink/40";
 
 interface ButtonContentProps {
 	label?: string;

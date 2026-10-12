@@ -44,28 +44,16 @@ export function formatTotalDuration(songs: Pick<Song, "durationMs">[]) {
 	return hours > 0 ? `${hours} hr ${minutes} min` : `${minutes} min`;
 }
 
-export interface TrackSide {
+export interface Disc {
 	label: string;
 	songs: Song[];
 }
 
-// Splits a tracklist the way a record would: one section per disc for
-// multi-disc releases, otherwise Side A and Side B.
-export function splitIntoSides(songs: Song[]): TrackSide[] {
+// One section per disc for multi-disc releases, otherwise one tracklist.
+export function groupByDisc(songs: Song[]): Disc[] {
 	const discs = Map.groupBy(songs, (song) => song.discNumber ?? 1);
-	if (discs.size > 1) {
-		return [...discs.entries()]
-			.sort(([a], [b]) => a - b)
-			.map(([disc, discSongs]) => ({
-				label: `Disc ${disc}`,
-				songs: discSongs,
-			}));
-	}
-	if (songs.length < 6) return [{ label: "Side A", songs }];
-
-	const half = Math.ceil(songs.length / 2);
-	return [
-		{ label: "Side A", songs: songs.slice(0, half) },
-		{ label: "Side B", songs: songs.slice(half) },
-	];
+	if (discs.size <= 1) return [{ label: "Tracklist", songs }];
+	return [...discs.entries()]
+		.sort(([a], [b]) => a - b)
+		.map(([disc, discSongs]) => ({ label: `Disc ${disc}`, songs: discSongs }));
 }
