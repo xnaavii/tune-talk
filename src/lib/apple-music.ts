@@ -67,11 +67,9 @@ export function catalogGet<T>(
 const CHART_CACHE_MS = 1000 * 60 * 30;
 const chartCache = new Map<string, { data: unknown; fetchedAt: number }>();
 
-// `path` is relative to the storefront, e.g. "/music/most-played/50/albums.json".
 // Charts change daily, so each server instance keeps them for half an hour
 // and falls back to its last copy when Apple fails.
-export async function chartGet<T>(path: string, country = COUNTRY) {
-	const url = `${RSS_API_URL}/${country}${path}`;
+async function cachedChartGet<T>(url: string) {
 	const cached = chartCache.get(url);
 	if (cached && Date.now() - cached.fetchedAt < CHART_CACHE_MS) {
 		return cached.data as T;
@@ -84,6 +82,18 @@ export async function chartGet<T>(path: string, country = COUNTRY) {
 		if (cached) return cached.data as T;
 		throw error;
 	}
+}
+
+// `path` is relative to the storefront, e.g. "/music/most-played/50/albums.json".
+export function chartGet<T>(path: string, country = COUNTRY) {
+	return cachedChartGet<T>(`${RSS_API_URL}/${country}${path}`);
+}
+
+// The older iTunes Store feeds, e.g. "/rss/topalbums/limit=50/json". They are
+// served from a different host, so they still answer when the Apple Music
+// feeds time out.
+export function legacyChartGet<T>(path: string, country = COUNTRY) {
+	return cachedChartGet<T>(`${SEARCH_API_URL}/${country}${path}`);
 }
 
 // Server functions rethrow with this so the client sees Apple's message (like
