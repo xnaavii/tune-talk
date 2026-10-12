@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Section } from "#/components/PageHeader";
 import { AlbumGridSkeleton } from "#/features/albums/components/AlbumGrid";
@@ -15,10 +15,12 @@ import {
 } from "#/features/songs/components/SongList";
 
 export const Route = createFileRoute("/_app/explore")({
+	// Prefetch (which never throws) rather than ensure: if one chart fails,
+	// the rest of Explore still renders and the failed section is skipped.
 	loader: ({ context: { queryClient } }) =>
 		Promise.all([
-			queryClient.ensureQueryData(chartQueries.albums()),
-			queryClient.ensureQueryData(chartQueries.songs()),
+			queryClient.prefetchQuery(chartQueries.albums()),
+			queryClient.prefetchQuery(chartQueries.songs()),
 		]),
 	head: () => ({ meta: [{ title: "Explore | Tunetalk" }] }),
 	component: ExplorePage,
@@ -38,8 +40,8 @@ const header = (
 );
 
 function ExplorePage() {
-	const { data: albums } = useSuspenseQuery(chartQueries.albums());
-	const { data: songs } = useSuspenseQuery(chartQueries.songs());
+	const { data: albums = [] } = useQuery(chartQueries.albums());
+	const { data: songs = [] } = useQuery(chartQueries.songs());
 	// The community shelf is extra, so it never holds up the page.
 	const { data: popular = [] } = useQuery(reviewQueries.popular());
 	const [featured, ...restAlbums] = albums;
@@ -71,13 +73,15 @@ function ExplorePage() {
 					</Section>
 				)}
 
-				<Section
-					eyebrow="Apple Music · United States"
-					title="Most played albums"
-					more={{ to: "/charts", search: { type: "albums", country: "us" } }}
-				>
-					<AlbumShelf albums={restAlbums.slice(0, 15)} />
-				</Section>
+				{restAlbums.length > 0 && (
+					<Section
+						eyebrow="Apple Music · United States"
+						title="Most played albums"
+						more={{ to: "/charts", search: { type: "albums", country: "us" } }}
+					>
+						<AlbumShelf albums={restAlbums.slice(0, 15)} />
+					</Section>
+				)}
 
 				<Section eyebrow="Dig through the crates" title="Browse by genre">
 					<GenreGrid />
