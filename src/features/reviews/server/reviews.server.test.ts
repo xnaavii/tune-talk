@@ -9,9 +9,9 @@ vi.mock("#/db", () => ({
 	},
 }));
 
-const fetchSpotifyAlbum = vi.hoisted(() => vi.fn());
+const fetchCatalogAlbum = vi.hoisted(() => vi.fn());
 vi.mock("#/features/albums/server/albums.server", () => ({
-	fetchSpotifyAlbum,
+	fetchCatalogAlbum,
 }));
 
 const {
@@ -29,15 +29,15 @@ const albumRow = (id: string, title: string) => ({
 	artist: "Artist",
 	releaseDate: "2024-01-01",
 	image: null,
-	spotifyUrl: null,
+	appleMusicUrl: null,
 });
-const ALBUM_A = albumRow("a".repeat(22), "Album A");
-const ALBUM_B = albumRow("b".repeat(22), "Album B");
+const ALBUM_A = albumRow("1001", "Album A");
+const ALBUM_B = albumRow("1002", "Album B");
 
 beforeEach(async () => {
 	const db = await createTestDb();
 	testDb.current = db;
-	fetchSpotifyAlbum.mockReset();
+	fetchCatalogAlbum.mockReset();
 	await db.insert(user).values([
 		{ id: "u1", name: "Ivan", email: "ivan@example.com" },
 		{ id: "u2", name: "Sam", email: "sam@example.com" },
@@ -46,16 +46,16 @@ beforeEach(async () => {
 });
 
 describe("findOrCreateAlbum", () => {
-	it("returns a stored album without calling Spotify", async () => {
+	it("returns a stored album without calling Apple Music", async () => {
 		expect(await findOrCreateAlbum(ALBUM_A.id)).toMatchObject(ALBUM_A);
-		expect(fetchSpotifyAlbum).not.toHaveBeenCalled();
+		expect(fetchCatalogAlbum).not.toHaveBeenCalled();
 	});
 
-	it("snapshots a new album from Spotify", async () => {
-		const albumC = albumRow("c".repeat(22), "Album C");
-		fetchSpotifyAlbum.mockResolvedValue(albumC);
+	it("snapshots a new album from Apple Music", async () => {
+		const albumC = albumRow("1003", "Album C");
+		fetchCatalogAlbum.mockResolvedValue(albumC);
 		expect(await findOrCreateAlbum(albumC.id)).toMatchObject(albumC);
-		expect(fetchSpotifyAlbum).toHaveBeenCalledWith(albumC.id);
+		expect(fetchCatalogAlbum).toHaveBeenCalledWith(albumC.id);
 	});
 });
 

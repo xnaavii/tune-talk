@@ -1,4 +1,4 @@
-import { FaSpotify } from "react-icons/fa6";
+import { SiApplemusic } from "react-icons/si";
 import { StarRating } from "#/features/reviews/components/StarRating";
 import type { Album } from "../types";
 import { releaseYear } from "../utils";
@@ -23,15 +23,15 @@ export function AlbumDetails({ album }: { album: Album }) {
 
 				<StarRating albumId={album.id} />
 
-				{album.spotifyUrl && (
+				{album.appleMusicUrl && (
 					<a
-						href={album.spotifyUrl}
+						href={album.appleMusicUrl}
 						target="_blank"
 						rel="noreferrer"
 						className="inline-flex w-fit items-center gap-2 rounded-full bg-navy/40 px-3 py-1.5 text-xs font-medium text-ink ring-1 ring-ink/15 transition-colors hover:bg-navy/60"
 					>
-						<FaSpotify aria-hidden className="size-4 text-spotify" />
-						Listen on Spotify
+						<SiApplemusic aria-hidden className="size-4 text-apple-music" />
+						Listen on Apple Music
 					</a>
 				)}
 			</figcaption>

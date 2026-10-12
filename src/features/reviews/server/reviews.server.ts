@@ -1,7 +1,7 @@
 import { and, asc, avg, count, desc, eq, gt } from "drizzle-orm";
 import { db } from "#/db";
 import { album, review, user } from "#/db/schema";
-import { fetchSpotifyAlbum } from "#/features/albums/server/albums.server";
+import { fetchCatalogAlbum } from "#/features/albums/server/albums.server";
 import type { RankedAlbum } from "#/features/albums/types";
 
 export type Review = typeof review.$inferSelect;
@@ -11,7 +11,7 @@ export async function findOrCreateAlbum(albumId: string) {
 
 	if (existing) return existing;
 
-	const details = await fetchSpotifyAlbum(albumId);
+	const details = await fetchCatalogAlbum(albumId);
 	const [inserted] = await db
 		.insert(album)
 		.values(details)

@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import {
 	getAlbumDetails,
-	getNewReleases,
+	getTopAlbums,
 	searchAlbums,
 } from "./server/albums.functions";
 
@@ -12,10 +12,11 @@ export const albumQueries = {
 			queryFn: () => searchAlbums({ data: { query } }),
 			enabled: !!query.trim(),
 		}),
-	newReleases: () =>
+	// Charts change slowly, so a fetched chart is reused for half an hour.
+	top: () =>
 		queryOptions({
-			queryKey: ["albums", "new"],
-			queryFn: () => getNewReleases(),
+			queryKey: ["albums", "top"],
+			queryFn: () => getTopAlbums(),
 			staleTime: 1000 * 60 * 30,
 		}),
 	// Album metadata rarely changes, so a fetched album is reused for an hour.

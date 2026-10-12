@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import defaultCover from "#/assets/record-blue.jpg";
 import type { Album } from "../types";
 
-// Some Spotify albums have no artwork, so fall back to the site background.
+// Some albums have no artwork, so fall back to the site background.
 export function albumCoverUrl(album: Pick<Album, "image">) {
 	return album.image ?? defaultCover;
 }

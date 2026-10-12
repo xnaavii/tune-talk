@@ -6,7 +6,7 @@ import { Spinner } from "#/components/Spinner";
 import { StatusMessage } from "#/components/StatusMessage";
 import { AlbumDetails } from "#/features/albums/components/AlbumDetails";
 import { albumQueries } from "#/features/albums/queries";
-import { SPOTIFY_ID_PATTERN } from "#/features/albums/utils";
+import { ALBUM_ID_PATTERN } from "#/features/albums/utils";
 import { Reviews } from "#/features/reviews/components/Reviews";
 import { reviewQueries } from "#/features/reviews/queries";
 import { textLinkClass } from "#/lib/styles";
@@ -14,7 +14,7 @@ import { textLinkClass } from "#/lib/styles";
 export const Route = createFileRoute("/_app/albums/$albumId")({
 	params: {
 		parse: ({ albumId }) => {
-			if (!SPOTIFY_ID_PATTERN.test(albumId)) throw notFound();
+			if (!ALBUM_ID_PATTERN.test(albumId)) throw notFound();
 			return { albumId };
 		},
 	},

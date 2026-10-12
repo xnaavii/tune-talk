@@ -85,15 +85,15 @@ export const verification = pgTable(
 	(table) => [index("verification_identifier_idx").on(table.identifier)],
 );
 
-// Snapshot of a Spotify album, stored when it is first reviewed so lists of
-// reviewed albums never need to call Spotify again.
+// Snapshot of an Apple Music album, stored when it is first reviewed so lists of
+// reviewed albums never need to call Apple Music again.
 export const album = pgTable("album", {
 	id: text("id").primaryKey(),
 	title: text("title").notNull(),
 	artist: text("artist").notNull(),
 	releaseDate: text("release_date").notNull(),
 	image: text("image"),
-	spotifyUrl: text("spotify_url"),
+	appleMusicUrl: text("apple_music_url"),
 	addedAt: timestamp("created_at").defaultNow().notNull(),
 });
 

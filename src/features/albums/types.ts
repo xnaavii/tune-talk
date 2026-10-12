@@ -4,7 +4,7 @@ export interface Album {
 	artist: string;
 	releaseDate: string;
 	image: string | null;
-	spotifyUrl: string | null;
+	appleMusicUrl: string | null;
 }
 
 export interface RankedAlbum extends Album {
@@ -12,12 +12,23 @@ export interface RankedAlbum extends Album {
 	reviewCount: number;
 }
 
-// The subset of Spotify's album object Tune Talk reads.
-export interface SpotifyAlbum {
+// The subset of an iTunes Search API album ("collection") Tune Talk reads.
+export interface CatalogAlbum {
+	wrapperType?: string;
+	collectionId: number;
+	collectionName: string;
+	artistName: string;
+	releaseDate?: string;
+	artworkUrl100?: string;
+	collectionViewUrl?: string;
+}
+
+// The subset of an Apple Music RSS chart entry Tune Talk reads.
+export interface ChartAlbum {
 	id: string;
 	name: string;
-	artists: { name: string }[];
-	release_date?: string;
-	images?: { url: string }[];
-	external_urls?: { spotify?: string };
+	artistName: string;
+	releaseDate?: string;
+	artworkUrl100?: string;
+	url?: string;
 }

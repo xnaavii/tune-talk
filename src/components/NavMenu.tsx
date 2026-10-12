@@ -4,8 +4,8 @@ import {
 	IoLogInOutline,
 	IoLogOutOutline,
 	IoPersonOutline,
-	IoSparklesOutline,
 	IoStarOutline,
+	IoTrendingUpOutline,
 } from "react-icons/io5";
 import { toast } from "sonner";
 import { reviewQueries } from "#/features/reviews/queries";
@@ -28,7 +28,7 @@ export function NavMenu({ className }: { className?: string }) {
 	return (
 		<nav className={className}>
 			<ButtonLink to="/popular" label="Popular" icon={IoStarOutline} />
-			<ButtonLink to="/new" label="New" icon={IoSparklesOutline} />
+			<ButtonLink to="/top" label="Top" icon={IoTrendingUpOutline} />
 			<ButtonLink to="/reviews" label="Your Reviews" icon={IoPersonOutline} />
 			{session ? (
 				<Button

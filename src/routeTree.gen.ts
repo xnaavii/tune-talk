@@ -13,9 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AppProtectedRouteImport } from './routes/_app/_protected'
-import { Route as AppNewRouteImport } from './routes/_app/new'
 import { Route as AppPopularRouteImport } from './routes/_app/popular'
 import { Route as AppSearchRouteImport } from './routes/_app/search'
+import { Route as AppTopRouteImport } from './routes/_app/top'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AppProtectedReviewsRouteImport } from './routes/_app/_protected/reviews'
@@ -40,11 +40,6 @@ const AppProtectedRoute = AppProtectedRouteImport.update({
   id: '/_protected',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppNewRoute = AppNewRouteImport.update({
-  id: '/new',
-  path: '/new',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 const AppPopularRoute = AppPopularRouteImport.update({
   id: '/popular',
   path: '/popular',
@@ -53,6 +48,11 @@ const AppPopularRoute = AppPopularRouteImport.update({
 const AppSearchRoute = AppSearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppTopRoute = AppTopRouteImport.update({
+  id: '/top',
+  path: '/top',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
@@ -84,9 +84,9 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/new': typeof AppNewRoute
   '/popular': typeof AppPopularRoute
   '/search': typeof AppSearchRoute
+  '/top': typeof AppTopRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/reviews': typeof AppProtectedReviewsRoute
@@ -96,9 +96,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/new': typeof AppNewRoute
   '/popular': typeof AppPopularRoute
   '/search': typeof AppSearchRoute
+  '/top': typeof AppTopRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/reviews': typeof AppProtectedReviewsRoute
@@ -111,9 +111,9 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/_app/_protected': typeof AppProtectedRouteWithChildren
-  '/_app/new': typeof AppNewRoute
   '/_app/popular': typeof AppPopularRoute
   '/_app/search': typeof AppSearchRoute
+  '/_app/top': typeof AppTopRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_app/_protected/reviews': typeof AppProtectedReviewsRoute
@@ -125,9 +125,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
-    | '/new'
     | '/popular'
     | '/search'
+    | '/top'
     | '/auth/login'
     | '/auth/signup'
     | '/reviews'
@@ -137,9 +137,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/new'
     | '/popular'
     | '/search'
+    | '/top'
     | '/auth/login'
     | '/auth/signup'
     | '/reviews'
@@ -151,9 +151,9 @@ export interface FileRouteTypes {
     | '/_app'
     | '/auth'
     | '/_app/_protected'
-    | '/_app/new'
     | '/_app/popular'
     | '/_app/search'
+    | '/_app/top'
     | '/auth/login'
     | '/auth/signup'
     | '/_app/_protected/reviews'
@@ -198,13 +198,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProtectedRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/_app/new': {
-      id: '/_app/new'
-      path: '/new'
-      fullPath: '/new'
-      preLoaderRoute: typeof AppNewRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/_app/popular': {
       id: '/_app/popular'
       path: '/popular'
@@ -217,6 +210,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof AppSearchRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/top': {
+      id: '/_app/top'
+      path: '/top'
+      fullPath: '/top'
+      preLoaderRoute: typeof AppTopRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/auth/login': {
@@ -271,17 +271,17 @@ const AppProtectedRouteWithChildren = AppProtectedRoute._addFileChildren(
 
 interface AppRouteRouteChildren {
   AppProtectedRoute: typeof AppProtectedRouteWithChildren
-  AppNewRoute: typeof AppNewRoute
   AppPopularRoute: typeof AppPopularRoute
   AppSearchRoute: typeof AppSearchRoute
+  AppTopRoute: typeof AppTopRoute
   AppAlbumsAlbumIdRoute: typeof AppAlbumsAlbumIdRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppProtectedRoute: AppProtectedRouteWithChildren,
-  AppNewRoute: AppNewRoute,
   AppPopularRoute: AppPopularRoute,
   AppSearchRoute: AppSearchRoute,
+  AppTopRoute: AppTopRoute,
   AppAlbumsAlbumIdRoute: AppAlbumsAlbumIdRoute,
 }
 
@@ -312,12 +312,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

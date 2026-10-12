@@ -11,7 +11,7 @@ interface AlbumGroupsProps<T> {
 	renderItem: (item: T) => ReactNode;
 }
 
-// Album grids under a heading per group, used by the New and Your Reviews pages.
+// Album grids under a heading per group, used by the Your Reviews page.
 export function AlbumGroups<T>({
 	items,
 	groupBy,

@@ -1,7 +1,7 @@
 # 🎶 Tune-Talk
 
 **Tune-Talk** is a demo web application for browsing albums, checking ratings, and reading reviews.  
-It’s a full-stack **TanStack Start** app with real album data from **Spotify**, accounts via **Better Auth**, and reviews stored in **Neon Postgres** through **Drizzle**.
+It’s a full-stack **TanStack Start** app with real album data from **Apple Music**, accounts via **Better Auth**, and reviews stored in **Neon Postgres** through **Drizzle**.
 
 ---
 
@@ -14,8 +14,8 @@ It’s a full-stack **TanStack Start** app with real album data from **Spotify**
 
 ## 🚀 Features
 
-- Search real albums from the **Spotify Web API**
-- New releases from Spotify, popular albums ranked by Tune Talk ratings
+- Search real albums from the Apple Music catalog (free **iTunes Search API**, no API key)
+- Today's top albums on Apple Music, plus popular albums ranked by Tune Talk ratings
 - Email and password accounts with **Better Auth**
 - Rate and review albums, and see all your reviews in one place
 - Server state cached with **TanStack Query**, with optimistic rating updates
@@ -39,11 +39,11 @@ It’s a full-stack **TanStack Start** app with real album data from **Spotify**
 src/
   routes/          file-based routes (_app layout, _protected pages, auth, api/auth)
   features/
-    albums/        Spotify server functions, album queries and components
+    albums/        Apple Music server functions, album queries and components
     reviews/       review server functions, queries, mutation hooks, components
     auth/          login and signup forms
   db/              Drizzle schema and Neon client
-  lib/             Better Auth server and client, Spotify client
+  lib/             Better Auth server and client, Apple Music client
 drizzle/           SQL migrations
 ```
 
@@ -63,8 +63,6 @@ Fill in `.env`:
 - `DATABASE_URL`: a Neon Postgres connection string
 - `BETTER_AUTH_SECRET`: generate with `openssl rand -base64 32`
 - `BETTER_AUTH_URL`: the app URL (`http://localhost:3000` locally)
-- `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET`: from a Spotify app at
-  https://developer.spotify.com/dashboard (Client Credentials flow, server-side only)
 
 Then create the tables and start the app:
 
@@ -76,6 +74,6 @@ npm run dev
 Useful scripts: `npm test`, `npm run check` (Biome), `npm run typecheck`,
 `npm run db:generate` after changing `src/db/schema.ts`, `npm run db:studio`.
 
-> Spotify Development Mode apps need the app owner to have Spotify Premium, cap
-> search results at 10 per request, and no longer have the New Releases endpoint,
-> so the New page uses the `tag:new` search filter instead.
+> Album data comes from Apple's public iTunes Search API and Apple Music RSS
+> charts, which need no API key. Apple rate limits them to roughly 20 requests a
+> minute per IP, and TanStack Query caching keeps Tune Talk well under that.

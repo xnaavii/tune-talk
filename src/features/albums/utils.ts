@@ -1,20 +1,37 @@
 import { z } from "zod";
-import type { Album, SpotifyAlbum } from "./types";
+import type { Album, CatalogAlbum, ChartAlbum } from "./types";
 
-export const SPOTIFY_ID_PATTERN = /^[A-Za-z0-9]{22}$/;
+// Apple Music album ids are numeric.
+export const ALBUM_ID_PATTERN = /^\d{1,15}$/;
 
 export const albumIdSchema = z.object({
-	albumId: z.string().regex(SPOTIFY_ID_PATTERN, "Invalid album id"),
+	albumId: z.string().regex(ALBUM_ID_PATTERN, "Invalid album id"),
 });
 
-export function normalizeSpotifyAlbum(album: SpotifyAlbum): Album {
+// Apple serves artwork at any size; swap the 100px thumbnail for a larger one.
+export function artworkUrl(url: string | undefined, size = 600) {
+	return url ? url.replace(/\/\d+x\d+bb\./, `/${size}x${size}bb.`) : null;
+}
+
+export function normalizeCatalogAlbum(album: CatalogAlbum): Album {
+	return {
+		id: String(album.collectionId),
+		title: album.collectionName,
+		artist: album.artistName,
+		releaseDate: album.releaseDate?.slice(0, 10) ?? "",
+		image: artworkUrl(album.artworkUrl100),
+		appleMusicUrl: album.collectionViewUrl ?? null,
+	};
+}
+
+export function normalizeChartAlbum(album: ChartAlbum): Album {
 	return {
 		id: album.id,
 		title: album.name,
-		artist: album.artists.map((artist) => artist.name).join(", "),
-		releaseDate: album.release_date ?? "",
-		image: album.images?.[0]?.url ?? null,
-		spotifyUrl: album.external_urls?.spotify ?? null,
+		artist: album.artistName,
+		releaseDate: album.releaseDate?.slice(0, 10) ?? "",
+		image: artworkUrl(album.artworkUrl100),
+		appleMusicUrl: album.url ?? null,
 	};
 }
 
