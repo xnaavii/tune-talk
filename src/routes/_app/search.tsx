@@ -1,9 +1,9 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageHeader, Section } from "#/components/PageHeader";
+import { Select } from "#/components/Select";
 import { StatusMessage } from "#/components/StatusMessage";
-import { Tabs } from "#/components/Tabs";
 import { AlbumCard } from "#/features/albums/components/AlbumCard";
 import {
 	AlbumGrid,
@@ -41,6 +41,7 @@ export const Route = createFileRoute("/_app/search")({
 
 function SearchPage() {
 	const { q, type = "all" } = Route.useSearch();
+	const navigate = useNavigate({ from: "/search" });
 	const {
 		data: results,
 		isLoading,
@@ -68,13 +69,19 @@ function SearchPage() {
 		<>
 			<PageHeader title={`Results for "${q}"`} />
 			<div className="mb-5">
-				<Tabs
+				<Select
 					label="Result type"
-					tabs={SEARCH_TYPES.map((tab) => ({
+					value={type}
+					options={SEARCH_TYPES.map((tab) => ({
+						value: tab,
 						label: tab.charAt(0).toUpperCase() + tab.slice(1),
-						link: { to: "/search", search: { q, type: tab }, replace: true },
-						isActive: tab === type,
 					}))}
+					onChange={(value) =>
+						navigate({
+							search: { q, type: value as SearchType },
+							replace: true,
+						})
+					}
 				/>
 			</div>
 			{isLoading ? (

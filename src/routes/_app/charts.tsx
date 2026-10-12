@@ -1,12 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageHeader } from "#/components/PageHeader";
+import { Select } from "#/components/Select";
 import { StatusMessage } from "#/components/StatusMessage";
-import { Tabs } from "#/components/Tabs";
 import { AlbumGridSkeleton } from "#/features/albums/components/AlbumGrid";
 import { RankedAlbumList } from "#/features/albums/components/RankedAlbumList";
-import { CountryPicker } from "#/features/charts/components/CountryPicker";
 import {
 	CHART_COUNTRIES,
 	type ChartCountry,
@@ -41,22 +40,36 @@ function ChartsHeader({
 	type: ChartType;
 	country: ChartCountry;
 }) {
+	const navigate = useNavigate({ from: "/charts" });
 	return (
 		<>
 			<PageHeader
 				title="Charts"
 				description={`The most played ${type} on Apple Music today in ${CHART_COUNTRIES[country].name}.`}
 			/>
-			<div className="mb-5 flex flex-col gap-3">
-				<Tabs
+			<div className="mb-5 flex flex-wrap gap-2">
+				<Select
 					label="Chart type"
-					tabs={(["songs", "albums"] as const).map((tab) => ({
-						label: tab === "songs" ? "Songs" : "Albums",
-						link: { to: "/charts", search: { type: tab, country } },
-						isActive: tab === type,
-					}))}
+					value={type}
+					options={[
+						{ value: "songs", label: "Songs" },
+						{ value: "albums", label: "Albums" },
+					]}
+					onChange={(value) =>
+						navigate({ search: { type: value as ChartType, country } })
+					}
 				/>
-				<CountryPicker selected={country} type={type} />
+				<Select
+					label="Country"
+					value={country}
+					options={Object.entries(CHART_COUNTRIES).map(([code, c]) => ({
+						value: code,
+						label: `${c.flag} ${c.name}`,
+					}))}
+					onChange={(value) =>
+						navigate({ search: { type, country: value as ChartCountry } })
+					}
+				/>
 			</div>
 		</>
 	);
