@@ -48,7 +48,8 @@
   width: 100%;
   border-radius: 9999px;
   padding: 10px 16px;
-  font-size: 14px;
+  /* iOS Safari zooms into any field with text under 16px */
+  font-size: 16px;
   color: var(--color-ink);
   background-color: color-mix(in oklab, #c9ced3 16%, transparent);
   backdrop-filter: blur(10px);
