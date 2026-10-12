@@ -47,16 +47,17 @@ export function SignupForm() {
 	return (
 		<form
 			className="flex flex-col gap-4"
+			noValidate
 			onSubmit={(event) => {
 				event.preventDefault();
 				form.handleSubmit();
 			}}
 		>
 			<div className="flex flex-col items-center gap-1 text-center">
-				<h2 className="text-2xl font-bold">Create an account</h2>
-				<p className="text-sm text-stone-300">
-					Sign up to rate and review albums
-				</p>
+				<h2 className="text-2xl font-semibold tracking-tight">
+					Create an account
+				</h2>
+				<p className="text-sm text-ink/70">Sign up to rate and review albums</p>
 			</div>
 			<form.Field name="name">
 				{(field) => (
@@ -100,12 +101,12 @@ export function SignupForm() {
 					/>
 				)}
 			</form.Subscribe>
-			<p className="text-center text-sm text-stone-300">
+			<p className="text-center text-sm text-ink/70">
 				Already have an account?{" "}
 				<Link
 					to="/auth/login"
 					search={{ redirect }}
-					className="text-blue-300 hover:underline"
+					className="font-medium text-ink underline decoration-ink/40 underline-offset-4 hover:decoration-ink"
 				>
 					Log in
 				</Link>

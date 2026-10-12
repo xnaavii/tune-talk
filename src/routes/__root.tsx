@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Toaster } from "sonner";
+import { textLinkClass } from "#/lib/styles";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
 
@@ -61,15 +62,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 
 function NotFoundPage() {
 	return (
-		<div className="flex flex-col items-center justify-center h-dvh text-center">
-			<h3 className="text-3xl font-bold text-stone-100 mb-2">
-				404 - Page Not Found
-			</h3>
-			<p className="text-stone-300 mb-4">
-				The page you are looking for does not exist.
-			</p>
-			<Link to="/" className="text-blue-400 hover:underline font-medium">
-				Go back to Home
+		<div className="flex min-h-dvh flex-col items-center justify-center gap-3 px-4 text-center">
+			<h2 className="text-4xl font-semibold tracking-tight">404</h2>
+			<p className="text-ink/70">This page doesn't exist.</p>
+			<Link to="/" className={textLinkClass}>
+				Go back home
 			</Link>
 		</div>
 	);

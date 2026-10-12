@@ -22,12 +22,12 @@ function AppLayout() {
 	});
 
 	return (
-		<div className="relative min-h-dvh bg-[#0F2E48] transition-all">
+		<div className="relative min-h-dvh bg-navy">
 			<BackgroundImage image={albumId ? album?.image : undefined} />
 
-			<div className="h-dvh max-w-[942px] mx-auto flex flex-col gap-[6px] md:gap-[18px] overflow-hidden relative z-10 transition-all py-[6px] md:py-[26px] lg:py-[49px] px-[6px] md:px-[26px] lg:px-[49px]">
+			<div className="relative z-10 mx-auto flex h-dvh max-w-[960px] flex-col gap-2 p-2 sm:gap-4 sm:p-6 lg:py-12">
 				<Navbar />
-				<main className="flex-1 max-w-[942px] md:flex-row px-[32px] py-[24px] gap-4 text-stone-100 border-stone-50 rounded-lg shadow backdrop-blur-[30px] bg-[#C2E1FA]/16 overflow-auto">
+				<main className="glass-panel flex-1 overflow-auto px-4 py-5 sm:px-8 sm:py-6">
 					<Outlet />
 				</main>
 			</div>

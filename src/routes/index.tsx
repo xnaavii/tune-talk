@@ -15,24 +15,26 @@ function LandingPage() {
 	const { goToSearch } = useSearchNavigation();
 
 	return (
-		<div className="min-h-screen bg-[#0F2E48] relative transition-all">
+		<div className="relative min-h-dvh bg-navy">
 			<BackgroundImage />
 
-			<div className="relative z-20 h-dvh flex justify-center items-center">
-				<main className="flex flex-col justify-center items-center max-w-[404px] w-full px-4">
+			<main className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[420px] flex-col items-center justify-center gap-5 px-4">
+				<div className="flex flex-col items-center gap-2 text-center">
 					<Link to="/" aria-label="Go to home page">
 						<Logo size="lg" />
 					</Link>
-					<div className="w-full flex flex-col items-center gap-[18px]">
-						<SearchBar
-							value={query}
-							onChange={setQuery}
-							onSubmit={() => query.trim() && goToSearch(query)}
-						/>
-						<NavMenu className="flex flex-row flex-wrap justify-center gap-[12px]" />
-					</div>
-				</main>
-			</div>
+					<p className="text-sm text-ink/75">
+						Find an album, rate it, and see what everyone else thinks.
+					</p>
+				</div>
+				<SearchBar
+					value={query}
+					onChange={setQuery}
+					onSubmit={() => query.trim() && goToSearch(query)}
+					autoFocus
+				/>
+				<NavMenu className="flex flex-wrap justify-center gap-2" />
+			</main>
 		</div>
 	);
 }

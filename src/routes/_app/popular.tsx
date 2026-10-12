@@ -1,47 +1,80 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { IoStar } from "react-icons/io5";
-import { Spinner } from "#/components/Spinner";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageHeader } from "#/components/PageHeader";
+import { StatusMessage } from "#/components/StatusMessage";
 import { AlbumCard } from "#/features/albums/components/AlbumCard";
+import { AlbumGridSkeleton } from "#/features/albums/components/AlbumGrid";
+import { StarRow } from "#/features/reviews/components/Star";
 import { reviewQueries } from "#/features/reviews/queries";
+import { textLinkClass } from "#/lib/styles";
 
 export const Route = createFileRoute("/_app/popular")({
 	loader: ({ context }) =>
 		context.queryClient.ensureQueryData(reviewQueries.popular()),
 	component: PopularPage,
-	pendingComponent: Spinner,
+	pendingComponent: PopularPending,
 });
+
+const header = (
+	<PageHeader
+		title="Popular"
+		description="The highest rated albums on Tunetalk."
+	/>
+);
 
 function PopularPage() {
 	const { data: albums } = useSuspenseQuery(reviewQueries.popular());
 
 	return (
 		<>
-			<h2 className="text-3xl font-semibold text-stone-100 mb-4">
-				Popular Music
-			</h2>
-
+			{header}
 			{albums.length > 0 ? (
-				<div className="flex flex-col gap-[12px] w-full">
-					{albums.map((album) => (
-						<div key={album.id} className="flex flex-row gap-3 items-center">
-							<span
-								className="flex items-center gap-[6px] text-stone-200"
-								title={`${album.reviewCount} ratings`}
-							>
-								{album.averageRating.toFixed(1)} <IoStar size={12} />
+				<ol className="flex flex-col gap-2">
+					{albums.map((album, index) => (
+						<li key={album.id} className="flex items-center gap-3">
+							<span className="w-6 shrink-0 text-right text-lg font-semibold tabular-nums text-ink/60">
+								{index + 1}
 							</span>
-							<div className="flex-1 min-w-0">
-								<AlbumCard album={album} />
+							<div className="min-w-0 flex-1">
+								<AlbumCard
+									album={album}
+									meta={
+										<span className="ml-2 inline-flex items-center gap-1.5 align-middle">
+											<StarRow rating={album.averageRating} size={12} />
+											<span className="font-semibold text-ink tabular-nums">
+												{album.averageRating.toFixed(1)}
+											</span>
+											<span>
+												({album.reviewCount}{" "}
+												{album.reviewCount === 1 ? "rating" : "ratings"})
+											</span>
+										</span>
+									}
+								/>
 							</div>
-						</div>
+						</li>
 					))}
-				</div>
+				</ol>
 			) : (
-				<p className="text-stone-300">
-					No rated albums yet. Search for an album and be the first to rate it.
-				</p>
+				<StatusMessage
+					action={
+						<Link to="/search" search={{ q: "" }} className={textLinkClass}>
+							Find an album to rate
+						</Link>
+					}
+				>
+					No rated albums yet.
+				</StatusMessage>
 			)}
+		</>
+	);
+}
+
+function PopularPending() {
+	return (
+		<>
+			{header}
+			<AlbumGridSkeleton />
 		</>
 	);
 }

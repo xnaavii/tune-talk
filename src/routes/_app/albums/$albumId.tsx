@@ -1,12 +1,15 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { IoChevronBack } from "react-icons/io5";
+import { IconButton } from "#/components/Button";
 import { Spinner } from "#/components/Spinner";
+import { StatusMessage } from "#/components/StatusMessage";
 import { AlbumDetails } from "#/features/albums/components/AlbumDetails";
 import { albumQueries } from "#/features/albums/queries";
 import { SPOTIFY_ID_PATTERN } from "#/features/albums/utils";
 import { Reviews } from "#/features/reviews/components/Reviews";
 import { reviewQueries } from "#/features/reviews/queries";
+import { textLinkClass } from "#/lib/styles";
 
 export const Route = createFileRoute("/_app/albums/$albumId")({
 	params: {
@@ -48,16 +51,12 @@ function AlbumPage() {
 	const { data: album } = useSuspenseQuery(albumQueries.details(albumId));
 
 	return (
-		<div className="flex flex-col gap-[14px]">
-			<div className="flex items-center justify-start shrink-0">
-				<button
-					type="button"
-					aria-label="Go back"
-					onClick={() => window.history.back()}
-				>
-					<IoChevronBack className="w-[28px] h-[28px]" />
-				</button>
-			</div>
+		<div className="flex flex-col gap-6">
+			<IconButton
+				icon={IoChevronBack}
+				label="Go back"
+				onClick={() => window.history.back()}
+			/>
 			<AlbumDetails album={album} />
 			<Reviews albumId={album.id} />
 		</div>
@@ -66,11 +65,14 @@ function AlbumPage() {
 
 function AlbumNotFound() {
 	return (
-		<div className="flex flex-col items-center gap-3 text-center mt-8">
-			<p className="text-stone-300">Album not found</p>
-			<Link to="/" className="text-blue-400 hover:underline font-medium">
-				Go back to Home
-			</Link>
-		</div>
+		<StatusMessage
+			action={
+				<Link to="/" className={textLinkClass}>
+					Go back home
+				</Link>
+			}
+		>
+			Album not found.
+		</StatusMessage>
 	);
 }

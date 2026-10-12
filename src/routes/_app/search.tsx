@@ -1,8 +1,13 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { Spinner } from "#/components/Spinner";
+import { PageHeader } from "#/components/PageHeader";
+import { StatusMessage } from "#/components/StatusMessage";
 import { AlbumCard } from "#/features/albums/components/AlbumCard";
+import {
+	AlbumGrid,
+	AlbumGridSkeleton,
+} from "#/features/albums/components/AlbumGrid";
 import { albumQueries } from "#/features/albums/queries";
 
 const searchParamsSchema = z.object({
@@ -34,27 +39,36 @@ function SearchPage() {
 
 	if (!q.trim()) {
 		return (
-			<h2 className="text-md text-stone-200">Try searching for an album...</h2>
-		);
-	}
-	if (isLoading) return <Spinner />;
-	if (isError) return <p className="text-red-400">{error.message}</p>;
-	if (albums.length === 0) {
-		return (
-			<h2 className="text-md text-stone-200">No albums found for "{q}"</h2>
+			<>
+				<PageHeader title="Search" />
+				<StatusMessage>
+					Search for an artist or album to see results.
+				</StatusMessage>
+			</>
 		);
 	}
 
 	return (
 		<>
-			<h2 className="text-md mb-2 text-stone-200">
-				Showing {albums.length} results for "{q}"
-			</h2>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[6px] py-2">
-				{albums.map((album) => (
-					<AlbumCard album={album} key={album.id} />
-				))}
-			</div>
+			<PageHeader
+				title={`Results for "${q}"`}
+				description={
+					albums.length > 0 && `Showing the top ${albums.length} albums`
+				}
+			/>
+			{isLoading ? (
+				<AlbumGridSkeleton />
+			) : isError ? (
+				<StatusMessage tone="error">{error.message}</StatusMessage>
+			) : albums.length === 0 ? (
+				<StatusMessage>No albums found. Try another search.</StatusMessage>
+			) : (
+				<AlbumGrid>
+					{albums.map((album) => (
+						<AlbumCard album={album} key={album.id} />
+					))}
+				</AlbumGrid>
+			)}
 		</>
 	);
 }

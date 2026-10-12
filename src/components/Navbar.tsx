@@ -22,18 +22,18 @@ export function Navbar() {
 	}
 
 	return (
-		<nav className="h-fit flex flex-col sm:flex-row sm:px-[20px] py-[4px] sm:gap-[18px] items-center justify-center rounded-[6px] backdrop-blur-[32.6px] bg-[#C2E1FA]/20">
-			<Link to="/" aria-label="Go to home page">
+		<header className="glass-panel shrink-0 flex flex-col md:flex-row items-center gap-3 md:gap-5 px-4 md:px-5 py-3">
+			<Link to="/" aria-label="Go to home page" className="shrink-0">
 				<Logo size="md" />
 			</Link>
-			<div className="flex flex-col sm:flex-row grow-1 gap-[12px] md:[gap-0] items-center w-[90%]">
+			<div className="flex flex-col lg:flex-row items-center gap-3 w-full min-w-0">
 				<SearchBar
 					value={query}
 					onChange={handleChange}
 					onSubmit={() => goToSearch(query)}
 				/>
-				<NavMenu className="shrink-0 flex gap-[12px] py-[6px] sm:py-0 flex-wrap" />
+				<NavMenu className="shrink-0 flex flex-wrap justify-center gap-2" />
 			</div>
-		</nav>
+		</header>
 	);
 }

@@ -1,4 +1,6 @@
+import { IoTrashOutline } from "react-icons/io5";
 import type { AlbumReview } from "../hooks/useReviewMutation";
+import { StarRow } from "./Star";
 
 interface ReviewCardProps {
 	review: AlbumReview;
@@ -6,42 +8,47 @@ interface ReviewCardProps {
 	onDelete: (reviewId: string) => void;
 }
 
+const dateFormat = new Intl.DateTimeFormat("en", {
+	month: "short",
+	day: "numeric",
+	year: "numeric",
+});
+
 export function ReviewCard({ review, canDelete, onDelete }: ReviewCardProps) {
 	return (
-		<div className="bg-[#C2E1FA]/10 rounded-xl p-3 flex flex-col gap-2 shadow-sm">
-			<div className="flex justify-between items-start gap-2">
-				<p className="whitespace-pre-line text-stone-100 text-sm leading-relaxed">
-					{review.comment}
-				</p>
-
+		<article className="glass-card flex flex-col gap-2.5 p-4">
+			<header className="flex items-center gap-3">
+				<span
+					aria-hidden
+					className="flex size-8 shrink-0 items-center justify-center rounded-full bg-glass/25 text-sm font-semibold uppercase"
+				>
+					{review.userName.charAt(0)}
+				</span>
+				<div className="flex min-w-0 flex-1 flex-col">
+					<span className="truncate text-sm font-medium">
+						{review.userName}
+						{canDelete && <span className="text-ink/60"> (you)</span>}
+					</span>
+					<span className="text-xs text-ink/55">
+						{dateFormat.format(new Date(review.updatedAt))}
+					</span>
+				</div>
+				{review.rating > 0 && <StarRow rating={review.rating} />}
 				{canDelete && (
 					<button
 						type="button"
 						onClick={() => onDelete(review.id)}
-						className="text-xs text-red-400 hover:text-red-300 transition-colors shrink-0"
+						aria-label="Delete your review"
+						title="Delete your review"
+						className="inline-flex size-8 items-center justify-center rounded-full text-ink/60 hover:bg-red-400/20 hover:text-red-200 transition-colors cursor-pointer"
 					>
-						✕ Remove
+						<IoTrashOutline aria-hidden className="size-4" />
 					</button>
 				)}
-			</div>
-
-			<div
-				className="flex items-center gap-1"
-				role="img"
-				aria-label={`${review.rating} stars`}
-			>
-				{Array.from({ length: 5 }, (_, i) => (
-					<span
-						// biome-ignore lint/suspicious/noArrayIndexKey: fixed-length star list
-						key={i}
-						className={i < review.rating ? "text-yellow-400" : "text-stone-600"}
-					>
-						★
-					</span>
-				))}
-			</div>
-
-			<span className="text-xs text-stone-400 italic">— {review.userName}</span>
-		</div>
+			</header>
+			<p className="whitespace-pre-line text-sm leading-relaxed text-ink/90">
+				{review.comment}
+			</p>
+		</article>
 	);
 }

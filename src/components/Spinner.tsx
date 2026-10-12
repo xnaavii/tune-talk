@@ -1,7 +1,10 @@
 export function Spinner() {
 	return (
-		<div className="flex flex-col items-center justify-center mx-auto h-full">
-			<div className="animate-spin rounded-full h-9 w-9 border-3 border-t-[#0F2E48] border-white" />
-		</div>
+		<output
+			aria-label="Loading"
+			className="flex items-center justify-center h-full py-10"
+		>
+			<div className="animate-spin rounded-full size-9 border-3 border-ink/30 border-t-ink" />
+		</output>
 	);
 }

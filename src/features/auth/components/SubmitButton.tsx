@@ -15,7 +15,7 @@ export function SubmitButton({
 		<button
 			type="submit"
 			disabled={disabled}
-			className="w-full py-[10px] rounded-[32px] bg-[#C2E1FA]/30 hover:bg-[#C2E1FA]/45 text-[#F8F9FA] text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+			className="mt-1 w-full rounded-full bg-ink py-[10px] text-sm font-semibold text-navy shadow-soft transition-colors hover:bg-glass disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
 		>
 			{isSubmitting ? pendingLabel : label}
 		</button>

@@ -1,43 +1,61 @@
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import type { Album } from "../types";
 import { releaseYear } from "../utils";
 import { AlbumCover, albumCoverUrl } from "./AlbumCover";
 
-export function AlbumCard({ album }: { album: Album }) {
+interface AlbumCardProps {
+	album: Album;
+	// Extra detail under the year, such as a rating.
+	meta?: ReactNode;
+}
+
+export function AlbumCard({ album, meta }: AlbumCardProps) {
 	return (
-		<Link to="/albums/$albumId" params={{ albumId: album.id }}>
-			<figure className="relative rounded-[16px] overflow-hidden transition-all duration-300 ease-in-out grid grid-cols-[auto] grid-rows-[auto] gap-2 hover:outline-lime-100">
-				{/* Background image */}
+		<Link
+			to="/albums/$albumId"
+			params={{ albumId: album.id }}
+			className="group block rounded-2xl focus-visible:outline-offset-2"
+		>
+			<figure className="relative overflow-hidden rounded-2xl ring-1 ring-ink/10 transition-all duration-300 group-hover:ring-ink/40 group-hover:-translate-y-0.5">
+				{/* Blurred cover tints each card with its artwork */}
 				<div
-					className="absolute inset-0 z-0 bg-cover bg-center blur-[32px] scale-110"
+					aria-hidden
+					className="absolute inset-0 scale-110 bg-cover bg-center blur-[32px]"
 					style={{ backgroundImage: `url("${albumCoverUrl(album)}")` }}
 				/>
 
-				{/* Overlay for all content */}
-				<div className="relative z-10 bg-[#0F2E48]/20 flex flex-row">
-					<div className="flex items-center justify-center p-[10px] max-w-[80px] shrink-0">
-						<AlbumCover
-							album={album}
-							loading="lazy"
-							className="rounded-md object-cover transition-all duration-300 ease-in-out"
-						/>
-					</div>
-
-					<div className="flex-1 flex flex-col justify-center p-[10px] gap-[8px] min-w-0">
-						<figcaption className="flex flex-col gap-[2px]">
-							<p className="text-[14px] sm:text-[16px] font-semibold hover:underline truncate">
-								{album.title}
-							</p>
-							<p className="text-[14px] sm:text-[16px] truncate">
-								{album.artist}
-							</p>
-							<p className="text-[10px] sm:text-[12px] text-stone-400">
-								{releaseYear(album)}
-							</p>
-						</figcaption>
-					</div>
+				<div className="relative flex items-center gap-3 bg-navy/25 p-2.5">
+					<AlbumCover
+						album={album}
+						loading="lazy"
+						className="size-16 shrink-0 rounded-md object-cover shadow-soft"
+					/>
+					<figcaption className="flex min-w-0 flex-col gap-0.5">
+						<p className="truncate text-[15px] font-semibold group-hover:underline">
+							{album.title}
+						</p>
+						<p className="truncate text-sm text-ink/85">{album.artist}</p>
+						<p className="text-xs text-ink/60">
+							{releaseYear(album)}
+							{meta}
+						</p>
+					</figcaption>
 				</div>
 			</figure>
 		</Link>
+	);
+}
+
+export function AlbumCardSkeleton() {
+	return (
+		<div className="flex items-center gap-3 rounded-2xl bg-glass/10 p-2.5 ring-1 ring-ink/10">
+			<div className="size-16 shrink-0 rounded-md bg-glass/15" />
+			<div className="flex flex-1 flex-col gap-2">
+				<div className="h-3.5 w-2/3 rounded bg-glass/15" />
+				<div className="h-3 w-1/2 rounded bg-glass/15" />
+				<div className="h-2.5 w-1/5 rounded bg-glass/10" />
+			</div>
+		</div>
 	);
 }

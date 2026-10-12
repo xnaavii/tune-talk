@@ -1,9 +1,10 @@
-import { IoAdd } from "react-icons/io5";
+import { Button } from "#/components/Button";
 
 interface ReviewInputProps {
 	value: string;
 	onChange: (value: string) => void;
 	onSubmit: () => void;
+	isEditing: boolean;
 	disabled?: boolean;
 }
 
@@ -13,6 +14,7 @@ export function ReviewInput({
 	value,
 	onChange,
 	onSubmit,
+	isEditing,
 	disabled,
 }: ReviewInputProps) {
 	return (
@@ -21,25 +23,30 @@ export function ReviewInput({
 				event.preventDefault();
 				onSubmit();
 			}}
-			className="flex flex-col justify-between bg-[#C2E1FA]/10 rounded-xl gap-1 h-25 p-2 shrink-0 flex-1"
+			className="glass-card flex flex-col gap-2 p-3"
 		>
 			<textarea
 				name="review"
 				aria-label="Your review"
-				placeholder="Write a review (optional)"
+				placeholder={
+					isEditing ? "Update your review" : "What did you think of it?"
+				}
+				rows={3}
 				maxLength={REVIEW_MAX_LENGTH}
 				value={value}
 				onChange={(event) => onChange(event.target.value)}
-				className="w-full h-full resize-none text-stone-50 p-2 outline-none focus:ring-1 focus:ring-stone-200 focus:ring-inset focus:bg-[#C2E1FA]/30 border border-stone-300 rounded-lg text-md bg-[#C2E1FA]/20"
+				className="w-full resize-none rounded-lg bg-navy/30 p-3 text-sm text-ink placeholder:text-ink/50 outline-none ring-1 ring-ink/15 focus:ring-2 focus:ring-ink/60"
 			/>
-			<button
-				type="submit"
-				disabled={disabled}
-				className="ml-auto hover:cursor-pointer flex items-center border-b border-stone-300 active:border-amber-200 active:shadow-[inset_0_-0.5px_0px_rgba(255,255,0,0.7)] w-fit rounded-[3px] disabled:opacity-60"
-			>
-				<span>Add Review</span>
-				<IoAdd className="text-[24px]" />
-			</button>
+			<div className="flex items-center justify-between gap-2">
+				<span className="text-xs tabular-nums text-ink/50">
+					{value.length}/{REVIEW_MAX_LENGTH}
+				</span>
+				<Button
+					type="submit"
+					label={isEditing ? "Update review" : "Post review"}
+					disabled={disabled || !value.trim()}
+				/>
+			</div>
 		</form>
 	);
 }

@@ -3,7 +3,10 @@ import type { ComponentProps } from "react";
 import type { IconType } from "react-icons";
 
 const buttonClass =
-	"w-fit h-fit py-[6px] px-[8px] rounded-[16px] flex items-center justify-between gap-[6px] bg-[#C2E1FA]/20 text-[#F8F9FA] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.08)] backdrop-blur-[23.2px] hover:cursor-pointer hover:bg-[#C2E1FA]/40 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200";
+	"h-fit w-fit inline-flex items-center gap-[6px] rounded-full py-[6px] px-[10px] bg-glass/20 text-ink text-[12px] shadow-soft backdrop-blur-[23px] hover:bg-glass/35 active:bg-glass/45 transition-colors duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed";
+
+// Current page in the nav reads as pressed.
+const activeClass = "bg-glass/45 ring-1 ring-ink/40";
 
 interface ButtonContentProps {
 	label?: string;
@@ -13,8 +16,8 @@ interface ButtonContentProps {
 function ButtonContent({ label, icon: Icon }: ButtonContentProps) {
 	return (
 		<>
-			{label && <span className="text-[12px] flex-1/2">{label}</span>}
-			{Icon && <Icon className="w-[14px] h-[14px] text-[#F8F9FA]" />}
+			{label && <span>{label}</span>}
+			{Icon && <Icon aria-hidden className="size-[14px]" />}
 		</>
 	);
 }
@@ -23,10 +26,11 @@ export function Button({
 	label,
 	icon,
 	type = "button",
+	className = "",
 	...props
 }: ButtonContentProps & ComponentProps<"button">) {
 	return (
-		<button type={type} {...props} className={buttonClass}>
+		<button type={type} {...props} className={`${buttonClass} ${className}`}>
 			<ButtonContent label={label} icon={icon} />
 		</button>
 	);
@@ -39,8 +43,32 @@ export function ButtonLink({
 	...props
 }: ButtonContentProps & LinkProps) {
 	return (
-		<Link {...props} className={buttonClass}>
+		<Link
+			{...props}
+			className={buttonClass}
+			activeProps={{ className: activeClass }}
+		>
 			<ButtonContent label={label} icon={icon} />
 		</Link>
+	);
+}
+
+// Round icon-only glass button (back, remove rating).
+export function IconButton({
+	icon: Icon,
+	label,
+	className = "",
+	...props
+}: { icon: IconType; label: string } & ComponentProps<"button">) {
+	return (
+		<button
+			type="button"
+			aria-label={label}
+			title={label}
+			{...props}
+			className={`inline-flex items-center justify-center size-9 rounded-full bg-glass/15 text-ink hover:bg-glass/30 active:bg-glass/40 transition-colors cursor-pointer ${className}`}
+		>
+			<Icon aria-hidden className="size-5" />
+		</button>
 	);
 }
