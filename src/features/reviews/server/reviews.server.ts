@@ -11,7 +11,9 @@ export async function findOrCreateAlbum(albumId: string) {
 
 	if (existing) return existing;
 
-	const details = await fetchCatalogAlbum(albumId);
+	const { id, title, artist, releaseDate, image, appleMusicUrl } =
+		await fetchCatalogAlbum(albumId);
+	const details = { id, title, artist, releaseDate, image, appleMusicUrl };
 	const [inserted] = await db
 		.insert(album)
 		.values(details)

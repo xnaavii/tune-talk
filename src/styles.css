@@ -1,9 +1,15 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/jetbrains-mono';
 
-/* Design tokens: one navy base, one glass tint, one text white. */
+/* Design tokens: one navy base, one glass tint, one text white, plus the
+   record itself (vinyl black) and a warm label colour for play actions. */
 @theme {
+  /* Inter for UI, Fraunces for titles, mono for numbers and liner notes */
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
   --color-navy: #0f2e48;
   --color-navy-deep: #0a2135;
@@ -11,8 +17,76 @@
   --color-ink: #f8f9fa;
   --color-star: #facc15;
   --color-apple-music: #fa2d48;
+  --color-vinyl: #0d0e12;
+  --color-label: #ff7a59;
 
   --shadow-soft: 0 4px 4px 0 rgb(0 0 0 / 0.08);
+  --shadow-sleeve: 0 12px 28px -8px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.3);
+
+  --animate-record: record-spin 3.6s linear infinite;
+  --animate-eq: eq-bounce 0.9s ease-in-out infinite;
+
+  @keyframes record-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes eq-bounce {
+    0%,
+    100% {
+      transform: scaleY(0.3);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+}
+
+/* Small caps label above titles and on liner notes ("SIDE A", "ALBUM · 2022") */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-ink) 60%, transparent);
+}
+
+/* Big editorial title for page and hero headings */
+@utility display-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+/* Horizontal shelf of cards that scrolls and snaps, like flipping a crate */
+@utility shelf {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 148px;
+  gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* Snap to the page gutter that callers pad the shelf with */
+  scroll-padding-inline: 16px;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+
+  & > * {
+    scroll-snap-align: start;
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (width >= 40rem) {
+    grid-auto-columns: 176px;
+    gap: 20px;
+    scroll-padding-inline: 32px;
+  }
 }
 
 /* Frosted panel used for the navbar, main content and auth card */
@@ -55,7 +129,29 @@
 
 @layer base {
   body {
-    @apply bg-navy text-ink font-sans antialiased;
+    @apply bg-navy-deep text-ink font-sans antialiased;
+  }
+
+  /* Film grain over everything, so glass panels read like printed sleeves */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   :focus-visible {

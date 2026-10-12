@@ -21,6 +21,8 @@ export function normalizeCatalogAlbum(album: CatalogAlbum): Album {
 		releaseDate: album.releaseDate?.slice(0, 10) ?? "",
 		image: artworkUrl(album.artworkUrl100),
 		appleMusicUrl: album.collectionViewUrl ?? null,
+		artistId: album.artistId ? String(album.artistId) : undefined,
+		genre: album.primaryGenreName,
 	};
 }
 
@@ -32,9 +34,23 @@ export function normalizeChartAlbum(album: ChartAlbum): Album {
 		releaseDate: album.releaseDate?.slice(0, 10) ?? "",
 		image: artworkUrl(album.artworkUrl100),
 		appleMusicUrl: album.url ?? null,
+		artistId: album.artistId,
+		// "Music" is a catch-all genre every chart entry carries.
+		genre: album.genres?.find((genre) => genre.name !== "Music")?.name,
 	};
 }
 
 export function releaseYear(album: Pick<Album, "releaseDate">) {
 	return album.releaseDate.slice(0, 4);
+}
+
+// iTunes marks singles and EPs only in the title, e.g. "Espresso - Single".
+const SINGLE_SUFFIX = / - (Single|EP)$/;
+
+export function isSingleOrEp(album: Pick<Album, "title">) {
+	return SINGLE_SUFFIX.test(album.title);
+}
+
+export function displayTitle(album: Pick<Album, "title">) {
+	return album.title.replace(SINGLE_SUFFIX, "");
 }

@@ -1,21 +1,16 @@
-import { AppleMusicError, catalogGet, chartGet } from "#/lib/apple-music";
-import type { CatalogAlbum, ChartAlbum } from "../types";
-import { normalizeCatalogAlbum, normalizeChartAlbum } from "../utils";
-
-export const SEARCH_LIMIT = 24;
-export const CHART_LIMIT = 50;
+import type { CatalogSong } from "#/features/songs/types";
+import { isCatalogSong, normalizeCatalogSong } from "#/features/songs/utils";
+import { AppleMusicError, catalogGet } from "#/lib/apple-music";
+import type { AlbumWithTracks, CatalogAlbum } from "../types";
+import { normalizeCatalogAlbum } from "../utils";
 
 type CatalogResponse = { results: CatalogAlbum[] };
-type ChartResponse = { feed: { results: ChartAlbum[] } };
+type CatalogAlbumWithTracks = {
+	results: (CatalogAlbum | CatalogSong)[];
+};
 
-export async function searchCatalogAlbums(query: string) {
-	const data = await catalogGet<CatalogResponse>("/search", {
-		term: query,
-		media: "music",
-		entity: "album",
-		limit: SEARCH_LIMIT,
-	});
-	return data.results.map(normalizeCatalogAlbum);
+function isCatalogAlbum(result: { wrapperType?: string }) {
+	return result.wrapperType === "collection";
 }
 
 export async function fetchCatalogAlbum(id: string) {
@@ -23,16 +18,35 @@ export async function fetchCatalogAlbum(id: string) {
 		id,
 		entity: "album",
 	});
-	const album = data.results.find(
-		(result) => result.wrapperType === "collection",
-	);
+	const album = data.results.find(isCatalogAlbum);
 	if (!album) throw new AppleMusicError("Album not found", 404);
 	return normalizeCatalogAlbum(album);
 }
 
-export async function fetchTopAlbums() {
-	const data = await chartGet<ChartResponse>(
-		`/music/most-played/${CHART_LIMIT}/albums.json`,
-	);
-	return data.feed.results.map(normalizeChartAlbum);
+// One lookup returns the album followed by its songs.
+export async function fetchAlbumWithTracks(
+	id: string,
+): Promise<AlbumWithTracks> {
+	const data = await catalogGet<CatalogAlbumWithTracks>("/lookup", {
+		id,
+		entity: "song",
+		limit: 200,
+	});
+	const album = data.results.find(isCatalogAlbum) as CatalogAlbum | undefined;
+	if (!album) throw new AppleMusicError("Album not found", 404);
+
+	const tracks = (data.results.filter(isCatalogSong) as CatalogSong[])
+		.map(normalizeCatalogSong)
+		.sort(
+			(a, b) =>
+				(a.discNumber ?? 1) - (b.discNumber ?? 1) ||
+				(a.trackNumber ?? 0) - (b.trackNumber ?? 0),
+		);
+
+	return {
+		...normalizeCatalogAlbum(album),
+		trackCount: album.trackCount ?? tracks.length,
+		copyright: album.copyright ?? null,
+		tracks,
+	};
 }

@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AppProtectedRouteImport } from './routes/_app/_protected'
+import { Route as AppChartsRouteImport } from './routes/_app/charts'
+import { Route as AppExploreRouteImport } from './routes/_app/explore'
 import { Route as AppPopularRouteImport } from './routes/_app/popular'
 import { Route as AppSearchRouteImport } from './routes/_app/search'
 import { Route as AppTopRouteImport } from './routes/_app/top'
@@ -20,6 +22,8 @@ import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AppProtectedReviewsRouteImport } from './routes/_app/_protected/reviews'
 import { Route as AppAlbumsAlbumIdRouteImport } from './routes/_app/albums/$albumId'
+import { Route as AppArtistsArtistIdRouteImport } from './routes/_app/artists/$artistId'
+import { Route as AppGenresGenreRouteImport } from './routes/_app/genres/$genre'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -38,6 +42,16 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 } as any)
 const AppProtectedRoute = AppProtectedRouteImport.update({
   id: '/_protected',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppChartsRoute = AppChartsRouteImport.update({
+  id: '/charts',
+  path: '/charts',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppExploreRoute = AppExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppPopularRoute = AppPopularRouteImport.update({
@@ -75,6 +89,16 @@ const AppAlbumsAlbumIdRoute = AppAlbumsAlbumIdRouteImport.update({
   path: '/albums/$albumId',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppArtistsArtistIdRoute = AppArtistsArtistIdRouteImport.update({
+  id: '/artists/$artistId',
+  path: '/artists/$artistId',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppGenresGenreRoute = AppGenresGenreRouteImport.update({
+  id: '/genres/$genre',
+  path: '/genres/$genre',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -84,6 +108,8 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/charts': typeof AppChartsRoute
+  '/explore': typeof AppExploreRoute
   '/popular': typeof AppPopularRoute
   '/search': typeof AppSearchRoute
   '/top': typeof AppTopRoute
@@ -91,11 +117,15 @@ export interface FileRoutesByFullPath {
   '/auth/signup': typeof AuthSignupRoute
   '/reviews': typeof AppProtectedReviewsRoute
   '/albums/$albumId': typeof AppAlbumsAlbumIdRoute
+  '/artists/$artistId': typeof AppArtistsArtistIdRoute
+  '/genres/$genre': typeof AppGenresGenreRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/charts': typeof AppChartsRoute
+  '/explore': typeof AppExploreRoute
   '/popular': typeof AppPopularRoute
   '/search': typeof AppSearchRoute
   '/top': typeof AppTopRoute
@@ -103,6 +133,8 @@ export interface FileRoutesByTo {
   '/auth/signup': typeof AuthSignupRoute
   '/reviews': typeof AppProtectedReviewsRoute
   '/albums/$albumId': typeof AppAlbumsAlbumIdRoute
+  '/artists/$artistId': typeof AppArtistsArtistIdRoute
+  '/genres/$genre': typeof AppGenresGenreRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
@@ -111,6 +143,8 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
   '/_app/_protected': typeof AppProtectedRouteWithChildren
+  '/_app/charts': typeof AppChartsRoute
+  '/_app/explore': typeof AppExploreRoute
   '/_app/popular': typeof AppPopularRoute
   '/_app/search': typeof AppSearchRoute
   '/_app/top': typeof AppTopRoute
@@ -118,6 +152,8 @@ export interface FileRoutesById {
   '/auth/signup': typeof AuthSignupRoute
   '/_app/_protected/reviews': typeof AppProtectedReviewsRoute
   '/_app/albums/$albumId': typeof AppAlbumsAlbumIdRoute
+  '/_app/artists/$artistId': typeof AppArtistsArtistIdRoute
+  '/_app/genres/$genre': typeof AppGenresGenreRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
@@ -125,6 +161,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/charts'
+    | '/explore'
     | '/popular'
     | '/search'
     | '/top'
@@ -132,11 +170,15 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/reviews'
     | '/albums/$albumId'
+    | '/artists/$artistId'
+    | '/genres/$genre'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/charts'
+    | '/explore'
     | '/popular'
     | '/search'
     | '/top'
@@ -144,6 +186,8 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/reviews'
     | '/albums/$albumId'
+    | '/artists/$artistId'
+    | '/genres/$genre'
     | '/api/auth/$'
   id:
     | '__root__'
@@ -151,6 +195,8 @@ export interface FileRouteTypes {
     | '/_app'
     | '/auth'
     | '/_app/_protected'
+    | '/_app/charts'
+    | '/_app/explore'
     | '/_app/popular'
     | '/_app/search'
     | '/_app/top'
@@ -158,6 +204,8 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/_app/_protected/reviews'
     | '/_app/albums/$albumId'
+    | '/_app/artists/$artistId'
+    | '/_app/genres/$genre'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
@@ -196,6 +244,20 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AppProtectedRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/charts': {
+      id: '/_app/charts'
+      path: '/charts'
+      fullPath: '/charts'
+      preLoaderRoute: typeof AppChartsRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/explore': {
+      id: '/_app/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof AppExploreRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/_app/popular': {
@@ -247,6 +309,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAlbumsAlbumIdRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/artists/$artistId': {
+      id: '/_app/artists/$artistId'
+      path: '/artists/$artistId'
+      fullPath: '/artists/$artistId'
+      preLoaderRoute: typeof AppArtistsArtistIdRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/genres/$genre': {
+      id: '/_app/genres/$genre'
+      path: '/genres/$genre'
+      fullPath: '/genres/$genre'
+      preLoaderRoute: typeof AppGenresGenreRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -271,18 +347,26 @@ const AppProtectedRouteWithChildren = AppProtectedRoute._addFileChildren(
 
 interface AppRouteRouteChildren {
   AppProtectedRoute: typeof AppProtectedRouteWithChildren
+  AppChartsRoute: typeof AppChartsRoute
+  AppExploreRoute: typeof AppExploreRoute
   AppPopularRoute: typeof AppPopularRoute
   AppSearchRoute: typeof AppSearchRoute
   AppTopRoute: typeof AppTopRoute
   AppAlbumsAlbumIdRoute: typeof AppAlbumsAlbumIdRoute
+  AppArtistsArtistIdRoute: typeof AppArtistsArtistIdRoute
+  AppGenresGenreRoute: typeof AppGenresGenreRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppProtectedRoute: AppProtectedRouteWithChildren,
+  AppChartsRoute: AppChartsRoute,
+  AppExploreRoute: AppExploreRoute,
   AppPopularRoute: AppPopularRoute,
   AppSearchRoute: AppSearchRoute,
   AppTopRoute: AppTopRoute,
   AppAlbumsAlbumIdRoute: AppAlbumsAlbumIdRoute,
+  AppArtistsArtistIdRoute: AppArtistsArtistIdRoute,
+  AppGenresGenreRoute: AppGenresGenreRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

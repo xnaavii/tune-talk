@@ -54,6 +54,12 @@ export function catalogGet<T>(
 }
 
 // `path` is relative to the storefront, e.g. "/music/most-played/50/albums.json".
-export function chartGet<T>(path: string) {
-	return getJson<T>(new URL(`${RSS_API_URL}/${COUNTRY}${path}`));
+export function chartGet<T>(path: string, country = COUNTRY) {
+	return getJson<T>(new URL(`${RSS_API_URL}/${country}${path}`));
+}
+
+// Server functions rethrow with this so the client sees Apple's message (like
+// the rate limit) but never an internal error.
+export function toAppleMusicError(error: unknown, fallback: string) {
+	return new Error(error instanceof AppleMusicError ? error.message : fallback);
 }
