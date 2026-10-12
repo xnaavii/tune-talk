@@ -13,8 +13,15 @@ import { reviewQueries } from "#/features/reviews/queries";
 import { authClient } from "#/lib/auth-client";
 import { Button, ButtonLink } from "./Button";
 
-// Page links plus the log in / log out button on the landing page.
-export function NavMenu({ className }: { className?: string }) {
+// Page links plus the log in / log out button. `compact` shows icons only
+// below the lg breakpoint, so the app navbar stays on one line.
+export function NavMenu({
+	className,
+	compact = false,
+}: {
+	className?: string;
+	compact?: boolean;
+}) {
 	const { data: session } = authClient.useSession();
 	const queryClient = useQueryClient();
 	const { pathname } = useLocation();
@@ -25,15 +32,38 @@ export function NavMenu({ className }: { className?: string }) {
 		toast.success("Logged out");
 	}
 
+	const labelClassName = compact ? "max-lg:sr-only" : undefined;
+
 	return (
 		<nav className={className}>
-			<ButtonLink to="/explore" label="Explore" icon={IoCompassOutline} />
-			<ButtonLink to="/charts" label="Charts" icon={IoPodiumOutline} />
-			<ButtonLink to="/popular" label="Popular" icon={IoStarOutline} />
-			<ButtonLink to="/reviews" label="Your Reviews" icon={IoPersonOutline} />
+			<ButtonLink
+				to="/explore"
+				label="Explore"
+				labelClassName={labelClassName}
+				icon={IoCompassOutline}
+			/>
+			<ButtonLink
+				to="/charts"
+				label="Charts"
+				labelClassName={labelClassName}
+				icon={IoPodiumOutline}
+			/>
+			<ButtonLink
+				to="/popular"
+				label="Popular"
+				labelClassName={labelClassName}
+				icon={IoStarOutline}
+			/>
+			<ButtonLink
+				to="/reviews"
+				label="Your Reviews"
+				labelClassName={labelClassName}
+				icon={IoPersonOutline}
+			/>
 			{session ? (
 				<Button
 					label="Log out"
+					labelClassName={labelClassName}
 					icon={IoLogOutOutline}
 					onClick={handleLogOut}
 					title={`Logged in as ${session.user.name}`}
@@ -43,6 +73,7 @@ export function NavMenu({ className }: { className?: string }) {
 					to="/auth/login"
 					search={{ redirect: pathname }}
 					label="Log in"
+					labelClassName={labelClassName}
 					icon={IoLogInOutline}
 				/>
 			)}

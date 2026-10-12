@@ -11,12 +11,18 @@ export const activeClass = "bg-glass/45 ring-1 ring-ink/40";
 interface ButtonContentProps {
 	label?: string;
 	icon?: IconType;
+	// Classes for the label, e.g. "max-lg:sr-only" for icon-only on small screens.
+	labelClassName?: string;
 }
 
-function ButtonContent({ label, icon: Icon }: ButtonContentProps) {
+function ButtonContent({
+	label,
+	icon: Icon,
+	labelClassName,
+}: ButtonContentProps) {
 	return (
 		<>
-			{label && <span>{label}</span>}
+			{label && <span className={labelClassName}>{label}</span>}
 			{Icon && <Icon aria-hidden className="size-[14px]" />}
 		</>
 	);
@@ -25,13 +31,18 @@ function ButtonContent({ label, icon: Icon }: ButtonContentProps) {
 export function Button({
 	label,
 	icon,
+	labelClassName,
 	type = "button",
 	className = "",
 	...props
 }: ButtonContentProps & ComponentProps<"button">) {
 	return (
 		<button type={type} {...props} className={`${buttonClass} ${className}`}>
-			<ButtonContent label={label} icon={icon} />
+			<ButtonContent
+				label={label}
+				icon={icon}
+				labelClassName={labelClassName}
+			/>
 		</button>
 	);
 }
@@ -40,6 +51,7 @@ export function Button({
 export function ButtonLink({
 	label,
 	icon,
+	labelClassName,
 	...props
 }: ButtonContentProps & LinkProps) {
 	return (
@@ -48,7 +60,11 @@ export function ButtonLink({
 			className={buttonClass}
 			activeProps={{ className: activeClass }}
 		>
-			<ButtonContent label={label} icon={icon} />
+			<ButtonContent
+				label={label}
+				icon={icon}
+				labelClassName={labelClassName}
+			/>
 		</Link>
 	);
 }
