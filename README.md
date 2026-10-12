@@ -1,9 +1,7 @@
 # 🎶 Tune-Talk
 
 **Tune-Talk** is a demo web application for browsing albums, checking ratings, and reading reviews.  
-It’s built with **React**, **Redux Toolkit**, **Tailwind CSS**, and a simple **Node.js** backend using mock data.  
-
-The project is a **case study in state management with Redux**, highlighting how to organize slices for albums, reviews, and ratings.
+It’s a full-stack **TanStack Start** app with real album data from **Apple Music**, accounts via **Better Auth**, and reviews stored in **Neon Postgres** through **Drizzle**.
 
 ---
 
@@ -16,56 +14,66 @@ The project is a **case study in state management with Redux**, highlighting how
 
 ## 🚀 Features
 
-- Browse albums with ratings & reviews  
-- Centralized state management with **Redux Toolkit**  
-- Responsive, modern UI with **Tailwind CSS**  
-- Demo backend with **Node.js** (no real database yet)  
-- Clean project structure separating frontend & backend  
-
----
-
-## 📚 Purpose
-
-This project is a **demo**, not a production-ready app.  
-Its main goal is to **practice Redux state management** and demonstrate frontend design.  
-
-Planned improvements:
-- Connect to a real database (PostgreSQL / MongoDB)  
-- Replace mock data with a real API  
-- Authentication & user accounts  
-- Advanced review features (edit, likes)  
+- Search real albums from the Apple Music catalog (free **iTunes Search API**, no API key)
+- Today's top albums on Apple Music, plus popular albums ranked by Tune Talk ratings
+- Email and password accounts with **Better Auth**
+- Rate and review albums, and see all your reviews in one place
+- Server state cached with **TanStack Query**, with optimistic rating updates
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React, Redux Toolkit, Tailwind CSS  
-- **Backend:** Node.js + Express (mock API)  
-- **Tooling:** Vite, ESLint, Prettier  
+- **Framework:** TanStack Start (React 19, TanStack Router, server functions), TypeScript
+- **Data:** TanStack Query, Drizzle ORM, Neon Postgres
+- **Auth:** Better Auth (email and password, Drizzle adapter)
+- **Forms:** TanStack Form with zod
+- **Styling:** Tailwind CSS
+- **Tooling:** Vite, Biome, Vitest
 
 ---
 
-## 🧪 Known Issues & TODOs
+## 📁 Project Structure
 
-- **UI improvements:** Some pages/components could be refined for better responsiveness and UX.  
-- **State management:** Some Redux slices can be further optimized or split for clarity.  
-- **Error handling:** Minimal error handling on frontend and backend; needs improvement.  
-- **Feature enhancements:** Remove/edit rating without affecting the review, search debounce.
+```
+src/
+  routes/          file-based routes (_app layout, _protected pages, auth, api/auth)
+  features/
+    albums/        Apple Music server functions, album queries and components
+    reviews/       review server functions, queries, mutation hooks, components
+    auth/          login and signup forms
+  db/              Drizzle schema and Neon client
+  lib/             Better Auth server and client, Apple Music client
+drizzle/           SQL migrations
+```
 
 ---
 
 ## 🔧 Installation & Setup
 
-Clone the repository:
+```bash
+git clone https://github.com/xnaavii/tune-talk.git
+cd tune-talk
+npm install
+cp .env.example .env
+```
+
+Fill in `.env`:
+
+- `DATABASE_URL`: a Neon Postgres connection string
+- `BETTER_AUTH_SECRET`: generate with `openssl rand -base64 32`
+- `BETTER_AUTH_URL`: the app URL (`http://localhost:3000` locally)
+
+Then create the tables and start the app:
 
 ```bash
-git clone https://github.com/your-username/tune-talk.git
-cd tune-talk
-
-cd tunetalk-frontend
-npm install
+npm run db:migrate
 npm run dev
+```
 
-cd ../tunetalk-backend
-npm install
-npm start
+Useful scripts: `npm test`, `npm run check` (Biome), `npm run typecheck`,
+`npm run db:generate` after changing `src/db/schema.ts`, `npm run db:studio`.
+
+> Album data comes from Apple's public iTunes Search API and Apple Music RSS
+> charts, which need no API key. Apple rate limits them to roughly 20 requests a
+> minute per IP, and TanStack Query caching keeps Tune Talk well under that.

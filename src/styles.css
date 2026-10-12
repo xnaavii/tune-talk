@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+/* Design tokens: one navy base, one glass tint, one text white. */
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy: #0f2e48;
+  --color-navy-deep: #0a2135;
+  --color-glass: #c2e1fa;
+  --color-ink: #f8f9fa;
+  --color-star: #facc15;
+  --color-apple-music: #fa2d48;
+
+  --shadow-soft: 0 4px 4px 0 rgb(0 0 0 / 0.08);
+}
+
+/* Frosted panel used for the navbar, main content and auth card */
+@utility glass-panel {
+  border-radius: var(--radius-lg);
+  background-color: color-mix(in oklab, var(--color-glass) 16%, transparent);
+  backdrop-filter: blur(30px);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid color-mix(in oklab, var(--color-glass) 14%, transparent);
+}
+
+/* Lighter inset surface for cards inside a glass panel */
+@utility glass-card {
+  border-radius: var(--radius-xl);
+  background-color: color-mix(in oklab, var(--color-glass) 10%, transparent);
+}
+
+/* Shared rounded pill input (search, auth fields) */
+@utility glass-input {
+  width: 100%;
+  border-radius: 9999px;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--color-ink);
+  background-color: color-mix(in oklab, #c9ced3 16%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-soft);
+  outline: none;
+
+  &::placeholder {
+    color: #babfc4;
+  }
+  &:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--color-ink);
+  }
+  &[aria-invalid='true'] {
+    box-shadow: inset 0 0 0 2px var(--color-red-400);
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-navy text-ink font-sans antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ink/70;
+  }
+}
+
+main::-webkit-scrollbar {
+  width: 6px;
+}
+
+main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+main::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+main {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* Toasts match the app's glass panels */
+[data-sonner-toast] {
+  --normal-bg: rgba(15, 46, 72, 0.9);
+  --normal-text: #f8f9fa;
+  --normal-border: rgba(194, 225, 250, 0.2);
+}
