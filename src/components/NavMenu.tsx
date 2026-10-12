@@ -1,19 +1,19 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "@tanstack/react-router";
 import {
+	IoCompassOutline,
 	IoLogInOutline,
 	IoLogOutOutline,
 	IoPersonOutline,
+	IoPodiumOutline,
 	IoStarOutline,
-	IoTrendingUpOutline,
 } from "react-icons/io5";
 import { toast } from "sonner";
 import { reviewQueries } from "#/features/reviews/queries";
 import { authClient } from "#/lib/auth-client";
 import { Button, ButtonLink } from "./Button";
 
-// Page links plus the log in / log out button, shared by the navbar and
-// the landing page.
+// Page links plus the log in / log out button on the landing page.
 export function NavMenu({ className }: { className?: string }) {
 	const { data: session } = authClient.useSession();
 	const queryClient = useQueryClient();
@@ -27,8 +27,9 @@ export function NavMenu({ className }: { className?: string }) {
 
 	return (
 		<nav className={className}>
+			<ButtonLink to="/explore" label="Explore" icon={IoCompassOutline} />
+			<ButtonLink to="/charts" label="Charts" icon={IoPodiumOutline} />
 			<ButtonLink to="/popular" label="Popular" icon={IoStarOutline} />
-			<ButtonLink to="/top" label="Top" icon={IoTrendingUpOutline} />
 			<ButtonLink to="/reviews" label="Your Reviews" icon={IoPersonOutline} />
 			{session ? (
 				<Button

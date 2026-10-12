@@ -29,8 +29,8 @@ export function SearchBar({
 					// biome-ignore lint/a11y/noAutofocus: the landing page is a search page
 					autoFocus={autoFocus}
 					className="glass-input pr-12 [&::-webkit-search-cancel-button]:hidden"
-					placeholder="Search for an artist or album"
-					aria-label="Search albums"
+					placeholder="Artists, songs or albums"
+					aria-label="Search music"
 				/>
 				<button
 					type="submit"

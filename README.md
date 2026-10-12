@@ -14,8 +14,11 @@ It’s a full-stack **TanStack Start** app with real album data from **Apple Mus
 
 ## 🚀 Features
 
-- Search real albums from the Apple Music catalog (free **iTunes Search API**, no API key)
-- Today's top albums on Apple Music, plus popular albums ranked by Tune Talk ratings
+- **Explore**: the day's No. 1 album, top songs, most played albums, genre crates and charts from 16 countries
+- **Search** artists, songs and albums from the Apple Music catalog (free **iTunes Search API**, no API key)
+- **Song previews**: tap any song for Apple's 30 second preview; a docked player keeps it spinning while you browse
+- **Album pages** with the tracklist laid out as Side A and Side B, and **artist pages** with top songs and discography
+- Charts (songs and albums) plus popular albums ranked by Tune Talk ratings
 - Email and password accounts with **Better Auth**
 - Rate and review albums, and see all your reviews in one place
 - Server state cached with **TanStack Query**, with optimistic rating updates
@@ -28,7 +31,7 @@ It’s a full-stack **TanStack Start** app with real album data from **Apple Mus
 - **Data:** TanStack Query, Drizzle ORM, Neon Postgres
 - **Auth:** Better Auth (email and password, Drizzle adapter)
 - **Forms:** TanStack Form with zod
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS, Inter, Fraunces and JetBrains Mono
 - **Tooling:** Vite, Biome, Vitest
 
 ---
@@ -39,7 +42,13 @@ It’s a full-stack **TanStack Start** app with real album data from **Apple Mus
 src/
   routes/          file-based routes (_app layout, _protected pages, auth, api/auth)
   features/
-    albums/        Apple Music server functions, album queries and components
+    albums/        album pages, sleeve cards and tracklists
+    songs/         song lookups and the playable song list
+    artists/       artist pages (releases and top songs)
+    charts/        Apple Music most played charts by country
+    genres/        genre crates
+    search/        one search across artists, songs and albums
+    player/        the shared preview player and now playing bar
     reviews/       review server functions, queries, mutation hooks, components
     auth/          login and signup forms
   db/              Drizzle schema and Neon client

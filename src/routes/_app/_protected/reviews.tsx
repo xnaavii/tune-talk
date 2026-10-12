@@ -17,6 +17,7 @@ export const Route = createFileRoute("/_app/_protected/reviews")({
 
 const header = (
 	<PageHeader
+		eyebrow="Your collection"
 		title="Your Reviews"
 		description="Every album you've rated or reviewed."
 	/>
