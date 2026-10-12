@@ -35,7 +35,7 @@ export function ReviewInput({
 				maxLength={REVIEW_MAX_LENGTH}
 				value={value}
 				onChange={(event) => onChange(event.target.value)}
-				className="w-full resize-none rounded-lg bg-navy/30 p-3 text-sm text-ink placeholder:text-ink/50 outline-none ring-1 ring-ink/15 focus:ring-2 focus:ring-ink/60"
+				className="w-full resize-none rounded-lg bg-navy/30 p-3 text-base text-ink placeholder:text-ink/50 outline-none ring-1 ring-ink/15 focus:ring-2 focus:ring-ink/60"
 			/>
 			<div className="flex items-center justify-between gap-2">
 				<span className="text-xs tabular-nums text-ink/50">
