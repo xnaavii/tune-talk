@@ -2,14 +2,26 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { db } from "#/db";
+import { requireEnv } from "./env";
 
-// BETTER_AUTH_SECRET and BETTER_AUTH_URL are read from the environment.
-export const auth = betterAuth({
-	emailAndPassword: {
-		enabled: true,
-	},
-	database: drizzleAdapter(db, {
-		provider: "pg",
-	}),
-	plugins: [tanstackStartCookies()],
-});
+function createAuth() {
+	return betterAuth({
+		secret: requireEnv("BETTER_AUTH_SECRET"),
+		emailAndPassword: {
+			enabled: true,
+		},
+		database: drizzleAdapter(db, {
+			provider: "pg",
+		}),
+		plugins: [tanstackStartCookies()],
+	});
+}
+
+let instance: ReturnType<typeof createAuth> | undefined;
+
+// Created on first use so missing auth env vars surface as a clear error on
+// auth requests rather than crashing the server at startup.
+export function getAuth() {
+	instance ??= createAuth();
+	return instance;
+}
