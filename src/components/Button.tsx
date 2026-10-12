@@ -5,6 +5,10 @@ import type { IconType } from "react-icons";
 export const buttonClass =
 	"h-fit w-fit inline-flex items-center gap-[6px] rounded-full py-[6px] px-[10px] bg-glass/20 text-ink text-[12px] shadow-soft backdrop-blur-[23px] hover:bg-glass/35 active:bg-glass/45 transition-colors duration-200 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed";
 
+// Round 36px icon-only button below lg, for the app navbar.
+export const navIconClass =
+	"max-lg:size-9! max-lg:p-0! max-lg:justify-center max-lg:[&_svg]:size-[18px]!";
+
 // Current page in the nav reads as pressed.
 export const activeClass = "bg-glass/45 ring-1 ring-ink/40";
 
@@ -52,12 +56,13 @@ export function ButtonLink({
 	label,
 	icon,
 	labelClassName,
+	className = "",
 	...props
-}: ButtonContentProps & LinkProps) {
+}: ButtonContentProps & LinkProps & { className?: string }) {
 	return (
 		<Link
 			{...props}
-			className={buttonClass}
+			className={`${buttonClass} ${className}`}
 			activeProps={{ className: activeClass }}
 		>
 			<ButtonContent

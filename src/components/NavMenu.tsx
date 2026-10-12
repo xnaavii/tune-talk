@@ -11,7 +11,7 @@ import {
 import { toast } from "sonner";
 import { reviewQueries } from "#/features/reviews/queries";
 import { authClient } from "#/lib/auth-client";
-import { Button, ButtonLink } from "./Button";
+import { Button, ButtonLink, navIconClass } from "./Button";
 
 // Page links plus the log in / log out button. `compact` shows icons only
 // below the lg breakpoint, so the app navbar stays on one line.
@@ -33,6 +33,7 @@ export function NavMenu({
 	}
 
 	const labelClassName = compact ? "max-lg:sr-only" : undefined;
+	const buttonClassName = compact ? navIconClass : "";
 
 	return (
 		<nav className={className}>
@@ -40,30 +41,35 @@ export function NavMenu({
 				to="/explore"
 				label="Explore"
 				labelClassName={labelClassName}
+				className={buttonClassName}
 				icon={IoCompassOutline}
 			/>
 			<ButtonLink
 				to="/charts"
 				label="Charts"
 				labelClassName={labelClassName}
+				className={buttonClassName}
 				icon={IoPodiumOutline}
 			/>
 			<ButtonLink
 				to="/popular"
 				label="Popular"
 				labelClassName={labelClassName}
+				className={buttonClassName}
 				icon={IoStarOutline}
 			/>
 			<ButtonLink
 				to="/reviews"
 				label="Your Reviews"
 				labelClassName={labelClassName}
+				className={buttonClassName}
 				icon={IoPersonOutline}
 			/>
 			{session ? (
 				<Button
 					label="Log out"
 					labelClassName={labelClassName}
+					className={buttonClassName}
 					icon={IoLogOutOutline}
 					onClick={handleLogOut}
 					title={`Logged in as ${session.user.name}`}
@@ -74,6 +80,7 @@ export function NavMenu({
 					search={{ redirect: pathname }}
 					label="Log in"
 					labelClassName={labelClassName}
+					className={buttonClassName}
 					icon={IoLogInOutline}
 				/>
 			)}

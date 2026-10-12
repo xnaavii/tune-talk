@@ -1,6 +1,5 @@
 const sizes = {
-	xs: "text-[24px] font-bold",
-	sm: "text-[32px] font-bold",
+	sm: "text-[24px] sm:text-[28px] font-bold",
 	md: "text-[36px] sm:text-[48px] font-bold",
 	lg: "text-[64px] sm:text-[96px] font-semibold",
 };
