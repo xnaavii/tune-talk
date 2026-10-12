@@ -15,6 +15,17 @@ export class AppleMusicError extends Error {
 	}
 }
 
+// Apple's edge sometimes answers with a 5xx (often a 504) that succeeds
+// when asked again, so server errors get one quick retry.
+const RETRY_DELAY_MS = 250;
+
+async function fetchWithRetry(url: URL) {
+	const res = await fetch(url);
+	if (res.status < 500) return res;
+	await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+	return fetch(url);
+}
+
 async function getJson<T>(
 	url: URL,
 	params: Record<string, string | number> = {},
@@ -23,7 +34,7 @@ async function getJson<T>(
 		url.searchParams.set(key, String(value));
 	}
 
-	const res = await fetch(url);
+	const res = await fetchWithRetry(url);
 
 	// Apple answers rate-limited requests with 403 or 429.
 	if (res.status === 403 || res.status === 429) {
@@ -53,9 +64,26 @@ export function catalogGet<T>(
 	});
 }
 
+const CHART_CACHE_MS = 1000 * 60 * 30;
+const chartCache = new Map<string, { data: unknown; fetchedAt: number }>();
+
 // `path` is relative to the storefront, e.g. "/music/most-played/50/albums.json".
-export function chartGet<T>(path: string, country = COUNTRY) {
-	return getJson<T>(new URL(`${RSS_API_URL}/${country}${path}`));
+// Charts change daily, so each server instance keeps them for half an hour
+// and falls back to its last copy when Apple fails.
+export async function chartGet<T>(path: string, country = COUNTRY) {
+	const url = `${RSS_API_URL}/${country}${path}`;
+	const cached = chartCache.get(url);
+	if (cached && Date.now() - cached.fetchedAt < CHART_CACHE_MS) {
+		return cached.data as T;
+	}
+	try {
+		const data = await getJson<T>(new URL(url));
+		chartCache.set(url, { data, fetchedAt: Date.now() });
+		return data;
+	} catch (error) {
+		if (cached) return cached.data as T;
+		throw error;
+	}
 }
 
 // Server functions rethrow with this so the client sees Apple's message (like
