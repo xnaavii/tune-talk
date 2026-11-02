@@ -11,8 +11,10 @@ export function getRouter() {
 		routeTree,
 		context,
 		scrollRestoration: true,
-		defaultPreload: "intent",
-		defaultPreloadStaleTime: 0,
+		// No hover preloading: on pages full of album cards, moving the mouse
+		// across them started a server request for every card. Visited pages
+		// still come straight from the query cache.
+		defaultPreload: false,
 		defaultErrorComponent: ErrorPage,
 	});
 
